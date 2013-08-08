@@ -8,6 +8,7 @@ import clashsoft.clashsoftapi.util.CSCrafting;
 import clashsoft.clashsoftapi.util.CSItems;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 import clashsoft.mods.morefood.block.BlockSaltOre;
+import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
 import clashsoft.mods.morefood.world.WorldGenGardener;
 import cpw.mods.fml.common.*;
@@ -75,7 +76,7 @@ public class MoreFoodMod
 	public static ItemFoodMoreFood		stompedCarrot;
 	public static ItemFoodMoreFood		stompedPotato;
 	public static ItemFoodMoreFood		stompedApple;
-	public static ItemEdibles			edibles;
+	public static ItemFoods			foods;
 	public static ItemFertilizer		fertilizer;
 	public static ItemMilkBowls			milkBowls;
 	public static ItemSoupBowls			soupBowls;
@@ -124,21 +125,21 @@ public class MoreFoodMod
 		addCraftingRecipes();
 		addSmeltingRecipes();
 		
-		MinecraftForge.addGrassSeed(new ItemStack(edibles, 1, 19), 10);
+		MinecraftForge.addGrassSeed(new ItemStack(foods, 1, 19), 10);
 		MinecraftForge.setBlockHarvestLevel(saltOre, "pickaxe", 1);
 	}
 	
 	private void addBlocks()
 	{
-		cucumberPlant = new BlockPlantMoreFood(cucumberPlantID, 3, new ItemStack(edibles, 1, 1), new ItemStack(edibles, 1, 1), "cucumber");
-		tomatoPlant = new BlockPlantMoreFood(tomatoPlantID, 3, new ItemStack(edibles, 1, 5), new ItemStack(edibles, 1, 5), "tomato");
-		pepperPlant = new BlockPlantMoreFood(pepperPlantID, 3, new ItemStack(edibles, 1, 18), new ItemStack(edibles, 1, 18), "pepper");
-		saladPlant = new BlockPlantMoreFood(saladPlantID, 3, new ItemStack(edibles, 1, 0), new ItemStack(edibles, 1, 0), "salad");
-		onionPlant = new BlockPlantMoreFood(onionPlantID, 4, new ItemStack(edibles, 1, 9), new ItemStack(edibles, 1, 9), "onion");
-		chiliPlant = new BlockPlantMoreFood(chiliPlantID, 6, new ItemStack(edibles, 1, 4), new ItemStack(edibles, 1, 4), "chili");
-		paprikaPlant = new BlockPlantMoreFood(paprikaPlantID, 6, new ItemStack(edibles, 1, 6), new ItemStack(edibles, 1, 6), "paprika");
-		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, new ItemStack(edibles, 1, 3), new ItemStack(edibles, 1, 3), "rice");
-		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, new ItemStack(edibles, 1, 24), new ItemStack(edibles, 1, 24), "corn");
+		cucumberPlant = new BlockPlantMoreFood(cucumberPlantID, 3, new ItemStack(foods, 1, 1), new ItemStack(foods, 1, 1), "cucumber");
+		tomatoPlant = new BlockPlantMoreFood(tomatoPlantID, 3, new ItemStack(foods, 1, 5), new ItemStack(foods, 1, 5), "tomato");
+		pepperPlant = new BlockPlantMoreFood(pepperPlantID, 3, new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 18), "pepper");
+		saladPlant = new BlockPlantMoreFood(saladPlantID, 3, new ItemStack(foods, 1, 0), new ItemStack(foods, 1, 0), "salad");
+		onionPlant = new BlockPlantMoreFood(onionPlantID, 4, new ItemStack(foods, 1, 9), new ItemStack(foods, 1, 9), "onion");
+		chiliPlant = new BlockPlantMoreFood(chiliPlantID, 6, new ItemStack(foods, 1, 4), new ItemStack(foods, 1, 4), "chili");
+		paprikaPlant = new BlockPlantMoreFood(paprikaPlantID, 6, new ItemStack(foods, 1, 6), new ItemStack(foods, 1, 6), "paprika");
+		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, new ItemStack(foods, 1, 3), new ItemStack(foods, 1, 3), "rice");
+		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 24), "corn");
 		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").func_111022_d("saltore");
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
@@ -165,13 +166,13 @@ public class MoreFoodMod
 		stompedCarrot = (ItemFoodMoreFood) new ItemFoodMoreFood(itemsID + 17, 4, 1.0F).setUnlocalizedName("stompedCarrot").func_111206_d("carrot_stomped");
 		stompedPotato = (ItemFoodMoreFood) new ItemFoodMoreFood(itemsID + 18, 5, 1.0F).setUnlocalizedName("stompedPotato").func_111206_d("potato_stomped");
 		stompedApple = (ItemFoodMoreFood) new ItemFoodMoreFood(itemsID + 19, 6, 1.0F).setUnlocalizedName("stompedApple").func_111206_d("apple_stomped");
-		edibles = (ItemEdibles) new ItemEdibles(itemsID + 20, 3, 1.0F).setUnlocalizedName("edibleIgredient");
+		foods = (ItemFoods) new ItemFoods(itemsID + 20, 3, 1.0F).setUnlocalizedName("edibleIgredient");
 		fertilizer = (ItemFertilizer) new ItemFertilizer(itemsID + 21).setUnlocalizedName("fertilizer");
 		milkBowls = (ItemMilkBowls) new ItemMilkBowls(itemsID + 22, 4).setUnlocalizedName("cerealsWithMilk");
 		soupBowls = (ItemSoupBowls) new ItemSoupBowls(itemsID + 23, 6).setUnlocalizedName("soups");
 		
 		CSItems.addItem(salt, "Salt");
-		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { new ItemStack(edibles, 1, 18) });
+		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { new ItemStack(foods, 1, 18) });
 		CSItems.addItemWithShapelessRecipe(cinnamon, "Cinnamon", 3, new Object[] { new ItemStack(Item.dyePowder, 1, 3), Item.sugar, Item.sugar });
 		CSItems.addItem(vanilla, "Vanilla");
 		CSItems.addItem(honeyDrop, "Honey Drop");
@@ -215,43 +216,31 @@ public class MoreFoodMod
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 1 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Item.bakedPotato });
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 2 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), cookedCarrot });
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 3 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), cookedCarrot, Item.bakedPotato });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 4 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), new ItemStack(edibles, 1, 5) });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 5 + i), new Object[] { new ItemStack(soupBowls, 1, 4 + i), new ItemStack(edibles, 1, 3) });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 6 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), new ItemStack(edibles, 1, 2) });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 4 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), new ItemStack(foods, 1, 5) });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 5 + i), new Object[] { new ItemStack(soupBowls, 1, 4 + i), new ItemStack(foods, 1, 3) });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 6 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), new ItemStack(foods, 1, 2) });
 		}
 		
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 0), new Object[] { Item.bowlEmpty, Item.bucketMilk });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 1), new Object[] { new ItemStack(milkBowls, 1, 0), cereals });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 2), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(cereals, 1, 1) });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 3), new Object[] { new ItemStack(milkBowls, 1, 0), cereals, new ItemStack(cereals, 1, 1) });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 4), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(edibles, 1, 3) });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(edibles, 1, 3), cinnamon });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 4), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, 3) });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, 3), cinnamon });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 4), cinnamon });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(edibles, 1, 3), vanilla });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, 3), vanilla });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 4), vanilla });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 7), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(Item.dyePowder, 1, 1) });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 8), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(Item.dyePowder, 1, 10) });
 		
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 8, 2), new Object[] { Item.wheat, Item.wheat, salt });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 2, 8), new Object[] { Item.porkCooked, Item.beefRaw });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 2, 10), new Object[] { Item.bread });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 1, 13), new Object[] { Item.bucketMilk, butter });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 4, 14), new Object[] { new ItemStack(edibles, 1, 13) });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 3, 15), new Object[] { Item.porkRaw });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 1, 26), new Object[] { new ItemStack(edibles, 1, 25), Item.sugar });
-		CSCrafting.addCrafting(true, new ItemStack(edibles, 1, 27), new Object[] { new ItemStack(edibles, 1, 25), salt });
-		
-		CSCrafting.addCrafting(new ItemStack(edibles, 4, 7), new Object[] { "bb", 'b', Item.beefRaw });
-		CSCrafting.addCrafting(new ItemStack(edibles, 2, 11), new Object[] { "bb", 'b', Item.bread });
-		CSCrafting.addCrafting(new ItemStack(edibles, 1, 16), new Object[] { " b ", "smc", " b ", 'b', new ItemStack(edibles, 1, 10), 's', new ItemStack(edibles, 1, 0), 'm', new ItemStack(edibles, 1, 8), 'c', new ItemStack(edibles, 1, 14) });
-		CSCrafting.addCrafting(new ItemStack(edibles, 1, 17), new Object[] { "tst", "www", 't', new ItemStack(edibles, 1, 5), 's', new ItemStack(edibles, 1, 7), 'w', Item.wheat });
-		CSCrafting.addCrafting(new ItemStack(edibles, 1, 19), new Object[] { "c", "t", 'c', new ItemStack(edibles, 1, 14), 't', new ItemStack(edibles, 1, 12) });
-		CSCrafting.addCrafting(new ItemStack(edibles, 1, 20), new Object[] { "s", "t", 's', new ItemStack(edibles, 1, 7), 't', new ItemStack(edibles, 1, 12) });
-		CSCrafting.addCrafting(new ItemStack(edibles, 1, 22), new Object[] { "eee", 'e', new ItemStack(edibles, 1, 23) });
-		CSCrafting.addCrafting(new ItemStack(edibles, 1, 28), new Object[] { "s  ", " s ", "  s", 's', Item.sugar });
+		for (Food f : Food.foodList)
+		{
+			if (f != null)
+				f.addRecipe();
+		}
 		
 		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, stompedApple });
-		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(edibles, 1, 5) });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, 5) });
 	}
 	
 	private void addSmeltingRecipes()
@@ -259,10 +248,6 @@ public class MoreFoodMod
 		CSCrafting.addSmelting(new ItemStack(chocolateBucket), new ItemStack(chocolateBar), 0.2F);
 		CSCrafting.addSmelting(new ItemStack(Item.bucketMilk), new ItemStack(butter), 0.2F);
 		CSCrafting.addSmelting(new ItemStack(Item.carrot), new ItemStack(cookedCarrot), 0.1F);
-		CSCrafting.addSmelting(new ItemStack(edibles, 1, 11), new ItemStack(edibles, 1, 12), 0.1F);
-		CSCrafting.addSmelting(new ItemStack(edibles, 1, 15), new ItemStack(edibles, 1, 21), 0.1F);
-		CSCrafting.addSmelting(new ItemStack(Item.egg), new ItemStack(edibles, 1, 23), 0.1F);
-		CSCrafting.addSmelting(new ItemStack(edibles, 1, 24), new ItemStack(edibles, 4, 25), 0.1F);
 		CSCrafting.addSmelting(new ItemStack(soupBowls, 1, 0), new ItemStack(soupBowls, 1, 7), 0F);
 	}
 	

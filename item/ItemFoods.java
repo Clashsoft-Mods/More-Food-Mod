@@ -2,7 +2,7 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
-import clashsoft.mods.morefood.MoreFoodMod;
+import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -14,30 +14,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class ItemEdibles extends ItemFoodMoreFood
+public class ItemFoods extends ItemFoodMoreFood
 {
-	public static final String[]	names		= new String[] { "Salad", "Cucumber", "Pasta", "Rice", "Chili", "Tomato", "Paprika", "Salami", "Meat Ball", "Onion", "Bread Slice", "Toast", "Toastet Toast", "Cheese", "Cheese Slice", "Raw Bacon Slice", "Hamburger", "Pizza", "Pepper Balls", "Toast with Cheese", "Toast with Salami", "Bacon", "Omelette", "Fried Egg", "Corn", "Popcorn", "Sweet Popcorn", "Salty Popcorn", "Candy cane" };
-	public static final String[]	iconNames	= new String[] { "salad", "cucumber", "pasta", "rice", "chili", "tomato", "paprika", "salami", "ham", "onion", "bread_slice", "toast_raw", "toast_toasted", "cheese", "cheese_slice", "bacon_raw", "hamburger", "pizza", "pepperballs", "toast_cheese", "toast_salami", "bacon_cooked", "omelette", "fried_egg", "corn", "popcorn", "popcorn", "popcorn", "candy" };
-	
-	public static final int[]		blockPlaced	= new int[] { MoreFoodMod.saladPlantID, MoreFoodMod.cucumberPlantID, 0, MoreFoodMod.ricePlantID, MoreFoodMod.chiliPlantID, MoreFoodMod.tomatoPlantID, MoreFoodMod.paprikaPlantID, 0, 0, MoreFoodMod.onionPlantID, 0, 0, 0, 0, 0, 0, 0, 0, MoreFoodMod.pepperPlantID, 0, 0, 0, 0, 0, MoreFoodMod.cornPlantID, 0, 0, 0, 0 };
-	public static final int[]		foodRefill	= new int[] { 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 3, 3, 5, 2, 5, 3, 2, 5, 6, 0, 5, 6, 6, 7, 4 /* Cooked Egg */, 4, 4, 5, 5, 3 };
-	public static final boolean[]	edible		= new boolean[] { true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true /* Cooked egg */, true, true, true, true, true };
-	
 	public Icon[]					icons;
 	
-	public ItemEdibles(int par1, int par2, float par3)
+	public ItemFoods(int par1, int par2, float par3)
 	{
 		super(par1, par2, par3);
 		this.setHasSubtypes(true);
 	}
 	
+	public static boolean isEdible(ItemStack stack)
+	{
+		return Food.fromItemStack(stack) != null && Food.fromItemStack(stack).isEnabled && Food.fromItemStack(stack).foodValue != 0;
+	}
+	
 	@Override
 	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if (edible[par1ItemStack.getItemDamage()])
+		if (isEdible(par1ItemStack))
 		{
 			--par1ItemStack.stackSize;
-			par3EntityPlayer.getFoodStats().addStats(foodRefill[par1ItemStack.getItemDamage()], 1.0F);
+			par3EntityPlayer.getFoodStats().addStats(Food.fromItemStack(par1ItemStack).foodValue, 1.0F);
 			par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
 			this.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
 		}
@@ -51,7 +49,7 @@ public class ItemEdibles extends ItemFoodMoreFood
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
-		if (par3EntityPlayer.canEat(false) && edible[par1ItemStack.getItemDamage()])
+		if (par3EntityPlayer.canEat(false) && isEdible(par1ItemStack))
 		{
 			par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
 		}
@@ -75,21 +73,13 @@ public class ItemEdibles extends ItemFoodMoreFood
 	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack)
 	{
-		if (edible[par1ItemStack.getItemDamage()])
-		{
-			return EnumAction.eat;
-		}
-		return EnumAction.none;
+		return isEdible(par1ItemStack) ? Food.fromItemStack(par1ItemStack).getAction() : EnumAction.none;
 	}
 	
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack)
 	{
-		if (par1ItemStack.getItemDamage() < names.length)
-		{
-			return names[par1ItemStack.getItemDamage()];
-		}
-		return "Unknown Food";
+		return Food.fromItemStack(par1ItemStack).name;
 	}
 	
 	@Override
@@ -101,10 +91,12 @@ public class ItemEdibles extends ItemFoodMoreFood
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		icons = new Icon[iconNames.length];
-		for (int i = 0; i < iconNames.length; i++)
+		icons = new Icon[Food.foodList.size()];
+		for (int i = 0; i < Food.foodList.size(); i++)
 		{
-			icons[i] = par1IconRegister.registerIcon(iconNames[i]);
+			Food f = Food.foodList.get(i);
+			if (f != null)
+				icons[i] = par1IconRegister.registerIcon(f.icon);
 		}
 	}
 	
@@ -115,9 +107,10 @@ public class ItemEdibles extends ItemFoodMoreFood
 	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < names.length; i++)
+		for (Food f : Food.foodList)
 		{
-			par3List.add(new ItemStack(this, 1, i));
+			if (f != null && f.isEnabled)
+				par3List.add(new ItemStack(this, 1, f.foodID));
 		}
 	}
 	
@@ -130,7 +123,8 @@ public class ItemEdibles extends ItemFoodMoreFood
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
 	{
 		super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
-		if (par1ItemStack.getItemDamage() < blockPlaced.length && blockPlaced[par1ItemStack.getItemDamage()] != 0)
+		Food food = Food.fromItemStack(par1ItemStack);
+		if (food != null && food.blockPlaced != 0)
 		{
 			int var11 = par3World.getBlockId(par4, par5, par6);
 			
@@ -181,17 +175,18 @@ public class ItemEdibles extends ItemFoodMoreFood
 			}
 			else
 			{
-				if (par3World.canPlaceEntityOnSide(blockPlaced[par1ItemStack.getItemDamage()], par4, par5, par6, false, par7, (Entity) null, par1ItemStack))
+				int blockPlaced = food.blockPlaced;
+				if (par3World.canPlaceEntityOnSide(blockPlaced, par4, par5, par6, false, par7, (Entity) null, par1ItemStack))
 				{
-					Block var12 = Block.blocksList[blockPlaced[par1ItemStack.getItemDamage()]];
+					Block var12 = Block.blocksList[blockPlaced];
 					int var13 = var12.onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, 0);
 					
-					if (par3World.setBlock(par4, par5, par6, blockPlaced[par1ItemStack.getItemDamage()], var13, 2))
+					if (par3World.setBlock(par4, par5, par6, blockPlaced, var13, 2))
 					{
-						if (par3World.getBlockId(par4, par5, par6) == blockPlaced[par1ItemStack.getItemDamage()])
+						if (par3World.getBlockId(par4, par5, par6) == blockPlaced)
 						{
-							Block.blocksList[blockPlaced[par1ItemStack.getItemDamage()]].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
-							Block.blocksList[blockPlaced[par1ItemStack.getItemDamage()]].onPostBlockPlaced(par3World, par4, par5, par6, var13);
+							Block.blocksList[blockPlaced].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
+							Block.blocksList[blockPlaced].onPostBlockPlaced(par3World, par4, par5, par6, var13);
 						}
 						
 						par3World.playSoundEffect((double) ((float) par4 + 0.5F), (double) ((float) par5 + 0.5F), (double) ((float) par6 + 0.5F), var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);

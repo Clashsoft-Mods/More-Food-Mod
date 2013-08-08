@@ -5,6 +5,7 @@ import java.util.Random;
 import clashsoft.clashsoftapi.util.CSRandom;
 import clashsoft.clashsoftapi.util.CSWorld;
 import clashsoft.mods.morefood.MoreFoodMod;
+import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -17,7 +18,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenGardener extends WorldGenerator
 {
-	public static final ItemStack[]	possiblestacks	= new ItemStack[] { new ItemStack(MoreFoodMod.edibles, 9, 0), new ItemStack(MoreFoodMod.edibles, 9, 1), new ItemStack(MoreFoodMod.edibles, 9, 3), new ItemStack(MoreFoodMod.edibles, 9, 4), new ItemStack(MoreFoodMod.edibles, 9, 5), new ItemStack(MoreFoodMod.edibles, 9, 6), new ItemStack(MoreFoodMod.edibles, 9, 9), new ItemStack(MoreFoodMod.edibles, 9, 18), new ItemStack(MoreFoodMod.edibles, 9, 24), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
+	public static final ItemStack[]	possiblestacks	= new ItemStack[] { new ItemStack(MoreFoodMod.foods, 9, Food.salad.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.cucumber.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.rice.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.chili.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.tomato.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.paprika.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.onion.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.pepperballs.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.corn.foodID), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
 	
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
