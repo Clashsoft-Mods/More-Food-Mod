@@ -101,8 +101,7 @@ public class WorldGenGardener extends WorldGenerator
 		for (int i = 0; i < CSRandom.nextInt(rnd, 7, 20); i++)
 		{
 			ItemStack is = possiblestacks[rnd.nextInt(possiblestacks.length)];
-			int var1 = is.stackSize;
-			is.stackSize = CSRandom.nextInt(rnd, 1, var1);
+			is = new ItemStack(is.getItem(), CSRandom.nextInt(rnd, 1, is.stackSize));
 			chest.setInventorySlotContents(rnd.nextInt(chest.getSizeInventory() - 1), is);
 		}
 		return chest;
