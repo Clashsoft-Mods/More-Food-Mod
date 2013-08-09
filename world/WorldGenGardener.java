@@ -18,7 +18,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenGardener extends WorldGenerator
 {
-	public static final ItemStack[]	possiblestacks	= new ItemStack[] { new ItemStack(MoreFoodMod.foods, 9, Food.salad.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.cucumber.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.rice.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.chili.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.tomato.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.paprika.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.onion.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.pepperballs.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.corn.foodID), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
+	public static final ItemStack[]	possiblestacks	= new ItemStack[] { new ItemStack(MoreFoodMod.foods, 9, Food.salad.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.cucumber.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.rice.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.chili.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.tomato.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.paprika.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.onion.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.pepperSeeds.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.corn.foodID), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
 	
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{

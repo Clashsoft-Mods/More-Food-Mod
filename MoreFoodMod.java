@@ -22,10 +22,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemAppleGold;
-import net.minecraft.item.ItemBucketMilk;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -43,9 +40,6 @@ public class MoreFoodMod
 	@SidedProxy(modId = "MoreFoodMod", clientSide = "clashsoft.mods.morefood.ClientProxy", serverSide = "clashsoft.mods.morefood.CommonProxy")
 	public static CommonProxy			proxy;
 	
-	public static String				items			= "/mod_MoreFood/gui/food.png";
-	public static String				terrain			= "/mod_MoreFood/terrain.png";
-	
 	public static int					itemsID			= 13000;
 	public static int					cucumberPlantID	= 510;
 	public static int					tomatoPlantID	= 511;
@@ -55,8 +49,9 @@ public class MoreFoodMod
 	public static int					chiliPlantID	= 515;
 	public static int					paprikaPlantID	= 516;
 	public static int					ricePlantID		= 517;
-	public static int					saltOreID		= 518;
-	public static int					cornPlantID		= 519;
+	public static int					cornPlantID		= 518;
+	public static int					vanillaPlantID	= 519;
+	public static int					saltOreID		= 520;
 	
 	public static ItemMoreFood			salt;
 	public static ItemMoreFood			pepper;
@@ -77,6 +72,7 @@ public class MoreFoodMod
 	public static BlockPlantMoreFood	paprikaPlant;
 	public static BlockPlantMoreFood	ricePlant;
 	public static BlockPlantMoreFood	cornPlant;
+	public static BlockPlantMoreFood	vanillaPlant;
 	public static Block					saltOre;
 	
 	@EventHandler
@@ -94,7 +90,8 @@ public class MoreFoodMod
 		paprikaPlantID = config.getBlock("Paprika Plant ID", 516).getInt();
 		ricePlantID = config.getBlock("Rice Plant ID", 517).getInt();
 		cornPlantID = config.getBlock("Corn Plant ID", 518).getInt();
-		saltOreID = config.getBlock("Salt Ore ID", 519).getInt();
+		vanillaPlantID = config.getBlock("Vanilla Plant ID", 519).getInt();
+		saltOreID = config.getBlock("Salt Ore ID", 520).getInt();
 		
 		itemsID = config.getItem("Items ID", 13000).getInt();
 		
@@ -107,8 +104,10 @@ public class MoreFoodMod
 		GameRegistry.registerWorldGenerator(new WorldGenHandler());
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		
-		addItems();
+		foods = (ItemFoods) new ItemFoods(itemsID + 20, 3, 1.0F).setUnlocalizedName("edibleIgredient");
+		
 		addBlocks();
+		addItems();
 		addCraftingRecipes();
 		addSmeltingRecipes();
 		
@@ -127,6 +126,7 @@ public class MoreFoodMod
 		paprikaPlant = new BlockPlantMoreFood(paprikaPlantID, 6, new ItemStack(foods, 1, 6), new ItemStack(foods, 1, 6), "paprika");
 		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, new ItemStack(foods, 1, 3), new ItemStack(foods, 1, 3), "rice");
 		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 24), "corn");
+		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
 		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").func_111022_d("saltore");
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
@@ -138,15 +138,14 @@ public class MoreFoodMod
 		salt = (ItemMoreFood) new ItemMoreFood(itemsID).setUnlocalizedName("salt");
 		pepper = (ItemMoreFood) new ItemMoreFood(itemsID + 1).setUnlocalizedName("pepper");
 		cinnamon = (ItemMoreFood) new ItemMoreFood(itemsID + 2).setUnlocalizedName("cinnamon");
-		vanilla = (ItemMoreFood) new ItemMoreFood(itemsID + 3).setUnlocalizedName("vanilla");
+		vanilla = (ItemMoreFood) new ItemReed(itemsID + 3, vanillaPlant).setUnlocalizedName("vanilla");
 		juice = (ItemJuice) new ItemJuice(itemsID + 10).setUnlocalizedName("juice");
-		foods = (ItemFoods) new ItemFoods(itemsID + 20, 3, 1.0F).setUnlocalizedName("edibleIgredient");
 		fertilizer = (ItemFertilizer) new ItemFertilizer(itemsID + 21).setUnlocalizedName("fertilizer");
 		milkBowls = (ItemMilkBowls) new ItemMilkBowls(itemsID + 22, 4).setUnlocalizedName("cerealsWithMilk");
 		soupBowls = (ItemSoupBowls) new ItemSoupBowls(itemsID + 23, 6).setUnlocalizedName("soups");
 		
 		CSItems.addItem(salt, "Salt");
-		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { Food.pepperballs.asStack() });
+		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { Food.pepperSeeds.asStack() });
 		CSItems.addItemWithShapelessRecipe(cinnamon, "Cinnamon", 3, new Object[] { new ItemStack(Item.dyePowder, 1, 3), Item.sugar, Item.sugar });
 		CSItems.addItem(vanilla, "Vanilla");
 		CSItems.addItemWithRecipe(fertilizer, "Fertilizer", 16, new Object[] { " w ", "sDs", " w ", 'w', Item.wheat, 's', Item.seeds, 'D', Block.dirt });
@@ -154,6 +153,9 @@ public class MoreFoodMod
 	
 	private void addCraftingRecipes()
 	{	
+		CSCrafting.addCrafting(true, new ItemStack(pepper, 4, 0), Food.pepperSeeds.asStack());
+		CSCrafting.addCrafting(true, new ItemStack(vanilla, 4, 0), Food.vanillaSeeds.asStack());
+		
 		for (int i = 0; i < 7; i++)
 		{
 			ItemStack theSoup = new ItemStack(soupBowls, 1, i);

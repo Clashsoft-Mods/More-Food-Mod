@@ -27,7 +27,8 @@ public class Food
 	public static Food			tomato			= new Food(4, "Tomato", "tomato", 2, MoreFoodMod.tomatoPlantID);
 	public static Food			paprika			= new Food(5, "Paprika", "paprika", 3, MoreFoodMod.paprikaPlantID);
 	public static Food			onion			= new Food(6, "Onion", "onion", 3, MoreFoodMod.onionPlantID);
-	public static Food			pepperballs		= new Food(7, "Pepper Balls", "pepperballs", 0, MoreFoodMod.pepperPlantID);
+	public static Food			pepperSeeds		= new Food(7, "Pepper Balls", "pepperballs", 0, MoreFoodMod.pepperPlantID);
+	public static Food			vanillaSeeds	= new Food(44, "Vanilla Seeds", "pepperballs", 0, MoreFoodMod.vanillaPlantID);
 	public static Food			corn			= new Food(8, "Corn", "corn", 4, MoreFoodMod.cornPlantID);
 	public static Food			breadslice		= new Food(9, "Bread Slice", "bread_slice", 3, 0, new FoodRecipe(2, new ItemStack(Item.bread)));
 	public static Food			toast			= new Food(10, "Toast", "toast_raw", 5, 0, new FoodRecipe(3, breadslice.asStack()));
@@ -52,8 +53,8 @@ public class Food
 	public static Food			candycane		= new Food(28, "Candy cane", "candy", 3, new FoodRecipe(CRAFTING, 2, new Object[] { "s  ", " s ", "  s", 's', Item.sugar }));
 	public static Food			chocolate		= new Food(30, "Chocolate Bar", "chocolatebar", 4, new FoodRecipe(4, new ItemStack(Item.dyePowder, 1, 3), new ItemStack(Item.dyePowder, 1, 3), new ItemStack(Item.bucketMilk), new ItemStack(Item.sugar)));
 	public static Food			chocolateCookie	= new Food(33, "Chocolate Cookie", "chocolatecookie", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "wcw", 'w', Item.wheat, 'c', chocolate.asStack() }));
-	public static Food			cereals1		= new Food(31, "Cereals", "cereals1", 0, new FoodRecipe(4, new ItemStack(Item.wheat)));
-	public static Food			cereals2		= new Food(32, "Cereals", "cereals2", 0, new FoodRecipe(8, new ItemStack(Item.wheat), new ItemStack(Item.dyePowder, 1, 3)));
+	public static Food			cereals1		= new Food(31, "Cereals", "cereals_1", 0, new FoodRecipe(4, new ItemStack(Item.wheat)));
+	public static Food			cereals2		= new Food(32, "Chocolate Cereals", "cereals_2", 0, new FoodRecipe(8, new ItemStack(Item.wheat), new ItemStack(Item.dyePowder, 1, 3)));
 	public static Food			honeydrop		= new Food(34, "Honey Drop", "honeydrop", 1, 0);
 	public static Food			cookedCarrot	= new Food(35, "Cooked Carrot", "carrot_cooked", 4, new FoodRecipe(FURNACE, 1, new ItemStack(Item.carrot), 0.1F));
 	public static Food			stompedCarrot	= new Food(36, "Stomped Carrot", "carrot_stomped", 2, new FoodRecipe(1, new ItemStack(Item.carrot)));
@@ -75,7 +76,8 @@ public class Food
 		tomato.register();
 		paprika.register();
 		onion.register();
-		pepperballs.register();
+		pepperSeeds.register();
+		vanillaSeeds.register();
 		corn.register();
 		// Bread and Toast
 		breadslice.register();
