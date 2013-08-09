@@ -2,7 +2,6 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
-import clashsoft.clashsoftapi.CustomItem;
 import clashsoft.clashsoftapi.util.CSBlocks;
 import clashsoft.clashsoftapi.util.CSCrafting;
 import clashsoft.clashsoftapi.util.CSItems;
@@ -22,7 +21,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemReed;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -58,10 +59,11 @@ public class MoreFoodMod
 	public static ItemMoreFood			cinnamon;
 	public static ItemMoreFood			vanilla;
 	public static ItemJuice				juice;
-	public static ItemFoods				foods;
 	public static ItemFertilizer		fertilizer;
 	public static ItemMilkBowls			milkBowls;
 	public static ItemSoupBowls			soupBowls;
+	public static ItemFoods				foods;
+	public static ItemRecipeBook		recipeBook;
 	
 	public static BlockPlantMoreFood	cucumberPlant;
 	public static BlockPlantMoreFood	tomatoPlant;
@@ -104,10 +106,10 @@ public class MoreFoodMod
 		GameRegistry.registerWorldGenerator(new WorldGenHandler());
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		
-		foods = (ItemFoods) new ItemFoods(itemsID + 20, 3, 1.0F).setUnlocalizedName("edibleIgredient");
+		foods = (ItemFoods) new ItemFoods(itemsID + 8, 3, 1.0F).setUnlocalizedName("edibleIgredient");
 		
-		addBlocks();
 		addItems();
+		addBlocks();
 		addCraftingRecipes();
 		addSmeltingRecipes();
 		
@@ -132,23 +134,25 @@ public class MoreFoodMod
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void addItems()
 	{
 		salt = (ItemMoreFood) new ItemMoreFood(itemsID).setUnlocalizedName("salt");
 		pepper = (ItemMoreFood) new ItemMoreFood(itemsID + 1).setUnlocalizedName("pepper");
 		cinnamon = (ItemMoreFood) new ItemMoreFood(itemsID + 2).setUnlocalizedName("cinnamon");
-		vanilla = (ItemMoreFood) new ItemReed(itemsID + 3, vanillaPlant).setUnlocalizedName("vanilla");
-		juice = (ItemJuice) new ItemJuice(itemsID + 10).setUnlocalizedName("juice");
-		fertilizer = (ItemFertilizer) new ItemFertilizer(itemsID + 21).setUnlocalizedName("fertilizer");
-		milkBowls = (ItemMilkBowls) new ItemMilkBowls(itemsID + 22, 4).setUnlocalizedName("cerealsWithMilk");
-		soupBowls = (ItemSoupBowls) new ItemSoupBowls(itemsID + 23, 6).setUnlocalizedName("soups");
+		vanilla = (ItemMoreFood) new ItemMoreFood(itemsID + 3).setUnlocalizedName("vanilla");
+		juice = (ItemJuice) new ItemJuice(itemsID + 4).setUnlocalizedName("juice");
+		fertilizer = (ItemFertilizer) new ItemFertilizer(itemsID + 5).setUnlocalizedName("fertilizer");
+		milkBowls = (ItemMilkBowls) new ItemMilkBowls(itemsID + 6, 4).setUnlocalizedName("cerealsWithMilk");
+		soupBowls = (ItemSoupBowls) new ItemSoupBowls(itemsID + 7, 6).setUnlocalizedName("soups");
+		recipeBook = (ItemRecipeBook) new ItemRecipeBook(itemsID + 9).setUnlocalizedName("recipebook").setCreativeTab(CreativeTabs.tabMisc);
 		
 		CSItems.addItem(salt, "Salt");
 		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { Food.pepperSeeds.asStack() });
 		CSItems.addItemWithShapelessRecipe(cinnamon, "Cinnamon", 3, new Object[] { new ItemStack(Item.dyePowder, 1, 3), Item.sugar, Item.sugar });
 		CSItems.addItem(vanilla, "Vanilla");
 		CSItems.addItemWithRecipe(fertilizer, "Fertilizer", 16, new Object[] { " w ", "sDs", " w ", 'w', Item.wheat, 's', Item.seeds, 'D', Block.dirt });
+		
+		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] {" s ", "bBp", " c ", 's', Food.salad.asStack(), 'b', Item.beefCooked, 'B', Item.book, 'p', Item.porkCooked, 'c', Food.cheese_slice.asStack()});
 	}
 	
 	private void addCraftingRecipes()

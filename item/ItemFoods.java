@@ -23,6 +23,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		super(par1, par2, par3);
 		this.setHasSubtypes(true);
+		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 	
 	public static boolean isEdible(ItemStack stack)
