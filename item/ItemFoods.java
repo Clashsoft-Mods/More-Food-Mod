@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
@@ -42,6 +43,17 @@ public class ItemFoods extends ItemFoodMoreFood
 		return par1ItemStack;
 	}
 	
+	@Override
+	protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	{
+		super.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
+		
+		Food f = Food.fromItemStack(par1ItemStack);
+		if (f != null)
+			for (PotionEffect effect : f.getEffects())
+				par3EntityPlayer.addPotionEffect(effect);
+	}
+
 	/**
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
