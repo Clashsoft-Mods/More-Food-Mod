@@ -103,10 +103,10 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		icons = new Icon[Food.foodList.size()];
-		for (int i = 0; i < Food.foodList.size(); i++)
+		icons = new Icon[Food.foodTypes.length];
+		for (int i = 0; i < Food.foodTypes.length; i++)
 		{
-			Food f = Food.foodList.get(i);
+			Food f = Food.foodTypes[i];
 			if (f != null)
 				icons[i] = par1IconRegister.registerIcon(f.icon);
 		}

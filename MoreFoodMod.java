@@ -63,7 +63,6 @@ public class MoreFoodMod
 	public static ItemMoreFood			cinnamon;
 	public static ItemMoreFood			vanilla;
 	public static ItemJuice				juice;
-	public static ItemFoodMoreFood		cookedCarrot;
 	public static ItemFoods				foods;
 	public static ItemFertilizer		fertilizer;
 	public static ItemMilkBowls			milkBowls;
@@ -147,10 +146,9 @@ public class MoreFoodMod
 		soupBowls = (ItemSoupBowls) new ItemSoupBowls(itemsID + 23, 6).setUnlocalizedName("soups");
 		
 		CSItems.addItem(salt, "Salt");
-		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { new ItemStack(foods, 1, 18) });
+		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { Food.pepperballs.asStack() });
 		CSItems.addItemWithShapelessRecipe(cinnamon, "Cinnamon", 3, new Object[] { new ItemStack(Item.dyePowder, 1, 3), Item.sugar, Item.sugar });
 		CSItems.addItem(vanilla, "Vanilla");
-		CSItems.addItem(cookedCarrot, "Cooked Carrot");
 		CSItems.addItemWithRecipe(fertilizer, "Fertilizer", 16, new Object[] { " w ", "sDs", " w ", 'w', Item.wheat, 's', Item.seeds, 'D', Block.dirt });
 	}
 	
@@ -171,21 +169,21 @@ public class MoreFoodMod
 		for (int i = 0; i <= 7; i += 7)
 		{
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 1 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Item.bakedPotato });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 2 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), cookedCarrot });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 3 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), cookedCarrot, Item.bakedPotato });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 4 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), new ItemStack(foods, 1, 5) });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 5 + i), new Object[] { new ItemStack(soupBowls, 1, 4 + i), new ItemStack(foods, 1, 3) });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 6 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), new ItemStack(foods, 1, 2) });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 2 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.cookedCarrot.asStack() });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 3 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.cookedCarrot.asStack(), Item.bakedPotato });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 4 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.tomato.asStack() });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 5 + i), new Object[] { new ItemStack(soupBowls, 1, 4 + i), Food.rice.asStack() });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 6 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.pasta.asStack() });
 		}
 		
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 0), new Object[] { Item.bowlEmpty, Item.bucketMilk });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 1), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.foodID) });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 2), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals2.foodID) });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 3), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.foodID), new ItemStack(foods, 1, Food.cereals2.foodID) });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 4), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, 3) });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, 3), cinnamon });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 4), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack() });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack(), cinnamon });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 4), cinnamon });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, 3), vanilla });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack(), vanilla });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 4), vanilla });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 7), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(Item.dyePowder, 1, 1) });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 8), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(Item.dyePowder, 1, 10) });
@@ -202,7 +200,6 @@ public class MoreFoodMod
 	
 	private void addSmeltingRecipes()
 	{
-		CSCrafting.addSmelting(new ItemStack(Item.carrot), new ItemStack(cookedCarrot), 0.1F);
 		CSCrafting.addSmelting(new ItemStack(soupBowls, 1, 0), new ItemStack(soupBowls, 1, 7), 0F);
 	}
 	

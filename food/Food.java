@@ -30,16 +30,16 @@ public class Food
 	public static Food			pepperballs		= new Food(7, "Pepper Balls", "pepperballs", 0, MoreFoodMod.pepperPlantID);
 	public static Food			corn			= new Food(8, "Corn", "corn", 4, MoreFoodMod.cornPlantID);
 	public static Food			breadslice		= new Food(9, "Bread Slice", "bread_slice", 3, 0, new FoodRecipe(2, new ItemStack(Item.bread)));
-	public static Food			toast			= new Food(10, "Toast", "toast_raw", 5, 0, new FoodRecipe(3, new ItemStack(MoreFoodMod.foods, breadslice.foodID)));
-	public static Food			toastet_Toast	= new Food(11, "Toastet Toast", "toast_toasted", 2, 0, new FoodRecipe(FURNACE, 1, new ItemStack(MoreFoodMod.foods, 1, toast.foodID), 0.1F));
+	public static Food			toast			= new Food(10, "Toast", "toast_raw", 5, 0, new FoodRecipe(3, breadslice.asStack()));
+	public static Food			toast_toasted	= new Food(11, "Toastet Toast", "toast_toasted", 2, 0, new FoodRecipe(FURNACE, 1, toast.asStack(), 0.1F));
 	public static Food			butter			= new Food(29, "Butter", "butter", 3, new FoodRecipe(FURNACE, 1, new ItemStack(Item.bucketMilk), 0.2F));
 	public static Food			salami			= new Food(20, "Salami", "salami", 3, new FoodRecipe(4, new ItemStack(Item.beefRaw)));
-	public static Food			cheese			= new Food(14, "Cheese", "cheese", 5, new FoodRecipe(1, new ItemStack(MoreFoodMod.foods, 1, butter.foodID), new ItemStack(Item.bucketMilk), new ItemStack(Item.bucketMilk)));
-	public static Food			cheese_slice	= new Food(15, "Cheese Slice", "cheese_slice", 3, new FoodRecipe(16, new ItemStack(MoreFoodMod.foods, 1, cheese.foodID)));
-	public static Food			toast_cheese	= new Food(12, "Toast with Cheese", "toast_cheese", 5, new FoodRecipe(1, new ItemStack(MoreFoodMod.foods, 1, toast.foodID), new ItemStack(MoreFoodMod.foods, 1, cheese_slice.foodID)));
-	public static Food			toast_salami	= new Food(13, "Toast with Salami", "toast_salami", 6, new FoodRecipe(1, new ItemStack(MoreFoodMod.foods, 1, toast.foodID), new ItemStack(MoreFoodMod.foods, 1, salami.foodID)));
+	public static Food			cheese			= new Food(14, "Cheese", "cheese", 5, new FoodRecipe(1, butter.asStack(), new ItemStack(Item.bucketMilk), new ItemStack(Item.bucketMilk)));
+	public static Food			cheese_slice	= new Food(15, "Cheese Slice", "cheese_slice", 3, new FoodRecipe(16, cheese.asStack()));
+	public static Food			toast_cheese	= new Food(12, "Toast with Cheese", "toast_cheese", 5, new FoodRecipe(1, toast_toasted.asStack(), cheese_slice.asStack()));
+	public static Food			toast_salami	= new Food(13, "Toast with Salami", "toast_salami", 6, new FoodRecipe(1, toast_toasted.asStack(), salami.asStack()));
 	public static Food			bacon_raw		= new Food(16, "Raw Bacon Slice", "bacon_raw", 2, new FoodRecipe(3, new ItemStack(Item.porkRaw), new ItemStack(Item.porkRaw)));
-	public static Food			bacon			= new Food(17, "Bacon", "bacon_cooked", 6, new FoodRecipe(FURNACE, 1, new ItemStack(MoreFoodMod.foods, 1, bacon_raw.foodID), 0.1F));
+	public static Food			bacon			= new Food(17, "Bacon", "bacon_cooked", 6, new FoodRecipe(FURNACE, 1, bacon_raw.asStack(), 0.1F));
 	public static Food			pasta			= new Food(18, "Pasta", "pasta", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "wsw", 'w', Item.wheat, 's', MoreFoodMod.salt }));
 	public static Food			meatball		= new Food(19, "Meat Ball", "ham", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "bb", "bb", 'b', Item.beefCooked }));
 	public static Food			hamburger		= new Food(21, "Hamburger", "hamburger", 5, new FoodRecipe(CRAFTING, 1, new Object[] { " b ", "smt", " b ", 'b', breadslice.asStack(), 's', salad.asStack(), 'm', meatball.asStack(), 't', tomato.asStack() }));
@@ -80,7 +80,7 @@ public class Food
 		// Bread and Toast
 		breadslice.register();
 		toast.register();
-		toastet_Toast.register();
+		toast_toasted.register();
 		toast_cheese.register();
 		toast_salami.register();
 		// Other food

@@ -35,7 +35,7 @@ public class FoodRecipe
 		case CRAFTING:
 			GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), data); break;
 		case CRAFTING_SHAPELESS:
-			GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), data); break;
+			GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), data); break;
 		case FURNACE:
 			CSCrafting.addSmelting((ItemStack)data[0], new ItemStack(item, this.amount, foodID), (float)data[1]); break;
 		}
