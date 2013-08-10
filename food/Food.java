@@ -159,7 +159,8 @@ public class Food
 		this.blockPlaced = blockPlaced;
 		this.recipe = recipe;
 		
-		foodTypes[id] = this;
+		if (id >= 0)
+			foodTypes[id] = this;
 	}
 	
 	public static Food fromItemStack(ItemStack stack)

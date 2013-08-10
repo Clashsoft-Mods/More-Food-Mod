@@ -5,6 +5,7 @@ import java.util.Random;
 import clashsoft.clashsoftapi.util.CSBlocks;
 import clashsoft.clashsoftapi.util.CSCrafting;
 import clashsoft.clashsoftapi.util.CSItems;
+import clashsoft.clashsoftapi.util.CSLang;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 import clashsoft.mods.morefood.block.BlockSaltOre;
 import clashsoft.mods.morefood.food.Food;
@@ -112,6 +113,7 @@ public class MoreFoodMod
 		addBlocks();
 		addCraftingRecipes();
 		addSmeltingRecipes();
+		addLocalizations();
 		
 		MinecraftForge.addGrassSeed(new ItemStack(foods, 1, 19), 10);
 		MinecraftForge.setBlockHarvestLevel(saltOre, "pickaxe", 1);
@@ -207,6 +209,60 @@ public class MoreFoodMod
 	private void addSmeltingRecipes()
 	{
 		CSCrafting.addSmelting(new ItemStack(soupBowls, 1, 0), new ItemStack(soupBowls, 1, 7), 0F);
+	}
+	
+	private void addLocalizations()
+	{
+		addFoodDesc(Food.bacon, "Delicious bacon");
+		addFoodDesc(Food.bacon_raw, "Raw bacon, cook it to win!");
+		addFoodDesc(Food.breadslice, "The half of a bread");
+		addFoodDesc(Food.butter, "Delicious butter, makes you fat");
+		addFoodDesc(Food.candycane, "Pure sugar");
+		addFoodDesc(Food.cereals1, "Cereals to have for breakfast");
+		addFoodDesc(Food.cereals2, "Chocolate Cereals!");
+		addFoodDesc(Food.cheese, "A big cheese wheel");
+		addFoodDesc(Food.cheese_slice, "A tiny slice of the big cheese wheel");
+		addFoodDesc(Food.chili, "Hot and spicy!");
+		addFoodDesc(Food.chocolate, "Pretty sweet");
+		addFoodDesc(Food.chocolateCookie, "Chocolate cookies like your grandma would craft them");
+		addFoodDesc(Food.cookedCarrot, "A carrot, but cooked");
+		addFoodDesc(Food.corn, "Better make some popcorn!");
+		addFoodDesc(Food.cucumber, "Long and green");
+		addFoodDesc(Food.diamondApple, "Expensive and blue");
+		addFoodDesc(Food.diamondCarrot, "Carrots improve your vision");
+		addFoodDesc(Food.diamondPotato, "A normal potato, but with diamonds");
+		addFoodDesc(Food.fried_egg, "An egg");
+		addFoodDesc(Food.goldPotato1, "A golden potato");
+		addFoodDesc(Food.goldPotato2, "A more expensive golden potato");
+		addFoodDesc(Food.hamburger, "Directly from McDerp!");
+		addFoodDesc(Food.honeydrop, "Made by bees");
+		addFoodDesc(Food.meatball, "Many cows died for this");
+		addFoodDesc(Food.omelette, "Many eggs");
+		addFoodDesc(Food.onion, "An onion");
+		addFoodDesc(Food.paprika, "Another plantable vegetable");
+		addFoodDesc(Food.pasta, "Pretty long and salted");
+		addFoodDesc(Food.pepperSeeds, "You shouldn't eat those");
+		addFoodDesc(Food.pizza, "Everybody loves pizza");
+		addFoodDesc(Food.popcorn, "No sugar, no salt");
+		addFoodDesc(Food.popcorn_salty, "Salty");
+		addFoodDesc(Food.popcorn_sweet, "Sweet popcorn");
+		addFoodDesc(Food.rice, "Rice");
+		addFoodDesc(Food.salad, "Just normal green salad");
+		addFoodDesc(Food.salami, "Made from cows");
+		addFoodDesc(Food.stompedApple, "Stomped");
+		addFoodDesc(Food.stompedCarrot, "Stomped");
+		addFoodDesc(Food.stompedPotato, "Stomped");
+		addFoodDesc(Food.toast, "Not toasted yet");
+		addFoodDesc(Food.toast_cheese, "Toasted toast with cheese");
+		addFoodDesc(Food.toast_salami, "Toasted toast with salami");
+		addFoodDesc(Food.toast_toasted, "Toasted toast");
+		addFoodDesc(Food.tomato, "A vegatable or a fruit?");
+		addFoodDesc(Food.vanillaSeeds, "Do not eat! Plant!");
+	}
+	
+	public static void addFoodDesc(Food f, String desc)
+	{
+		CSLang.addLocalizationUS("food." + f.name.toLowerCase().replace(" ", "") + ".desc", desc);
 	}
 	
 	public static void generate(Random random, int chunkX, int chunkZ, World world)
