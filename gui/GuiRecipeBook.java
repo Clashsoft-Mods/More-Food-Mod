@@ -2,12 +2,14 @@ package clashsoft.mods.morefood.gui;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import clashsoft.clashsoftapi.util.CSString;
+import clashsoft.clashsoftapi.util.CSUtil;
 import clashsoft.mods.morefood.container.ContainerRecipeBook;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.food.FoodRecipe;
@@ -22,7 +24,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
@@ -33,6 +34,9 @@ public class GuiRecipeBook extends GuiContainer
 	public static final ResourceLocation	background	= new ResourceLocation("gui/recipebook.png");
 	
 	public static RenderItem				itemRender	= new RenderItem();
+	
+	public GuiButton						prev;
+	public GuiButton						next;
 	
 	public ContainerRecipeBook				container;
 	public int								recipeID	= 0;
@@ -49,6 +53,29 @@ public class GuiRecipeBook extends GuiContainer
 	}
 	
 	@Override
+	protected void drawGuiContainerForegroundLayer(int par1, int par2)
+	{
+		if (isPointInRegion(next.xPosition - guiLeft, next.yPosition - guiTop, 20, 20, par1, par2) && next.enabled)
+		{
+			List<String> list = new LinkedList<String>();
+			list.add(Food.foodList.get(recipeID + 1).asStack().getDisplayName());
+			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+		}
+		if (isPointInRegion(prev.xPosition - guiLeft, prev.yPosition - guiTop, 20, 20, par1, par2) && prev.enabled)
+		{
+			List<String> list = new LinkedList<String>();
+			list.add(Food.foodList.get(recipeID - 1).asStack().getDisplayName());
+			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+		}
+		if (isPointInRegion(20, 50, 40, 40, par1, par2))
+		{
+			List<String> list = new LinkedList<String>();
+			list.add(Food.foodList.get(recipeID).asStack().getDisplayName());
+			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+		}
+	}
+	
+	@Override
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -58,10 +85,9 @@ public class GuiRecipeBook extends GuiContainer
 		String header = "Recipe Book (" + Food.foodList.size() + " Entrys)";
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, guiTop + 10, 4210752, false);
 		
-		
 		if (food != null)
 		{
-			//Name + Description
+			// Name + Description
 			
 			{
 				String name = food.asStack().getDisplayName();
@@ -70,53 +96,59 @@ public class GuiRecipeBook extends GuiContainer
 				
 				this.mc.fontRenderer.drawString(name, (this.width - this.mc.fontRenderer.getStringWidth(name)) / 2, guiTop + 27, 4210752, false);
 				
-				String s4 = CSString.cutString(desc, 30);
+				String s4 = CSString.cutString(desc, 26);
 				String[] lines = CSString.makeLineList(s4);
 				for (int i = 0; i < lines.length; i++)
 					this.mc.fontRenderer.drawString(lines[i], guiLeft + 70, guiTop + 50 + (i * 10), 4210752, false);
 			}
 			
-			//Crafting
+			// Crafting
 			
 			{
 				String crafting = food.recipe == null ? EnumChatFormatting.RED + "Not craftable" : (food.recipe.craftingType == FoodRecipe.CRAFTING ? "Crafting" : (food.recipe.craftingType == FoodRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
-				this.mc.fontRenderer.drawString(crafting, guiLeft + 22, guiTop + 100, 4210752, false);
+				this.mc.fontRenderer.drawString(crafting, guiLeft + 22, guiTop + 103, 4210752, false);
 				
 				if (food.recipe != null && recipe != null)
 				{
-					this.mc.fontRenderer.drawString("-> " + food.recipe.amount + " x " + food.asStack().getDisplayName(), guiLeft + 22, guiTop + 180, 4210752, false);
+					String s = "> " + food.recipe.amount + "x " + food.asStack().getDisplayName();
+					String[] split = CSUtil.makeLineList(CSString.cutString(s, 15));
+					
+					for (int i = 0; i < split.length; i++)
+						this.mc.fontRenderer.drawString(split[i], guiLeft + 22, guiTop + 175 + (i * 10), 4210752, false);
 				}
 			}
 			
-			//Stats
+			// Stats
 			
 			{
 				int statsX = 140;
 				
+				this.mc.fontRenderer.drawString("Stats", guiLeft + statsX, guiTop + 103, 4210752);
+				
 				String foodValue = food.foodValue == 0 ? EnumChatFormatting.RED + "Not eatable" : ((food.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + food.foodValue);
-				this.mc.fontRenderer.drawString(foodValue, guiLeft + statsX, guiTop + 100, 4210752, false);
+				this.mc.fontRenderer.drawString(foodValue, guiLeft + statsX, guiTop + 120, 4210752, false);
 				
 				String plantable = food.blockPlaced == 0 ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
-				this.mc.fontRenderer.drawString(plantable, guiLeft + statsX, guiTop + 110, 4210752, false);
+				this.mc.fontRenderer.drawString(plantable, guiLeft + statsX, guiTop + 130, 4210752, false);
 				
 				boolean hasEffects = food.effects != null && food.effects.length > 0;
 				String effects = hasEffects ? "Effects:" : "No effects";
-				this.mc.fontRenderer.drawString(effects, guiLeft + statsX, guiTop + 125, 4210752, false);
+				this.mc.fontRenderer.drawString(effects, guiLeft + statsX, guiTop + 145, 4210752, false);
 				if (hasEffects)
-					for (int i = 0; i < food.effects.length; i++)
+					for (int i = 0; i < food.effects.length && i < 3; i++)
 					{
 						PotionEffect effect = food.effects[i];
 						String var = " " + StatCollector.translateToLocal(effect.getEffectName());
-						this.mc.fontRenderer.drawString(var, guiLeft + statsX, guiTop + 135 + (i * 10), 4210752, false);
+						this.mc.fontRenderer.drawString(var, guiLeft + statsX, guiTop + 155 + (i * 10), 4210752, false);
 					}
 			}
 			
-			//Icon
+			// Icon
 			
 			GL11.glScalef(2.5F, 2.5F, 1F);
 			itemRender.zLevel = 100F;
 			ItemStack stack = food.asStack();
-			itemRender.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, stack, (int)((guiLeft + 22) / 2.5F), (int)((guiTop + 50) / 2.5F));
+			itemRender.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, stack, (int) ((guiLeft + 22) / 2.5F), (int) ((guiTop + 50) / 2.5F));
 			itemRender.zLevel = 0F;
 			GL11.glScalef(0.4F, 0.4F, 1F);
 			GL11.glColor4f(1F, 1F, 1F, 1F);
@@ -142,8 +174,11 @@ public class GuiRecipeBook extends GuiContainer
 		this.ySize = 200;
 		super.initGui();
 		
-		this.buttonList.add(new GuiButton(0, guiLeft + 20, guiTop + 20, 20, 20, "<"));
-		this.buttonList.add(new GuiButton(1, guiLeft + 256 - 40, guiTop + 20, 20, 20, ">"));
+		prev = new GuiButton(0, guiLeft + 20, guiTop + 20, 20, 20, "<");
+		next = new GuiButton(1, guiLeft + xSize - 40, guiTop + 20, 20, 20, ">");
+		
+		this.buttonList.add(prev);
+		this.buttonList.add(next);
 		
 		this.setRecipe(recipeID);
 		
@@ -154,6 +189,16 @@ public class GuiRecipeBook extends GuiContainer
 		this.food = Food.foodList.get(recipe);
 		this.recipe = getRecipe(food);
 		this.container.inventory.stacks = this.recipe;
+		
+		if (recipeID == 0)
+			prev.enabled = false;
+		else
+			prev.enabled = true;
+		
+		if (recipeID == Food.foodList.size() - 1)
+			next.enabled = false;
+		else
+			next.enabled = true;
 	}
 	
 	public ItemStack[][] getRecipe(Food f)
@@ -272,7 +317,7 @@ public class GuiRecipeBook extends GuiContainer
 			
 			while (iterator.hasNext())
 			{
-				String s = (String)iterator.next();
+				String s = (String) iterator.next();
 				int l = font.getStringWidth(s);
 				
 				if (l > k)
@@ -317,7 +362,7 @@ public class GuiRecipeBook extends GuiContainer
 			
 			for (int k2 = 0; k2 < par1List.size(); ++k2)
 			{
-				String s1 = (String)par1List.get(k2);
+				String s1 = (String) par1List.get(k2);
 				font.drawStringWithShadow(s1, i1, j1, -1);
 				
 				if (k2 == 0)
