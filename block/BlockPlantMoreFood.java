@@ -4,21 +4,24 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCarrot;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockPlantMoreFood extends BlockFlower
 {
-	public ItemStack	seed;
-	public ItemStack	crop;
+	public final ItemStack	seed;
+	public final ItemStack	crop;
 	public int			maxMeta;
 	public String		texture;
 	
@@ -51,6 +54,11 @@ public class BlockPlantMoreFood extends BlockFlower
 	{
 		return par1 == Block.tilledField.blockID;
 	}
+	
+    public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+    {
+        return super.canPlaceBlockAt(par1World, par2, par3, par4) && par1World.getBlockId(par2, par3, par4) == Block.tilledField.blockID;
+    }
 	
 	/**
 	 * Ticks the block if it's been scheduled
@@ -179,7 +187,8 @@ public class BlockPlantMoreFood extends BlockFlower
 	 */
 	protected ItemStack getSeedItem()
 	{
-		return seed;
+		seed.stackSize = 1;
+		return seed.copy();
 	}
 	
 	/**
@@ -187,7 +196,8 @@ public class BlockPlantMoreFood extends BlockFlower
 	 */
 	protected ItemStack getCropItem()
 	{
-		return crop;
+		crop.stackSize = 1;
+		return crop.copy();
 	}
 	
 	/**
@@ -206,13 +216,11 @@ public class BlockPlantMoreFood extends BlockFlower
 		ArrayList<ItemStack> ret = super.getBlockDropped(world, x, y, z, metadata, fortune);
 		
 		if (metadata >= maxMeta)
+		for (int n = 0; n < 3 + fortune; n++)
 		{
-			for (int n = 0; n < 3 + fortune; n++)
+			if (world.rand.nextInt(maxMeta + 2) <= metadata)
 			{
-				if (world.rand.nextInt(15) <= metadata)
-				{
-					ret.add(seed);
-				}
+				ret.add(getSeedItem());
 			}
 		}
 		
@@ -231,7 +239,8 @@ public class BlockPlantMoreFood extends BlockFlower
 	/**
 	 * Returns the ID of the items to drop on destruction.
 	 */
-	public int metadataDropped(int par1)
+	@Override
+	public int damageDropped(int par1)
 	{
 		return par1 >= maxMeta ? this.getCropItem().getItemDamage() : this.getSeedItem().getItemDamage();
 	}
@@ -242,16 +251,18 @@ public class BlockPlantMoreFood extends BlockFlower
 	@Override
 	public int quantityDropped(Random par1Random)
 	{
-		return 1 + par1Random.nextInt(1);
+		return 1;
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	/**
-	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
-	 */
-	public int idPicked(World par1World, int par2, int par3, int par4)
+	public int getDamageValue(World par1World, int par2, int par3, int par4)
 	{
-		return this.getSeedItem().itemID;
+		return super.getDamageValue(par1World, par2, par3, par4);
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	{
+		return seed;
 	}
 }

@@ -121,15 +121,15 @@ public class MoreFoodMod
 	
 	private void addBlocks()
 	{
-		cucumberPlant = new BlockPlantMoreFood(cucumberPlantID, 3, new ItemStack(foods, 1, 1), new ItemStack(foods, 1, 1), "cucumber");
-		tomatoPlant = new BlockPlantMoreFood(tomatoPlantID, 3, new ItemStack(foods, 1, 5), new ItemStack(foods, 1, 5), "tomato");
-		pepperPlant = new BlockPlantMoreFood(pepperPlantID, 3, new ItemStack(foods, 1, 18), new ItemStack(foods, 1, 18), "pepper");
-		saladPlant = new BlockPlantMoreFood(saladPlantID, 3, new ItemStack(foods, 1, 0), new ItemStack(foods, 1, 0), "salad");
-		onionPlant = new BlockPlantMoreFood(onionPlantID, 4, new ItemStack(foods, 1, 9), new ItemStack(foods, 1, 9), "onion");
-		chiliPlant = new BlockPlantMoreFood(chiliPlantID, 6, new ItemStack(foods, 1, 4), new ItemStack(foods, 1, 4), "chili");
-		paprikaPlant = new BlockPlantMoreFood(paprikaPlantID, 6, new ItemStack(foods, 1, 6), new ItemStack(foods, 1, 6), "paprika");
-		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, new ItemStack(foods, 1, 3), new ItemStack(foods, 1, 3), "rice");
-		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, new ItemStack(foods, 1, 24), new ItemStack(foods, 1, 24), "corn");
+		cucumberPlant = new BlockPlantMoreFood(cucumberPlantID, 3, Food.cucumber.asStack(), Food.cucumber.asStack(), "cucumber");
+		tomatoPlant = new BlockPlantMoreFood(tomatoPlantID, 3, Food.tomato.asStack(), Food.tomato.asStack(), "tomato");
+		pepperPlant = new BlockPlantMoreFood(pepperPlantID, 3, Food.pepperSeeds.asStack(), new ItemStack(pepper), "pepper");
+		saladPlant = new BlockPlantMoreFood(saladPlantID, 3, Food.salad.asStack(), Food.salad.asStack(), "salad");
+		onionPlant = new BlockPlantMoreFood(onionPlantID, 4, Food.onion.asStack(), Food.onion.asStack(), "onion");
+		chiliPlant = new BlockPlantMoreFood(chiliPlantID, 6, Food.chili.asStack(), Food.chili.asStack(), "chili");
+		paprikaPlant = new BlockPlantMoreFood(paprikaPlantID, 6, Food.paprika.asStack(), Food.paprika.asStack(), "paprika");
+		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, Food.rice.asStack(), Food.rice.asStack(), "rice");
+		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, Food.corn.asStack(), Food.corn.asStack(), "corn");
 		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
 		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").func_111022_d("saltore");
 		

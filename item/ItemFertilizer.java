@@ -56,7 +56,7 @@ public class ItemFertilizer extends ItemMoreFood
 				return true;
 			}
 			
-			if (var11 >= 510 && var11 <= 517)
+			if (Block.blocksList[var11] instanceof BlockPlantMoreFood)
 			{
 				if (!par3World.isRemote)
 				{

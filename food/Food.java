@@ -229,7 +229,7 @@ public class Food
 	
 	public ItemStack asStack()
 	{
-		return stack;
+		return asStack(1);
 	}
 	
 	public ItemStack asStack(int i)

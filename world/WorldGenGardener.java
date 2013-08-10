@@ -18,7 +18,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenGardener extends WorldGenerator
 {
-	public static final ItemStack[]	possiblestacks	= new ItemStack[] { new ItemStack(MoreFoodMod.foods, 9, Food.salad.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.cucumber.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.rice.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.chili.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.tomato.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.paprika.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.onion.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.pepperSeeds.foodID), new ItemStack(MoreFoodMod.foods, 9, Food.corn.foodID), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
+	public static final ItemStack[]	possiblestacks	= new ItemStack[] { Food.salad.asStack(9), Food.cucumber.asStack(9), Food.rice.asStack(9), Food.chili.asStack(9), Food.tomato.asStack(9), Food.paprika.asStack(9), Food.onion.asStack(9), Food.pepperSeeds.asStack(9), Food.corn.asStack(9), Food.vanillaSeeds.asStack(), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
 	
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
@@ -102,7 +102,7 @@ public class WorldGenGardener extends WorldGenerator
 		for (int i = 0; i < CSRandom.nextInt(rnd, 7, 20); i++)
 		{
 			ItemStack is = possiblestacks[rnd.nextInt(possiblestacks.length)];
-			is = new ItemStack(is.getItem(), CSRandom.nextInt(rnd, 1, is.stackSize));
+			is = new ItemStack(is.getItem(), CSRandom.nextInt(rnd, 1, is.stackSize), is.getItemDamage());
 			chest.setInventorySlotContents(rnd.nextInt(chest.getSizeInventory() - 1), is);
 		}
 		return chest;
