@@ -9,9 +9,7 @@ import java.util.List;
 import clashsoft.mods.morefood.MoreFoodMod;
 
 import net.minecraft.block.Block;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -66,8 +64,22 @@ public class Food
 	public static Food			goldPotato1		= new Food(42, "Golden Potato", "potato_gold", 5, new FoodRecipe(CRAFTING, 1, new Object[] { "ggg", "gpg", "ggg", 'g', Item.ingotGold, 'p', Item.potato })).setEffects(new PotionEffect(Potion.field_76444_x.id, 2400, 0));
 	public static Food			goldPotato2		= new Food(43, "Golden Potato", "potato_gold", 7, new FoodRecipe(CRAFTING, 1, new Object[] { "GGG", "GpG", "GGG", 'G', Block.blockGold, 'p', Item.potato })).setEffects(new PotionEffect(Potion.field_76444_x.id, 2400, 0), new PotionEffect(Potion.regeneration.id, 600, 4), new PotionEffect(Potion.fireResistance.id, 6000, 0));
 	
+	public static Food			apple			= new Food((ItemFood) Item.appleRed, 0, null);
+	public static Food			appleGold1		= new Food((ItemFood) Item.appleGold, 0, new FoodRecipe(CRAFTING, 1, new Object[] {"ggg", "gag", "ggg", 'g', Item.ingotGold, 'a', Item.appleRed}));
+	public static Food			appleGold2		= new Food((ItemFood) Item.appleGold, 1, new FoodRecipe(CRAFTING, 1, new Object[] {"ggg", "gag", "ggg", 'g', Block.blockGold, 'a', Item.appleRed}));
+	public static Food			potato			= new Food((ItemSeedFood) Item.potato, 0, null);
+	public static Food			potatoCooked	= new Food((ItemFood) Item.bakedPotato, 0, new FoodRecipe(FURNACE, 1, new ItemStack(Item.potato), 0.1F));
+	public static Food			carrot			= new Food((ItemSeedFood) Item.carrot, 0, null);
+	
 	static
 	{
+		// Vanilla Food
+		apple.register();
+		potato.register();
+		potatoCooked.register();
+		carrot.register();
+		appleGold1.register();
+		appleGold2.register();
 		// Vegetables
 		salad.register();
 		cucumber.register();
@@ -131,9 +143,10 @@ public class Food
 	public int					blockPlaced		= 0;
 	public boolean				isEnabled		= true;
 	
-	public int					recipeAmount	= 1;
 	public FoodRecipe			recipe			= null;
 	public PotionEffect[]		effects			= new PotionEffect[0];
+	
+	protected ItemStack			stack;
 	
 	public Food(int id, String name, String icon, int foodValue)
 	{
@@ -159,8 +172,16 @@ public class Food
 		this.blockPlaced = blockPlaced;
 		this.recipe = recipe;
 		
+		this.stack = new ItemStack(MoreFoodMod.foods, 1, this.foodID);
+		
 		if (id >= 0)
 			foodTypes[id] = this;
+	}
+	
+	public Food(ItemFood foodItem, int damage, FoodRecipe recipe)
+	{
+		this(-1, foodItem.getUnlocalizedName(), foodItem.getIconFromDamage(damage).getIconName(), foodItem.getHealAmount(), (foodItem instanceof ItemSeedFood ? ((ItemSeedFood)foodItem).getPlantID(null, 0, 0, 0) : 0), recipe);
+		this.stack = new ItemStack(foodItem, 1, damage);
 	}
 	
 	public static Food fromItemStack(ItemStack stack)
@@ -180,7 +201,7 @@ public class Food
 	
 	public void addRecipe()
 	{
-		if (recipe != null)
+		if (recipe != null && foodID >= 0)
 			recipe.addRecipe(MoreFoodMod.foods, this.foodID);
 	}
 	
@@ -208,11 +229,11 @@ public class Food
 	
 	public ItemStack asStack()
 	{
-		return asStack(1);
+		return stack;
 	}
 	
 	public ItemStack asStack(int i)
 	{
-		return new ItemStack(MoreFoodMod.foods, 1, this.foodID);
+		return new ItemStack(stack.getItem(), 1, stack.getItemDamage());
 	}
 }

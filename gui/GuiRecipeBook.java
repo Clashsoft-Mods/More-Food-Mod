@@ -64,11 +64,11 @@ public class GuiRecipeBook extends GuiContainer
 			//Name + Description
 			
 			{
-				String name = food.name;
+				String name = food.asStack().getDisplayName();
 				String name2 = food.name.toLowerCase().replace(" ", "");
 				String desc = StatCollector.translateToLocal("food." + name2 + ".desc");
 				
-				this.mc.fontRenderer.drawString(food.name, (this.width - this.mc.fontRenderer.getStringWidth(food.name)) / 2, guiTop + 27, 4210752, false);
+				this.mc.fontRenderer.drawString(name, (this.width - this.mc.fontRenderer.getStringWidth(name)) / 2, guiTop + 27, 4210752, false);
 				
 				String s4 = CSString.cutString(desc, 30);
 				String[] lines = CSString.makeLineList(s4);
@@ -91,21 +91,23 @@ public class GuiRecipeBook extends GuiContainer
 			//Stats
 			
 			{
+				int statsX = 140;
+				
 				String foodValue = food.foodValue == 0 ? EnumChatFormatting.RED + "Not eatable" : ((food.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + food.foodValue);
-				this.mc.fontRenderer.drawString(foodValue, guiLeft + 140, guiTop + 100, 4210752, false);
+				this.mc.fontRenderer.drawString(foodValue, guiLeft + statsX, guiTop + 100, 4210752, false);
 				
 				String plantable = food.blockPlaced == 0 ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
-				this.mc.fontRenderer.drawString(plantable, guiLeft + 140, guiTop + 110, 4210752, false);
+				this.mc.fontRenderer.drawString(plantable, guiLeft + statsX, guiTop + 110, 4210752, false);
 				
 				boolean hasEffects = food.effects != null && food.effects.length > 0;
 				String effects = hasEffects ? "Effects:" : "No effects";
-				this.mc.fontRenderer.drawString(effects, guiLeft + 140, guiTop + 125, 4210752, false);
+				this.mc.fontRenderer.drawString(effects, guiLeft + statsX, guiTop + 125, 4210752, false);
 				if (hasEffects)
 					for (int i = 0; i < food.effects.length; i++)
 					{
 						PotionEffect effect = food.effects[i];
 						String var = " " + StatCollector.translateToLocal(effect.getEffectName());
-						this.mc.fontRenderer.drawString(var, guiLeft + 140, guiTop + 135 + (i * 10), 4210752, false);
+						this.mc.fontRenderer.drawString(var, guiLeft + statsX, guiTop + 135 + (i * 10), 4210752, false);
 					}
 			}
 			
