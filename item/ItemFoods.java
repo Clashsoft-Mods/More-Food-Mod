@@ -122,8 +122,8 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		for (Food f : Food.foodList)
 		{
-			if (f != null && f.isEnabled)
-				par3List.add(new ItemStack(this, 1, f.foodID));
+			if (f != null && f.isEnabled && f.foodID != -1)
+				par3List.add(f.asStack());
 		}
 	}
 	

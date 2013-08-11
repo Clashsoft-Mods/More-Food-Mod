@@ -17,9 +17,12 @@ import clashsoft.mods.morefood.food.FoodRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -38,6 +41,8 @@ public class GuiRecipeBook extends GuiContainer
 	public GuiButton						prev;
 	public GuiButton						next;
 	
+	public GuiTextField						search;
+	
 	public ContainerRecipeBook				container;
 	public int								recipeID	= 0;
 	public Food								food;
@@ -55,6 +60,8 @@ public class GuiRecipeBook extends GuiContainer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
+		GL11.glColor4f(1, 1, 1, 1);
+		search.drawTextBox();
 		if (isPointInRegion(next.xPosition - guiLeft, next.yPosition - guiTop, 20, 20, par1, par2) && next.enabled)
 		{
 			List<String> list = new LinkedList<String>();
@@ -110,7 +117,7 @@ public class GuiRecipeBook extends GuiContainer
 				
 				if (food.recipe != null && recipe != null)
 				{
-					String s = "> " + food.recipe.amount + "x " + food.asStack().getDisplayName();
+					String s = food.recipe.amount + "x " + food.asStack().getDisplayName();
 					String[] split = CSUtil.makeLineList(CSString.cutString(s, 15));
 					
 					for (int i = 0; i < split.length; i++)
@@ -177,6 +184,9 @@ public class GuiRecipeBook extends GuiContainer
 		prev = new GuiButton(0, guiLeft + 20, guiTop + 20, 20, 20, "<");
 		next = new GuiButton(1, guiLeft + xSize - 40, guiTop + 20, 20, 20, ">");
 		
+		search = new GuiTextField(fontRenderer, 44, 20, xSize - 40 - 48, 20);
+		search.setVisible(false);
+		
 		this.buttonList.add(prev);
 		this.buttonList.add(next);
 		
@@ -184,11 +194,61 @@ public class GuiRecipeBook extends GuiContainer
 		
 	}
 	
+	/**
+	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
+	 */
+	protected void keyTyped(char par1, int par2)
+	{
+		if (!this.search.textboxKeyTyped(par1, par2))
+		{
+			super.keyTyped(par1, par2);
+		}
+		boolean flag = true;
+		for (int i = 0; i < Food.foodList.size(); i++)
+		{
+			String s = Food.foodList.get(i).asStack().getDisplayName().toLowerCase().trim();
+			String s2 = search.getText().toLowerCase().trim();
+			if (s.startsWith(s2))
+			{
+				this.setRecipe(i);
+				flag = false;
+				break;
+			}
+		}
+		if (flag)
+			search.setTextColor(0xFF0000);
+		else
+			search.setTextColor(0xFFFFFF);
+	}
+	
+	@Override
+	protected void mouseClicked(int par1, int par2, int par3)
+	{
+		super.mouseClicked(par1, par2, par3);
+		this.search.mouseClicked(par1, par2, par3);
+		if (par3 == 0)
+		{
+			if (isPointInRegion(40, 20, search.getWidth(), 20, par1, par2))
+			{
+				search.setVisible(true);
+				search.setFocused(true);
+				search.setText(food.asStack().getDisplayName());
+			}
+			else
+			{
+				search.setVisible(false);
+				search.setFocused(false);
+				search.setText("");
+			}
+		}
+	}
+	
 	public void setRecipe(int recipe)
 	{
 		this.food = Food.foodList.get(recipe);
 		this.recipe = getRecipe(food);
 		this.container.inventory.stacks = this.recipe;
+		this.recipeID = recipe;
 		
 		if (recipeID == 0)
 			prev.enabled = false;
@@ -355,36 +415,36 @@ public class GuiRecipeBook extends GuiContainer
 			this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
 			int i2 = 0xFFFFFFFF;
 			int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
-			this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-			this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
-			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+		this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+		this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+		this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+		this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
+		
+		for (int k2 = 0; k2 < par1List.size(); ++k2)
+		{
+			String s1 = (String) par1List.get(k2);
+			font.drawStringWithShadow(s1, i1, j1, -1);
 			
-			for (int k2 = 0; k2 < par1List.size(); ++k2)
+			if (k2 == 0)
 			{
-				String s1 = (String) par1List.get(k2);
-				font.drawStringWithShadow(s1, i1, j1, -1);
-				
-				if (k2 == 0)
-				{
-					j1 += 2;
-				}
-				
-				j1 += 10;
+				j1 += 2;
 			}
 			
-			this.zLevel = 0.0F;
-			itemRenderer.zLevel = 0.0F;
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			RenderHelper.enableStandardItemLighting();
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+			j1 += 10;
+		}
+		
+		this.zLevel = 0.0F;
+		itemRenderer.zLevel = 0.0F;
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		RenderHelper.enableStandardItemLighting();
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
 	
 	@Override
 	public boolean doesGuiPauseGame()
 	{
-		return true;
+		return super.doesGuiPauseGame();
 	}
 }
