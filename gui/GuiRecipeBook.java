@@ -21,8 +21,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -65,19 +63,19 @@ public class GuiRecipeBook extends GuiContainer
 		if (isPointInRegion(next.xPosition - guiLeft, next.yPosition - guiTop, 20, 20, par1, par2) && next.enabled)
 		{
 			List<String> list = new LinkedList<String>();
-			list.add(Food.foodList.get(recipeID + 1).asStack().getDisplayName());
+			list.add(Food.getDisplayList().get(recipeID + 1).asStack().getDisplayName());
 			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
 		}
 		if (isPointInRegion(prev.xPosition - guiLeft, prev.yPosition - guiTop, 20, 20, par1, par2) && prev.enabled)
 		{
 			List<String> list = new LinkedList<String>();
-			list.add(Food.foodList.get(recipeID - 1).asStack().getDisplayName());
+			list.add(Food.getDisplayList().get(recipeID - 1).asStack().getDisplayName());
 			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
 		}
 		if (isPointInRegion(20, 50, 40, 40, par1, par2))
 		{
 			List<String> list = new LinkedList<String>();
-			list.add(Food.foodList.get(recipeID).asStack().getDisplayName());
+			list.add(Food.getDisplayList().get(recipeID).asStack().getDisplayName());
 			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
 		}
 	}
@@ -89,7 +87,7 @@ public class GuiRecipeBook extends GuiContainer
 		this.mc.func_110434_K().func_110577_a(background);
 		this.drawTexturedModalRect(guiLeft, guiTop, 256, 256, 256, 256);
 		
-		String header = "Recipe Book (" + Food.foodList.size() + " Entrys)";
+		String header = "Recipe Book (" + Food.getDisplayList().size() + " Entrys)";
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, guiTop + 10, 4210752, false);
 		
 		if (food != null)
@@ -98,7 +96,7 @@ public class GuiRecipeBook extends GuiContainer
 			
 			{
 				String name = food.asStack().getDisplayName();
-				String name2 = food.name.toLowerCase().replace(" ", "");
+				String name2 = food.getName().toLowerCase().replace(" ", "");
 				String desc = StatCollector.translateToLocal("food." + name2 + ".desc");
 				
 				this.mc.fontRenderer.drawString(name, (this.width - this.mc.fontRenderer.getStringWidth(name)) / 2, guiTop + 27, 4210752, false);
@@ -112,12 +110,12 @@ public class GuiRecipeBook extends GuiContainer
 			// Crafting
 			
 			{
-				String crafting = food.recipe == null ? EnumChatFormatting.RED + "Not craftable" : (food.recipe.craftingType == FoodRecipe.CRAFTING ? "Crafting" : (food.recipe.craftingType == FoodRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
+				String crafting = food.getRecipe() == null ? EnumChatFormatting.RED + "Not craftable" : (food.getRecipe().getCraftingType() == FoodRecipe.CRAFTING ? "Crafting" : (food.getRecipe().getCraftingType() == FoodRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
 				this.mc.fontRenderer.drawString(crafting, guiLeft + 22, guiTop + 103, 4210752, false);
 				
-				if (food.recipe != null && recipe != null)
+				if (food.getRecipe() != null && recipe != null)
 				{
-					String s = food.recipe.amount + "x " + food.asStack().getDisplayName();
+					String s = food.getRecipe().getAmount() + "x " + food.asStack().getDisplayName();
 					String[] split = CSUtil.makeLineList(CSString.cutString(s, 15));
 					
 					for (int i = 0; i < split.length; i++)
@@ -132,19 +130,19 @@ public class GuiRecipeBook extends GuiContainer
 				
 				this.mc.fontRenderer.drawString("Stats", guiLeft + statsX, guiTop + 103, 4210752);
 				
-				String foodValue = food.foodValue == 0 ? EnumChatFormatting.RED + "Not eatable" : ((food.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + food.foodValue);
+				String foodValue = food.getFoodValue() == 0 ? EnumChatFormatting.RED + "Not eatable" : ((food.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + food.getFoodValue());
 				this.mc.fontRenderer.drawString(foodValue, guiLeft + statsX, guiTop + 120, 4210752, false);
 				
-				String plantable = food.blockPlaced == 0 ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
+				String plantable = food.getBlockPlaced() == 0 ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
 				this.mc.fontRenderer.drawString(plantable, guiLeft + statsX, guiTop + 130, 4210752, false);
 				
-				boolean hasEffects = food.effects != null && food.effects.length > 0;
+				boolean hasEffects = food.getEffects() != null && food.getEffects().length > 0;
 				String effects = hasEffects ? "Effects:" : "No effects";
 				this.mc.fontRenderer.drawString(effects, guiLeft + statsX, guiTop + 145, 4210752, false);
 				if (hasEffects)
-					for (int i = 0; i < food.effects.length && i < 3; i++)
+					for (int i = 0; i < food.getEffects().length && i < 3; i++)
 					{
-						PotionEffect effect = food.effects[i];
+						PotionEffect effect = food.getEffects()[i];
 						String var = " " + StatCollector.translateToLocal(effect.getEffectName());
 						this.mc.fontRenderer.drawString(var, guiLeft + statsX, guiTop + 155 + (i * 10), 4210752, false);
 					}
@@ -169,7 +167,7 @@ public class GuiRecipeBook extends GuiContainer
 			if (recipeID > 0)
 				recipeID--;
 		if (par1GuiButton.id == 1)
-			if (recipeID < Food.foodList.size() - 1)
+			if (recipeID < Food.getDisplayList().size() - 1)
 				recipeID++;
 		this.setRecipe(recipeID);
 	}
@@ -204,9 +202,9 @@ public class GuiRecipeBook extends GuiContainer
 			super.keyTyped(par1, par2);
 		}
 		boolean flag = true;
-		for (int i = 0; i < Food.foodList.size(); i++)
+		for (int i = 0; i < Food.getDisplayList().size(); i++)
 		{
-			String s = Food.foodList.get(i).asStack().getDisplayName().toLowerCase().trim();
+			String s = Food.getDisplayList().get(i).asStack().getDisplayName().toLowerCase().trim();
 			String s2 = search.getText().toLowerCase().trim();
 			if (s.startsWith(s2))
 			{
@@ -245,7 +243,7 @@ public class GuiRecipeBook extends GuiContainer
 	
 	public void setRecipe(int recipe)
 	{
-		this.food = Food.foodList.get(recipe);
+		this.food = Food.getDisplayList().get(recipe);
 		this.recipe = getRecipe(food);
 		this.container.inventory.stacks = this.recipe;
 		this.recipeID = recipe;
@@ -255,7 +253,7 @@ public class GuiRecipeBook extends GuiContainer
 		else
 			prev.enabled = true;
 		
-		if (recipeID == Food.foodList.size() - 1)
+		if (recipeID == Food.getDisplayList().size() - 1)
 			next.enabled = false;
 		else
 			next.enabled = true;
@@ -263,30 +261,30 @@ public class GuiRecipeBook extends GuiContainer
 	
 	public ItemStack[][] getRecipe(Food f)
 	{
-		if (f != null && f.recipe != null)
+		if (f != null && f.getRecipe() != null)
 		{
-			FoodRecipe r = f.recipe;
+			FoodRecipe r = f.getRecipe();
 			
-			if (r.craftingType == FoodRecipe.FURNACE)
+			if (r.getCraftingType() == FoodRecipe.FURNACE)
 			{
-				return new ItemStack[][] { { null, (ItemStack) r.data[0], null }, { null, new ItemStack(Block.fire, 1, -1), null }, { null, new ItemStack(Item.coal), null } };
+				return new ItemStack[][] { { null, (ItemStack) r.getData()[0], null }, { null, new ItemStack(Block.fire, 1, -1), null }, { null, new ItemStack(Item.coal), null } };
 			}
-			else if (r.craftingType == FoodRecipe.CRAFTING_SHAPELESS)
+			else if (r.getCraftingType() == FoodRecipe.CRAFTING_SHAPELESS)
 			{
 				ItemStack[][] ret = new ItemStack[3][3];
 				
-				for (int i = 0; i < r.data.length; i++)
+				for (int i = 0; i < r.getData().length; i++)
 				{
 					int x = (i / 3) % 3;
 					int y = i % 3;
-					ret[x][y] = (ItemStack) r.data[i];
+					ret[x][y] = (ItemStack) r.getData()[i];
 				}
 				
 				return ret;
 			}
-			else if (r.craftingType == FoodRecipe.CRAFTING)
+			else if (r.getCraftingType() == FoodRecipe.CRAFTING)
 			{
-				return getCrafting(r.data);
+				return getCrafting(r.getData());
 			}
 		}
 		return new ItemStack[][] { { null, null, null }, { null, null, null }, { null, null, null } };

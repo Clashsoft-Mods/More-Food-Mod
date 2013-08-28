@@ -28,7 +28,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	
 	public static boolean isEdible(ItemStack stack)
 	{
-		return Food.fromItemStack(stack) != null && Food.fromItemStack(stack).isEnabled && Food.fromItemStack(stack).foodValue != 0;
+		return Food.fromItemStack(stack) != null && Food.fromItemStack(stack).isEnabled() && Food.fromItemStack(stack).getFoodValue() != 0;
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class ItemFoods extends ItemFoodMoreFood
 		if (isEdible(par1ItemStack))
 		{
 			--par1ItemStack.stackSize;
-			par3EntityPlayer.getFoodStats().addStats(Food.fromItemStack(par1ItemStack).foodValue, 1.0F);
+			par3EntityPlayer.getFoodStats().addStats(Food.fromItemStack(par1ItemStack).getFoodValue(), 1.0F);
 			par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
 			this.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
 		}
@@ -92,7 +92,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack)
 	{
-		return Food.fromItemStack(par1ItemStack).name;
+		return Food.fromItemStack(par1ItemStack).getName();
 	}
 	
 	@Override
@@ -109,7 +109,7 @@ public class ItemFoods extends ItemFoodMoreFood
 		{
 			Food f = Food.foodTypes[i];
 			if (f != null)
-				icons[i] = par1IconRegister.registerIcon(f.icon);
+				icons[i] = par1IconRegister.registerIcon(f.getIconName());
 		}
 	}
 	
@@ -122,7 +122,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		for (Food f : Food.foodList)
 		{
-			if (f != null && f.isEnabled && f.foodID != -1)
+			if (f != null && f.isEnabled() && f.getID() != -1)
 				par3List.add(f.asStack());
 		}
 	}
@@ -137,7 +137,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
 		Food food = Food.fromItemStack(par1ItemStack);
-		if (food != null && food.blockPlaced != 0)
+		if (food != null && food.getBlockPlaced() != 0)
 		{
 			int var11 = par3World.getBlockId(par4, par5, par6);
 			
@@ -188,7 +188,7 @@ public class ItemFoods extends ItemFoodMoreFood
 			}
 			else
 			{
-				int blockPlaced = food.blockPlaced;
+				int blockPlaced = food.getBlockPlaced();
 				if (par3World.canPlaceEntityOnSide(blockPlaced, par4, par5, par6, false, par7, (Entity) null, par1ItemStack))
 				{
 					Block var12 = Block.blocksList[blockPlaced];

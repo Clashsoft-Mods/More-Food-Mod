@@ -1,20 +1,21 @@
 package clashsoft.mods.morefood.food;
 
 import clashsoft.clashsoftapi.util.CSCrafting;
+import clashsoft.clashsoftapi.util.IItemMetadataRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class FoodRecipe
+public class FoodRecipe implements IItemMetadataRecipe
 {
 	public static final int CRAFTING = 0;
 	public static final int CRAFTING_SHAPELESS = 1;
 	public static final int FURNACE = 2;
 	
-	public int amount;
-	public int craftingType;
-	public Object[] data;
+	private int amount;
+	private int craftingType;
+	private Object[] data;
 	
 	public FoodRecipe(int craftingType, int amount, Object... data)
 	{
@@ -39,5 +40,23 @@ public class FoodRecipe
 		case FURNACE:
 			CSCrafting.addSmelting((ItemStack)data[0], new ItemStack(item, this.amount, foodID), (float)data[1]); break;
 		}
+	}
+	
+	@Override
+	public int getAmount()
+	{
+		return amount;
+	}
+	
+	@Override
+	public int getCraftingType()
+	{
+		return craftingType;
+	}
+	
+	@Override
+	public Object[] getData()
+	{
+		return data;
 	}
 }

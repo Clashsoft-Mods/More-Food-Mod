@@ -2,10 +2,7 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
-import clashsoft.clashsoftapi.util.CSBlocks;
-import clashsoft.clashsoftapi.util.CSCrafting;
-import clashsoft.clashsoftapi.util.CSItems;
-import clashsoft.clashsoftapi.util.CSLang;
+import clashsoft.clashsoftapi.util.*;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 import clashsoft.mods.morefood.block.BlockSaltOre;
 import clashsoft.mods.morefood.food.Food;
@@ -185,9 +182,9 @@ public class MoreFoodMod
 		}
 		
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 0), new Object[] { Item.bowlEmpty, Item.bucketMilk });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 1), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.foodID) });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 2), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals2.foodID) });
-		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 3), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.foodID), new ItemStack(foods, 1, Food.cereals2.foodID) });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 1), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.getID()) });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 2), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals2.getID()) });
+		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 3), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.getID()), new ItemStack(foods, 1, Food.cereals2.getID()) });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 4), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack() });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack(), cinnamon });
 		CSCrafting.addCrafting(true, new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 4), cinnamon });
@@ -202,8 +199,8 @@ public class MoreFoodMod
 				f.addRecipe();
 		}
 		
-		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.stompedApple.foodID) });
-		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.tomato.foodID) });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.stompedApple.getID()) });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.tomato.getID()) });
 	}
 	
 	private void addSmeltingRecipes()
@@ -262,7 +259,7 @@ public class MoreFoodMod
 	
 	public static void addFoodDesc(Food f, String desc)
 	{
-		CSLang.addLocalizationUS("food." + f.name.toLowerCase().replace(" ", "") + ".desc", desc);
+		CSLang.addLocalizationUS("food." + f.getName().toLowerCase().replace(" ", "") + ".desc", desc);
 	}
 	
 	public static void generate(Random random, int chunkX, int chunkZ, World world)

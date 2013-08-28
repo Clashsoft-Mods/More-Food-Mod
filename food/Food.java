@@ -3,9 +3,12 @@ package clashsoft.mods.morefood.food;
 import static clashsoft.mods.morefood.food.FoodRecipe.CRAFTING;
 import static clashsoft.mods.morefood.food.FoodRecipe.FURNACE;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import clashsoft.clashsoftapi.util.IItemMetadataList;
 import clashsoft.mods.morefood.MoreFoodMod;
 
 import net.minecraft.block.Block;
@@ -13,7 +16,7 @@ import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-public class Food
+public class Food implements IItemMetadataList
 {
 	public static Food[]		foodTypes		= new Food[1024];
 	public static List<Food>	foodList		= new LinkedList<Food>();
@@ -136,15 +139,15 @@ public class Food
 	/**
 	 * The item damage value the Food is represented by
 	 */
-	public int					foodID			= 0;
-	public String				name			= "";
-	public String				icon			= "";
-	public int					foodValue		= 0;
-	public int					blockPlaced		= 0;
-	public boolean				isEnabled		= true;
+	private int					foodID			= 0;
+	private String				name			= "";
+	private String				icon			= "";
+	private int					foodValue		= 0;
+	private int					blockPlaced		= 0;
+	private boolean				isEnabled		= true;
 	
-	public FoodRecipe			recipe			= null;
-	public PotionEffect[]		effects			= new PotionEffect[0];
+	private FoodRecipe			recipe			= null;
+	private PotionEffect[]		effects			= new PotionEffect[0];
 	
 	protected ItemStack			stack;
 	
@@ -165,14 +168,14 @@ public class Food
 	
 	public Food(int id, String name, String icon, int foodValue, int blockPlaced, FoodRecipe recipe)
 	{
-		this.foodID = id;
-		this.name = name;
-		this.icon = icon;
+		this.setID(id);
+		this.setName(name);
+		this.setIconName(icon);
 		this.foodValue = foodValue;
-		this.blockPlaced = blockPlaced;
+		this.setBlockPlaced(blockPlaced);
 		this.recipe = recipe;
 		
-		this.stack = new ItemStack(MoreFoodMod.foods, 1, this.foodID);
+		this.stack = new ItemStack(MoreFoodMod.foods, 1, this.getID());
 		
 		if (id >= 0)
 			foodTypes[id] = this;
@@ -194,6 +197,10 @@ public class Food
 		return foodTypes[damage];
 	}
 	
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#register()
+	 */
+	@Override
 	public void register()
 	{
 		foodList.add(this);
@@ -201,39 +208,179 @@ public class Food
 	
 	public void addRecipe()
 	{
-		if (recipe != null && foodID >= 0)
-			recipe.addRecipe(MoreFoodMod.foods, this.foodID);
+		if (recipe != null && getID() >= 0)
+			recipe.addRecipe(MoreFoodMod.foods, this.getID());
 	}
 	
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getAction()
+	 */
+	@Override
 	public EnumAction getAction()
 	{
 		return EnumAction.eat;
 	}
 	
-	public Food setEnabled(boolean enabled)
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setEnabled(boolean)
+	 */
+	@Override
+	public IItemMetadataList setEnabled(boolean enabled)
 	{
 		this.isEnabled = enabled;
 		return this;
 	}
 	
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setEffects(net.minecraft.potion.PotionEffect)
+	 */
+	@Override
 	public Food setEffects(PotionEffect... effects)
 	{
 		this.effects = effects;
 		return this;
 	}
 	
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getEffects()
+	 */
+	@Override
 	public PotionEffect[] getEffects()
 	{
 		return effects;
 	}
 	
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#asStack()
+	 */
+	@Override
 	public ItemStack asStack()
 	{
 		return asStack(1);
 	}
 	
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#asStack(int)
+	 */
+	@Override
 	public ItemStack asStack(int i)
 	{
 		return new ItemStack(stack.getItem(), 1, stack.getItemDamage());
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getFoodValue()
+	 */
+	@Override
+	public int getFoodValue()
+	{
+		return foodValue;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setFoodValue(int)
+	 */
+	@Override
+	public void setFoodValue(int foodValue)
+	{
+		this.foodValue = foodValue;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getBlockPlaced()
+	 */
+	@Override
+	public int getBlockPlaced()
+	{
+		return blockPlaced;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setBlockPlaced(int)
+	 */
+	@Override
+	public void setBlockPlaced(int blockPlaced)
+	{
+		this.blockPlaced = blockPlaced;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled()
+	{
+		return isEnabled;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getName()
+	 */
+	@Override
+	public String getName()
+	{
+		return name;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setName(java.lang.String)
+	 */
+	@Override
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getIconName()
+	 */
+	@Override
+	public String getIconName()
+	{
+		return icon;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setIconName(java.lang.String)
+	 */
+	@Override
+	public void setIconName(String icon)
+	{
+		this.icon = icon;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#getID()
+	 */
+	@Override
+	public int getID()
+	{
+		return foodID;
+	}
+
+	/* (non-Javadoc)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setID(int)
+	 */
+	@Override
+	public void setID(int foodID)
+	{
+		this.foodID = foodID;
+	}
+	
+	@Override
+	public FoodRecipe getRecipe()
+	{
+		return recipe;
+	}
+
+	public static List<Food> getDisplayList()
+	{
+		return foodList;
+	}
+
+	@Override
+	public Collection<String> getDescription()
+	{
+		return Collections.EMPTY_LIST;
 	}
 }
