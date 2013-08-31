@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.src.ModLoader;
 
 public class Food implements IItemMetadataList
 {
@@ -227,14 +228,28 @@ public class Food implements IItemMetadataList
 	
 	public Food(Item item, int damage, FoodRecipe recipe)
 	{
-		this(-1, item.getUnlocalizedName(), item.getIconFromDamage(damage).getIconName(), 0, 0, recipe);
+		this(-1, item.getUnlocalizedName(), getIconName(item, damage), 0, 0, recipe);
 		this.stack = new ItemStack(item, 1, damage);
 	}
 	
 	public Food(ItemFood foodItem, int damage, FoodRecipe recipe)
 	{
-		this(-1, foodItem.getUnlocalizedName(), foodItem.getIconFromDamage(damage).getIconName(), foodItem.getHealAmount(), (foodItem instanceof ItemSeedFood ? ((ItemSeedFood) foodItem).getPlantID(null, 0, 0, 0) : 0), recipe);
+		this(-1, foodItem.getUnlocalizedName(), getIconName(foodItem, damage), foodItem.getHealAmount(), (foodItem instanceof ItemSeedFood ? ((ItemSeedFood) foodItem).getPlantID(null, 0, 0, 0) : 0), recipe);
 		this.stack = new ItemStack(foodItem, 1, damage);
+	}
+	
+	private static String getIconName(Item item, int damage)
+	{
+		String s = "";
+		try
+		{
+			s = item.getIconFromDamage(damage).getIconName();
+		}
+		catch (NoSuchMethodError err)
+		{
+			s = ModLoader.<String, Item>getPrivateValue(Item.class, item, "field_111218_cA");
+		}
+		return s;
 	}
 	
 	public static Food fromItemStack(ItemStack stack)
