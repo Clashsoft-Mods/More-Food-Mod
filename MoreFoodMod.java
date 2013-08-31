@@ -2,7 +2,10 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
-import clashsoft.clashsoftapi.util.*;
+import clashsoft.clashsoftapi.util.CSBlocks;
+import clashsoft.clashsoftapi.util.CSCrafting;
+import clashsoft.clashsoftapi.util.CSItems;
+import clashsoft.clashsoftapi.util.CSLang;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 import clashsoft.mods.morefood.block.BlockSaltOre;
 import clashsoft.mods.morefood.food.Food;
@@ -20,7 +23,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenOcean;
@@ -151,11 +153,11 @@ public class MoreFoodMod
 		CSItems.addItem(vanilla, "Vanilla");
 		CSItems.addItemWithRecipe(fertilizer, "Fertilizer", 16, new Object[] { " w ", "sDs", " w ", 'w', Item.wheat, 's', Item.seeds, 'D', Block.dirt });
 		
-		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] {" s ", "bBp", " c ", 's', Food.salad.asStack(), 'b', Item.beefCooked, 'B', Item.book, 'p', Item.porkCooked, 'c', Food.cheese_slice.asStack()});
+		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] { " s ", "bBp", " c ", 's', Food.salad.asStack(), 'b', Item.beefCooked, 'B', Item.book, 'p', Item.porkCooked, 'c', Food.cheese_slice.asStack() });
 	}
 	
 	private void addCraftingRecipes()
-	{	
+	{
 		CSCrafting.addCrafting(true, new ItemStack(pepper, 4, 0), Food.pepperSeeds.asStack());
 		CSCrafting.addCrafting(true, new ItemStack(vanilla, 4, 0), Food.vanillaSeeds.asStack());
 		
@@ -174,8 +176,8 @@ public class MoreFoodMod
 		for (int i = 0; i <= 7; i += 7)
 		{
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 1 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Item.bakedPotato });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 2 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.cookedCarrot.asStack() });
-			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 3 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.cookedCarrot.asStack(), Item.bakedPotato });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 2 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.carrotCooked.asStack() });
+			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 3 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.carrotCooked.asStack(), Item.bakedPotato });
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 4 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.tomato.asStack() });
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 5 + i), new Object[] { new ItemStack(soupBowls, 1, 4 + i), Food.rice.asStack() });
 			CSCrafting.addCrafting(true, new ItemStack(soupBowls, 1, 6 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.pasta.asStack() });
@@ -199,7 +201,7 @@ public class MoreFoodMod
 				f.addRecipe();
 		}
 		
-		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.stompedApple.getID()) });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.appleStomped.getID()) });
 		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.tomato.getID()) });
 	}
 	
@@ -222,15 +224,9 @@ public class MoreFoodMod
 		addFoodDesc(Food.chili, "Hot and spicy!");
 		addFoodDesc(Food.chocolate, "Pretty sweet");
 		addFoodDesc(Food.chocolateCookie, "Chocolate cookies like your grandma would craft them");
-		addFoodDesc(Food.cookedCarrot, "A carrot, but cooked");
 		addFoodDesc(Food.corn, "Better make some popcorn!");
 		addFoodDesc(Food.cucumber, "Long and green");
-		addFoodDesc(Food.diamondApple, "Expensive and blue");
-		addFoodDesc(Food.diamondCarrot, "Carrots improve your vision");
-		addFoodDesc(Food.diamondPotato, "A normal potato, but with diamonds");
 		addFoodDesc(Food.fried_egg, "An egg");
-		addFoodDesc(Food.goldPotato1, "A golden potato");
-		addFoodDesc(Food.goldPotato2, "A more expensive golden potato");
 		addFoodDesc(Food.hamburger, "Directly from McDerp!");
 		addFoodDesc(Food.honeydrop, "Made by bees");
 		addFoodDesc(Food.meatball, "Many cows died for this");
@@ -246,15 +242,45 @@ public class MoreFoodMod
 		addFoodDesc(Food.rice, "Rice");
 		addFoodDesc(Food.salad, "Just normal green salad");
 		addFoodDesc(Food.salami, "Made from cows");
-		addFoodDesc(Food.stompedApple, "Stomped");
-		addFoodDesc(Food.stompedCarrot, "Stomped");
-		addFoodDesc(Food.stompedPotato, "Stomped");
 		addFoodDesc(Food.toast, "Not toasted yet");
 		addFoodDesc(Food.toast_cheese, "Toasted toast with cheese");
 		addFoodDesc(Food.toast_salami, "Toasted toast with salami");
 		addFoodDesc(Food.toast_toasted, "Toasted toast");
 		addFoodDesc(Food.tomato, "A vegatable or a fruit?");
 		addFoodDesc(Food.vanillaSeeds, "Do not eat! Plant!");
+		
+		addFoodDesc(Food.apple, "An apple, dropped by an oak tree.");
+		addFoodDesc(Food.appleStomped, "Stomped");
+		addFoodDesc(Food.appleGold1, "A golden apple");
+		addFoodDesc(Food.appleGold2, "A golden apple");
+		addFoodDesc(Food.appleDiamond, "An apple, wrapped in diamonds.");
+		addFoodDesc(Food.melon, "A green melon");
+		addFoodDesc(Food.melonGold1, "A melon with some gold dust");
+		addFoodDesc(Food.potato, "A dirty potato. Don't eat it.");
+		addFoodDesc(Food.potatoCooked, "A cooked potato");
+		addFoodDesc(Food.potatoStomped, "Stomped");
+		addFoodDesc(Food.potatoGold1, "A golden potato");
+		addFoodDesc(Food.potatoGold2, "A golden potato");
+		addFoodDesc(Food.potatoDiamond, "A potato wrapped in diamonds.");
+		addFoodDesc(Food.poisonousPotato, "Doesn't look healthy");
+		addFoodDesc(Food.carrot, "A carrot");
+		addFoodDesc(Food.carrotCooked, "A carrot, but cooked.");
+		addFoodDesc(Food.carrotStomped, "Stomped");
+		addFoodDesc(Food.carrotGold1, "A golden carrot");
+		addFoodDesc(Food.carrotDiamond, "Improves your vision");
+		addFoodDesc(Food.bread, "Baked from wheat");
+		addFoodDesc(Food.cookie, "A tiny cookie");
+		addFoodDesc(Food.porkRaw, "Dropped by a pig.");
+		addFoodDesc(Food.porkCooked, "Cooked pig");
+		addFoodDesc(Food.beefRaw, "Dropped by a cow.");
+		addFoodDesc(Food.beefCooked, "Cooked cow");
+		addFoodDesc(Food.chickenRaw, "Dropped by a chicken, may make you hungry.");
+		addFoodDesc(Food.chickenCooked, "Cooked chicken");
+		addFoodDesc(Food.fishRaw, "Came out of the water");
+		addFoodDesc(Food.fishCooked, "Cooked fish");
+		addFoodDesc(Food.rottenFlesh, "Unhealthy zombie flesh");
+		addFoodDesc(Food.spiderEye, "You shouldn't eat that.");
+		addFoodDesc(Food.pumpkinPie, "With whole fruits");
 	}
 	
 	public static void addFoodDesc(Food f, String desc)

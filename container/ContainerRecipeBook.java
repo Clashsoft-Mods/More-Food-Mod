@@ -5,7 +5,7 @@ import net.minecraft.inventory.Container;
 
 public class ContainerRecipeBook extends Container
 {
-	public InventoryRecipeBook inventory;
+	public InventoryRecipeBook	inventory;
 	
 	public ContainerRecipeBook(InventoryRecipeBook par1InventoryRecipeBook)
 	{
@@ -22,7 +22,7 @@ public class ContainerRecipeBook extends Container
 			}
 		}
 	}
-
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer)
 	{

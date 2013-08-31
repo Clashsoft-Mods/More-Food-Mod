@@ -1,6 +1,5 @@
 package clashsoft.mods.morefood.container;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -12,19 +11,19 @@ public class SlotRecipeDisplay extends Slot
 	{
 		super(par1iInventory, par2, par3, par4);
 	}
-
+	
 	@Override
 	public boolean isItemValid(ItemStack par1ItemStack)
 	{
 		return false;
 	}
-
+	
 	@Override
 	public void putStack(ItemStack par1ItemStack)
 	{
 		;
 	}
-
+	
 	@Override
 	public boolean canTakeStack(EntityPlayer par1EntityPlayer)
 	{

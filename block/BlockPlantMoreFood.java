@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCarrot;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,17 +14,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 public class BlockPlantMoreFood extends BlockFlower
 {
 	public final ItemStack	seed;
 	public final ItemStack	crop;
-	public int			maxMeta;
-	public String		texture;
+	public int				maxMeta;
+	public String			texture;
 	
-	private Icon[]		icons;
+	private Icon[]			icons;
 	
 	public BlockPlantMoreFood(int par1, int par2, ItemStack par3ItemStack, ItemStack par4ItemStack, String tex)
 	{
@@ -55,10 +51,11 @@ public class BlockPlantMoreFood extends BlockFlower
 		return par1 == Block.tilledField.blockID;
 	}
 	
-    public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
-    {
-        return super.canPlaceBlockAt(par1World, par2, par3, par4) && par1World.getBlockId(par2, par3, par4) == Block.tilledField.blockID;
-    }
+	@Override
+	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	{
+		return super.canPlaceBlockAt(par1World, par2, par3, par4) && par1World.getBlockId(par2, par3, par4) == Block.tilledField.blockID;
+	}
 	
 	/**
 	 * Ticks the block if it's been scheduled
@@ -216,13 +213,13 @@ public class BlockPlantMoreFood extends BlockFlower
 		ArrayList<ItemStack> ret = super.getBlockDropped(world, x, y, z, metadata, fortune);
 		
 		if (metadata >= maxMeta)
-		for (int n = 0; n < 3 + fortune; n++)
-		{
-			if (world.rand.nextInt(maxMeta + 2) <= metadata)
+			for (int n = 0; n < 3 + fortune; n++)
 			{
-				ret.add(getSeedItem());
+				if (world.rand.nextInt(maxMeta + 2) <= metadata)
+				{
+					ret.add(getSeedItem());
+				}
 			}
-		}
 		
 		return ret;
 	}

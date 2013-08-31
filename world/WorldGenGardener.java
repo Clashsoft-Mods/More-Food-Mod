@@ -4,7 +4,6 @@ import java.util.Random;
 
 import clashsoft.clashsoftapi.util.CSRandom;
 import clashsoft.clashsoftapi.util.CSWorld;
-import clashsoft.mods.morefood.MoreFoodMod;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
@@ -20,6 +19,7 @@ public class WorldGenGardener extends WorldGenerator
 {
 	public static final ItemStack[]	possiblestacks	= new ItemStack[] { Food.salad.asStack(9), Food.cucumber.asStack(9), Food.rice.asStack(9), Food.chili.asStack(9), Food.tomato.asStack(9), Food.paprika.asStack(9), Food.onion.asStack(9), Food.pepperSeeds.asStack(9), Food.corn.asStack(9), Food.vanillaSeeds.asStack(), new ItemStack(Item.seeds, 14), new ItemStack(Item.potato, 9), new ItemStack(Item.carrot, 9), new ItemStack(Item.wheat, 14), };
 	
+	@Override
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
 		int direction = 2 + random.nextInt(3);

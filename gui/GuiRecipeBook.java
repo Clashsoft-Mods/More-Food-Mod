@@ -193,8 +193,10 @@ public class GuiRecipeBook extends GuiContainer
 	}
 	
 	/**
-	 * Fired when a key is typed. This is the equivalent of KeyListener.keyTyped(KeyEvent e).
+	 * Fired when a key is typed. This is the equivalent of
+	 * KeyListener.keyTyped(KeyEvent e).
 	 */
+	@Override
 	protected void keyTyped(char par1, int par2)
 	{
 		if (!this.search.textboxKeyTyped(par1, par2))
@@ -299,7 +301,7 @@ public class GuiRecipeBook extends GuiContainer
 		
 		if (objects[i] instanceof String[])
 		{
-			String[] astring = (String[]) ((String[]) objects[i++]);
+			String[] astring = ((String[]) objects[i++]);
 			
 			for (int l = 0; l < astring.length; ++l)
 			{
@@ -413,30 +415,30 @@ public class GuiRecipeBook extends GuiContainer
 			this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
 			int i2 = 0xFFFFFFFF;
 			int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
-		this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
-		this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
-		this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
-		this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
-		
-		for (int k2 = 0; k2 < par1List.size(); ++k2)
-		{
-			String s1 = (String) par1List.get(k2);
-			font.drawStringWithShadow(s1, i1, j1, -1);
+			this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
+			this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
+			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 - 3 + 1, i2, i2);
+			this.drawGradientRect(i1 - 3, j1 + k1 + 2, i1 + k + 3, j1 + k1 + 3, j2, j2);
 			
-			if (k2 == 0)
+			for (int k2 = 0; k2 < par1List.size(); ++k2)
 			{
-				j1 += 2;
+				String s1 = (String) par1List.get(k2);
+				font.drawStringWithShadow(s1, i1, j1, -1);
+				
+				if (k2 == 0)
+				{
+					j1 += 2;
+				}
+				
+				j1 += 10;
 			}
 			
-			j1 += 10;
-		}
-		
-		this.zLevel = 0.0F;
-		itemRenderer.zLevel = 0.0F;
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		RenderHelper.enableStandardItemLighting();
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+			this.zLevel = 0.0F;
+			itemRenderer.zLevel = 0.0F;
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
+			RenderHelper.enableStandardItemLighting();
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
 	

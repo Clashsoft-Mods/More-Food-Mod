@@ -13,12 +13,14 @@ public class Drink extends Food
 	{
 		super(512 + id, name, icon, foodValue, 0, recipe);
 	}
-
+	
 	@Override
 	public EnumAction getAction()
 	{
 		return EnumAction.drink;
 	}
 	
-	public static void init() {}
+	public static void init()
+	{
+	}
 }

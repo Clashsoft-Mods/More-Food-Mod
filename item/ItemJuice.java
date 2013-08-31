@@ -24,6 +24,7 @@ public class ItemJuice extends ItemMoreFood
 		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 	
+	@Override
 	public EnumAction getItemUseAction(ItemStack par1ItemStack)
 	{
 		return EnumAction.drink;
@@ -63,6 +64,7 @@ public class ItemJuice extends ItemMoreFood
 		return par1ItemStack;
 	}
 	
+	@Override
 	public Icon getIconFromDamage(int par1)
 	{
 		return icons[par1 % icons.length];
@@ -82,6 +84,7 @@ public class ItemJuice extends ItemMoreFood
 	 * returns a list of items with the same ID, but different meta (eg: dye
 	 * returns 16 items)
 	 */
+	@Override
 	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
 		for (int i = 0; i <= 2; i++)

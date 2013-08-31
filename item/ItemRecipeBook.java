@@ -1,7 +1,6 @@
 package clashsoft.mods.morefood.item;
 
 import clashsoft.mods.morefood.MoreFoodMod;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,7 +14,7 @@ public class ItemRecipeBook extends Item
 		super(par1);
 		this.func_111206_d("recipebook");
 	}
-
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{

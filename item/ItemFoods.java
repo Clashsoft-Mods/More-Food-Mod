@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class ItemFoods extends ItemFoodMoreFood
 {
-	public Icon[]					icons;
+	public Icon[]	icons;
 	
 	public ItemFoods(int par1, int par2, float par3)
 	{
@@ -54,7 +54,7 @@ public class ItemFoods extends ItemFoodMoreFood
 			for (PotionEffect effect : f.getEffects())
 				par3EntityPlayer.addPotionEffect(effect);
 	}
-
+	
 	/**
 	 * Called whenever this item is equipped and the right mouse button is
 	 * pressed. Args: itemStack, world, entityPlayer
@@ -202,7 +202,7 @@ public class ItemFoods extends ItemFoodMoreFood
 							Block.blocksList[blockPlaced].onPostBlockPlaced(par3World, par4, par5, par6, var13);
 						}
 						
-						par3World.playSoundEffect((double) ((float) par4 + 0.5F), (double) ((float) par5 + 0.5F), (double) ((float) par6 + 0.5F), var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
+						par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
 						--par1ItemStack.stackSize;
 					}
 					return true;

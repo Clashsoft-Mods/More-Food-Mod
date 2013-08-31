@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 public class InventoryRecipeBook implements IInventory
 {
-	public ItemStack[][] stacks = new ItemStack[3][3];
+	public ItemStack[][]	stacks	= new ItemStack[3][3];
 	
 	@Override
 	public int getSizeInventory()
