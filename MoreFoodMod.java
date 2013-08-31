@@ -114,7 +114,8 @@ public class MoreFoodMod
 		addSmeltingRecipes();
 		addLocalizations();
 		
-		MinecraftForge.addGrassSeed(new ItemStack(foods, 1, 19), 10);
+		MinecraftForge.addGrassSeed(Food.pepperSeeds.asStack(), 8);
+		MinecraftForge.addGrassSeed(Food.vanillaSeeds.asStack(), 6);
 		MinecraftForge.setBlockHarvestLevel(saltOre, "pickaxe", 1);
 	}
 	
@@ -153,7 +154,7 @@ public class MoreFoodMod
 		CSItems.addItem(vanilla, "Vanilla");
 		CSItems.addItemWithRecipe(fertilizer, "Fertilizer", 16, new Object[] { " w ", "sDs", " w ", 'w', Item.wheat, 's', Item.seeds, 'D', Block.dirt });
 		
-		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] { " s ", "bBp", " c ", 's', Food.salad.asStack(), 'b', Item.beefCooked, 'B', Item.book, 'p', Item.porkCooked, 'c', Food.cheese_slice.asStack() });
+		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] { " s ", "bBp", " t ", 's', Food.salad.asStack(), 'b', Item.beefCooked, 'B', Item.book, 'p', Item.porkCooked, 't', Food.tomato.asStack() });
 	}
 	
 	private void addCraftingRecipes()
