@@ -203,22 +203,25 @@ public class GuiRecipeBook extends GuiContainer
 		{
 			super.keyTyped(par1, par2);
 		}
-		boolean flag = true;
-		for (int i = 0; i < Food.getDisplayList().size(); i++)
+		if (this.search.isFocused() && this.search.getVisible())
 		{
-			String s = Food.getDisplayList().get(i).asStack().getDisplayName().toLowerCase().trim();
-			String s2 = search.getText().toLowerCase().trim();
-			if (s.startsWith(s2))
+			boolean flag = true;
+			for (int i = 0; i < Food.getDisplayList().size(); i++)
 			{
-				this.setRecipe(i);
-				flag = false;
-				break;
+				String s = Food.getDisplayList().get(i).asStack().getDisplayName().toLowerCase().trim();
+				String s2 = search.getText().toLowerCase().trim();
+				if (s.startsWith(s2))
+				{
+					this.setRecipe(i);
+					flag = false;
+					break;
+				}
 			}
+			if (flag)
+				search.setTextColor(0xFF0000);
+			else
+				search.setTextColor(0xFFFFFF);
 		}
-		if (flag)
-			search.setTextColor(0xFF0000);
-		else
-			search.setTextColor(0xFFFFFF);
 	}
 	
 	@Override

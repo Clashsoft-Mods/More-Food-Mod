@@ -116,7 +116,6 @@ public class Food implements IItemMetadataList
 		fishCooked.register();
 		rottenFlesh.register();
 		spiderEye.register();
-		pumpkinPie.register();
 		apple.register();
 		appleStomped.register();
 		appleGold1.register();
@@ -165,6 +164,7 @@ public class Food implements IItemMetadataList
 		hamburger.register();
 		pizza.register();
 		omelette.register();
+		pumpkinPie.register();
 		fried_egg.register();
 		// Sweet stuff
 		popcorn.register();
