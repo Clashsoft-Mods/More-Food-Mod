@@ -7,13 +7,14 @@ import clashsoft.mods.morefood.food.Food;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.IPlantable;
 
 public class ItemFoods extends ItemFoodMoreFood
 {
@@ -137,80 +138,31 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
 		Food food = Food.fromItemStack(par1ItemStack);
-		if (food != null && food.getBlockPlaced() != 0)
-		{
-			int var11 = par3World.getBlockId(par4, par5, par6);
-			
-			if (var11 == Block.snow.blockID)
-			{
-				par7 = 1;
-			}
-			else if (var11 != Block.vine.blockID && var11 != Block.tallGrass.blockID && var11 != Block.deadBush.blockID)
-			{
-				if (par7 == 0)
-				{
-					--par5;
-				}
-				
-				if (par7 == 1)
-				{
-					++par5;
-				}
-				
-				if (par7 == 2)
-				{
-					--par6;
-				}
-				
-				if (par7 == 3)
-				{
-					++par6;
-				}
-				
-				if (par7 == 4)
-				{
-					--par4;
-				}
-				
-				if (par7 == 5)
-				{
-					++par4;
-				}
-			}
-			
-			if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
-			{
-				return false;
-			}
-			else if (par1ItemStack.stackSize == 0)
-			{
-				return false;
-			}
-			else
-			{
-				int blockPlaced = food.getBlockPlaced();
-				if (par3World.canPlaceEntityOnSide(blockPlaced, par4, par5, par6, false, par7, (Entity) null, par1ItemStack))
-				{
-					Block var12 = Block.blocksList[blockPlaced];
-					int var13 = var12.onBlockPlaced(par3World, par4, par5, par6, par7, par8, par9, par10, 0);
-					
-					if (par3World.setBlock(par4, par5, par6, blockPlaced, var13, 2))
-					{
-						if (par3World.getBlockId(par4, par5, par6) == blockPlaced)
-						{
-							Block.blocksList[blockPlaced].onBlockPlacedBy(par3World, par4, par5, par6, par2EntityPlayer, par1ItemStack);
-							Block.blocksList[blockPlaced].onPostBlockPlaced(par3World, par4, par5, par6, var13);
-						}
-						
-						par3World.playSoundEffect(par4 + 0.5F, par5 + 0.5F, par6 + 0.5F, var12.stepSound.getPlaceSound(), (var12.stepSound.getVolume() + 1.0F) / 2.0F, var12.stepSound.getPitch() * 0.8F);
-						--par1ItemStack.stackSize;
-					}
-					return true;
-				}
-				
-				return false;
-			}
-		}
-		return false;
+		int blockPlaced = food.getBlockPlaced();
+		if (par7 != 1 || blockPlaced <= 0)
+        {
+            return false;
+        }
+        else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+        {
+            int i1 = par3World.getBlockId(par4, par5, par6);
+            Block plant = Block.blocksList[blockPlaced];
+            Block soil = Block.blocksList[i1];
+
+            if (soil != null && plant instanceof IPlantable && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, (IPlantable)plant) && par3World.isAirBlock(par4, par5 + 1, par6))
+            {
+                par3World.setBlock(par4, par5 + 1, par6, blockPlaced);
+                --par1ItemStack.stackSize;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
 	}
 }
