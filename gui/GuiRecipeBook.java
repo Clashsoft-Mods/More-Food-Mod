@@ -83,7 +83,7 @@ public class GuiRecipeBook extends GuiContainer
 	public void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
 	{
 		GL11.glColor4f(1F, 1F, 1F, 1F);
-		this.mc.func_110434_K().func_110577_a(background);
+		this.mc.renderEngine.bindTexture(background);
 		this.drawTexturedModalRect(guiLeft, guiTop, 256, 256, 256, 256);
 		
 		int matchingEntrys = currentDisplayList.size();

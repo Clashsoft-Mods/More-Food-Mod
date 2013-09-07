@@ -12,7 +12,7 @@ public class ItemRecipeBook extends Item
 	public ItemRecipeBook(int par1)
 	{
 		super(par1);
-		this.func_111206_d("recipebook");
+		this.setTextureName("recipebook");
 	}
 	
 	@Override

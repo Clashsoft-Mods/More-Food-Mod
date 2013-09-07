@@ -140,7 +140,7 @@ public class MoreFoodMod
 		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, Food.rice.asStack(), Food.rice.asStack(), "rice");
 		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, Food.corn.asStack(), Food.corn.asStack(), "corn");
 		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
-		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").func_111022_d("saltore");
+		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").setTextureName("saltore");
 		
 		strawBerryBush = new BlockBush(strawBerryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
 		raspBerryBush = new BlockBush(raspBerryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");

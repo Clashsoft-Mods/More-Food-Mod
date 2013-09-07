@@ -62,6 +62,7 @@ public class Food implements IItemMetadataList
 	
 	public static Food			orange					= new Food(45, "Orange", "orange", 3, 0);
 	public static Food			pear					= new Food(46, "Pear", "pear", 3, 0);
+	public static Food			cherry					= new Food(47, "Cherry", "cherry", 3, 0);
 	public static Food			strawberry				= new Food(47, "Strawberry", "strawberry", 3, MoreFoodMod.strawBerryBushID);
 	public static Food			raspberry				= new Food(48, "Raspberry", "raspberry", 3, MoreFoodMod.raspBerryBushID);
 	
@@ -145,6 +146,7 @@ public class Food implements IItemMetadataList
 		// Fruits
 		orange.register();
 		pear.register();
+		cherry.register();
 		strawberry.register();
 		raspberry.register();
 		// Vanilla Vegetables

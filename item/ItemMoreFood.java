@@ -14,13 +14,7 @@ public class ItemMoreFood extends Item
 	@Override
 	public Item setUnlocalizedName(String par1Str)
 	{
-		this.func_111206_d(par1Str);
+		this.setTextureName(par1Str);
 		return super.setUnlocalizedName(par1Str);
-	}
-	
-	@Override
-	public Item func_111206_d(String par1Str)
-	{
-		return super.func_111206_d(par1Str);
 	}
 }
