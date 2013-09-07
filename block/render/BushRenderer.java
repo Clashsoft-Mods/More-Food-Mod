@@ -25,11 +25,13 @@ public class BushRenderer implements ISimpleBlockRenderingHandler
 		
 		int i1 = world.getBlockMetadata(x, y, z);
 		
-		if (i1 == 3)
+		if (i1 == bush.maxMeta)
 		{
 			renderer.overrideBlockTexture = bush.bushIcon;
 			renderer.renderStandardBlock(block, x, y, z);
 		}
+		
+		renderer.overrideBlockTexture = null;
 		
 		return true;
 	}

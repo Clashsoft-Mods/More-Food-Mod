@@ -6,6 +6,7 @@ import clashsoft.clashsoftapi.util.CSBlocks;
 import clashsoft.clashsoftapi.util.CSCrafting;
 import clashsoft.clashsoftapi.util.CSItems;
 import clashsoft.clashsoftapi.util.CSLang;
+import clashsoft.mods.morefood.block.BlockBush;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 import clashsoft.mods.morefood.block.BlockSaltOre;
 import clashsoft.mods.morefood.food.Food;
@@ -53,6 +54,8 @@ public class MoreFoodMod
 	public static int					cornPlantID		= 518;
 	public static int					vanillaPlantID	= 519;
 	public static int					saltOreID		= 520;
+	public static int					strawBerryBushID = 521;
+	public static int					raspBerryBushID = 522;
 	
 	public static ItemMoreFood			salt;
 	public static ItemMoreFood			pepper;
@@ -76,6 +79,8 @@ public class MoreFoodMod
 	public static BlockPlantMoreFood	cornPlant;
 	public static BlockPlantMoreFood	vanillaPlant;
 	public static Block					saltOre;
+	public static BlockBush				strawBerryBush;
+	public static BlockBush				raspBerryBush;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -94,6 +99,8 @@ public class MoreFoodMod
 		cornPlantID = config.getBlock("Corn Plant ID", 518).getInt();
 		vanillaPlantID = config.getBlock("Vanilla Plant ID", 519).getInt();
 		saltOreID = config.getBlock("Salt Ore ID", 520).getInt();
+		strawBerryBushID = config.getBlock("Strawberry Bush ID", 520).getInt();
+		raspBerryBushID = config.getBlock("Raspberry Bush ID", 520).getInt();
 		
 		itemsID = config.getItem("Items ID", 13000).getInt();
 		
@@ -117,6 +124,8 @@ public class MoreFoodMod
 		MinecraftForge.addGrassSeed(Food.pepperSeeds.asStack(), 8);
 		MinecraftForge.addGrassSeed(Food.vanillaSeeds.asStack(), 6);
 		MinecraftForge.setBlockHarvestLevel(saltOre, "pickaxe", 1);
+		
+		proxy.registerRenderers();
 	}
 	
 	private void addBlocks()
@@ -132,6 +141,9 @@ public class MoreFoodMod
 		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, Food.corn.asStack(), Food.corn.asStack(), "corn");
 		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
 		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").func_111022_d("saltore");
+		
+		strawBerryBush = new BlockBush(strawBerryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
+		raspBerryBush = new BlockBush(raspBerryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 	}

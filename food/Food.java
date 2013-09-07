@@ -62,8 +62,8 @@ public class Food implements IItemMetadataList
 	
 	public static Food			orange					= new Food(45, "Orange", "orange", 3, 0);
 	public static Food			pear					= new Food(46, "Pear", "pear", 3, 0);
-	public static Food			strawberry				= new Food(47, "Strawberry", "strawberry", 3, 0);
-	public static Food			raspberry				= new Food(48, "Raspberry", "raspberry", 3, 0);
+	public static Food			strawberry				= new Food(47, "Strawberry", "strawberry", 3, MoreFoodMod.strawBerryBushID);
+	public static Food			raspberry				= new Food(48, "Raspberry", "raspberry", 3, MoreFoodMod.raspBerryBushID);
 	
 	public static Food			icecube					= new Food(80, "Ice Cube", "icecube", 0, new FoodRecipe(4, new ItemStack(Block.ice)));
 	public static Food			icecream				= new Food(81, "Icecream", "icecream", 0, new FoodRecipe(2, icecube.asStack(), new ItemStack(Item.snowball), new ItemStack(Item.bucketMilk)));

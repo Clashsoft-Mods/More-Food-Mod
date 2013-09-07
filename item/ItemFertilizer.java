@@ -1,5 +1,6 @@
 package clashsoft.mods.morefood.item;
 
+import clashsoft.mods.morefood.block.BlockBush;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 
 import net.minecraft.block.*;
@@ -57,6 +58,19 @@ public class ItemFertilizer extends ItemMoreFood
 				if (!par3World.isRemote)
 				{
 					if (((BlockPlantMoreFood) Block.blocksList[var11]).fertilize(par3World, par4, par5, par6))
+					{
+						--par1ItemStack.stackSize;
+					}
+				}
+				
+				return true;
+			}
+			
+			if (Block.blocksList[var11] instanceof BlockBush)
+			{
+				if (!par3World.isRemote)
+				{
+					if (((BlockBush) Block.blocksList[var11]).fertilize(par3World, par4, par5, par6))
 					{
 						--par1ItemStack.stackSize;
 					}
