@@ -42,20 +42,20 @@ public class MoreFoodMod
 	@SidedProxy(modId = "MoreFoodMod", clientSide = "clashsoft.mods.morefood.ClientProxy", serverSide = "clashsoft.mods.morefood.CommonProxy")
 	public static CommonProxy			proxy;
 	
-	public static int					itemsID			= 13000;
-	public static int					cucumberPlantID	= 510;
-	public static int					tomatoPlantID	= 511;
-	public static int					pepperPlantID	= 512;
-	public static int					saladPlantID	= 513;
-	public static int					onionPlantID	= 514;
-	public static int					chiliPlantID	= 515;
-	public static int					paprikaPlantID	= 516;
-	public static int					ricePlantID		= 517;
-	public static int					cornPlantID		= 518;
-	public static int					vanillaPlantID	= 519;
-	public static int					saltOreID		= 520;
-	public static int					strawBerryBushID = 521;
-	public static int					raspBerryBushID = 522;
+	public static int					itemsID				= 13000;
+	public static int					cucumberPlantID		= 510;
+	public static int					tomatoPlantID		= 511;
+	public static int					pepperPlantID		= 512;
+	public static int					saladPlantID		= 513;
+	public static int					onionPlantID		= 514;
+	public static int					chiliPlantID		= 515;
+	public static int					paprikaPlantID		= 516;
+	public static int					ricePlantID			= 517;
+	public static int					cornPlantID			= 518;
+	public static int					vanillaPlantID		= 519;
+	public static int					saltOreID			= 520;
+	public static int					strawBerryBushID	= 521;
+	public static int					raspBerryBushID		= 522;
 	
 	public static ItemMoreFood			salt;
 	public static ItemMoreFood			pepper;
