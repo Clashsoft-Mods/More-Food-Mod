@@ -250,8 +250,9 @@ public class MoreFoodMod
 				f.addRecipe();
 		}
 		
-		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.appleStomped.getID()) });
-		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, new ItemStack(foods, 1, Food.tomato.getID()) });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, Food.appleStomped.asStack() });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 1), new Object[] { Item.glassBottle, Food.orange.asStack() });
+		CSCrafting.addCrafting(true, new ItemStack(juice, 1, 2), new Object[] { Item.glassBottle, Food.tomato.asStack() });
 	}
 	
 	private void addSmeltingRecipes()
