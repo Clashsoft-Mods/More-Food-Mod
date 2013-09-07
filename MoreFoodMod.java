@@ -7,6 +7,7 @@ import clashsoft.clashsoftapi.util.*;
 import clashsoft.mods.morefood.block.*;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
+import clashsoft.mods.morefood.world.WorldGenFruitTree;
 import clashsoft.mods.morefood.world.WorldGenGardener;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -23,6 +24,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -60,6 +62,8 @@ public class MoreFoodMod
 	public static int					fruitSaplingsID		= 526;
 	public static int					fruitLogsID			= 527;
 	public static int					fruitLeavesID		= 528;
+	
+	private static int[]				BUSHES;
 	
 	public static ItemMoreFood			salt;
 	public static ItemMoreFood			pepper;
@@ -117,6 +121,8 @@ public class MoreFoodMod
 		fruitSaplingsID = config.getBlock("Fruit Saplings ID", 526).getInt();
 		fruitLogsID = config.getBlock("Fruit Logs ID", 527).getInt();
 		fruitLeavesID = config.getBlock("Fruit Leaves ID", 528).getInt();
+		
+		BUSHES = new int[] { strawberryBushID, raspberryBushID, blueberryBushID, blackberryBushID, redcurrantBushID };
 		
 		itemsID = config.getItem("Items ID", 13000).getInt();
 		
@@ -355,7 +361,7 @@ public class MoreFoodMod
 			int randPosZ = chunkZ * 16 + random.nextInt(16);
 			for (int j = randPosY; j > 0; j--)
 			{
-				if (Block.blocksList[world.getBlockId(randPosX, randPosY, randPosZ)] != null && Block.blocksList[world.getBlockId(randPosX, randPosY, randPosZ)].isBlockSolid(world, randPosX, randPosY, randPosZ, 0) && (world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
+				if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
 				{
 					randPosY = j;
 					break;
@@ -365,10 +371,59 @@ public class MoreFoodMod
 					randPosY--;
 				}
 			}
-			if (world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID)
+			if (randPosY >= 0)
 			{
 				(new WorldGenGardener()).generate(world, random, randPosX, randPosY, randPosZ);
 			}
+		}
+		
+		if (random.nextInt(20) == 0)
+		{
+			int randPosX = chunkX * 16 + random.nextInt(16);
+			int randPosY = 128;
+			int randPosZ = chunkZ * 16 + random.nextInt(16);
+			
+			if ((world.getBiomeGenForCoords(randPosX, randPosY) instanceof BiomeGenForest))
+			{
+				for (int j = randPosY; j > 0; j--)
+				{
+					if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
+					{
+						randPosY = j;
+						break;
+					}
+					else
+					{
+						randPosY--;
+					}
+				}
+				
+				int treeType = random.nextInt(1);
+				(new WorldGenFruitTree(true, 4 + random.nextInt(4), fruitLogsID, fruitLeavesID, treeType, treeType)).generate(world, random, randPosX, randPosY, randPosZ);
+			}
+		}
+		if (random.nextInt(10) == 0)
+		{
+			int randPosX = chunkX * 16 + random.nextInt(16);
+			int randPosY = 128;
+			int randPosZ = chunkZ * 16 + random.nextInt(16);
+			
+			
+			for (int j = randPosY; j > 0; j--)
+			{
+				if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
+				{
+					randPosY = j + 1;
+					break;
+				}
+				else
+				{
+					randPosY--;
+				}
+			}
+			
+			int bushType = random.nextInt(BUSHES.length);
+			world.setBlock(randPosX, randPosY, randPosZ, BUSHES[bushType], 3, 3);
 		}
 	}
 	
