@@ -63,8 +63,11 @@ public class Food implements IItemMetadataList
 	public static Food			orange					= new Food(45, "Orange", "orange", 3, 0);
 	public static Food			pear					= new Food(46, "Pear", "pear", 3, 0);
 	public static Food			cherry					= new Food(47, "Cherry", "cherry", 3, 0);
-	public static Food			strawberry				= new Food(47, "Strawberry", "strawberry", 3, MoreFoodMod.strawBerryBushID);
-	public static Food			raspberry				= new Food(48, "Raspberry", "raspberry", 3, MoreFoodMod.raspBerryBushID);
+	public static Food			strawberry				= new Food(47, "Strawberry", "strawberry", 3, MoreFoodMod.strawberryBushID);
+	public static Food			raspberry				= new Food(48, "Raspberry", "raspberry", 3, MoreFoodMod.raspberryBushID);
+	public static Food			blackberry				= new Food(49, "Blackberry", "blackberry", 3, MoreFoodMod.blackberryBushID);
+	public static Food			blueberry				= new Food(50, "Blueberry", "blueberry", 2, MoreFoodMod.blueberryBushID);
+	public static Food			redcurrant				= new Food(51, "Redcurrant", "redcurrant", 2, MoreFoodMod.redcurrantBushID);
 	
 	public static Food			icecube					= new Food(80, "Ice Cube", "icecube", 0, new FoodRecipe(4, new ItemStack(Block.ice)));
 	public static Food			icecream				= new Food(81, "Icecream", "icecream", 0, new FoodRecipe(2, icecube.asStack(), new ItemStack(Item.snowball), new ItemStack(Item.bucketMilk)));
@@ -149,6 +152,9 @@ public class Food implements IItemMetadataList
 		cherry.register();
 		strawberry.register();
 		raspberry.register();
+		blackberry.register();
+		blueberry.register();
+		redcurrant.register();
 		// Vanilla Vegetables
 		potato.register();
 		potatoCooked.register();

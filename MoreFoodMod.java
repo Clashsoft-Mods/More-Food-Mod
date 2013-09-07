@@ -2,10 +2,7 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
-import clashsoft.clashsoftapi.util.CSBlocks;
-import clashsoft.clashsoftapi.util.CSCrafting;
-import clashsoft.clashsoftapi.util.CSItems;
-import clashsoft.clashsoftapi.util.CSLang;
+import clashsoft.clashsoftapi.util.*;
 import clashsoft.mods.morefood.block.BlockBush;
 import clashsoft.mods.morefood.block.BlockPlantMoreFood;
 import clashsoft.mods.morefood.block.BlockSaltOre;
@@ -32,7 +29,7 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "MoreFoodMod", name = "More Food Mod", version = "1.6.2")
+@Mod(modid = "MoreFoodMod", name = "More Food Mod", version = CSUtil.CURRENT_VERION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class MoreFoodMod
 {
@@ -54,8 +51,11 @@ public class MoreFoodMod
 	public static int					cornPlantID			= 518;
 	public static int					vanillaPlantID		= 519;
 	public static int					saltOreID			= 520;
-	public static int					strawBerryBushID	= 521;
-	public static int					raspBerryBushID		= 522;
+	public static int					strawberryBushID	= 521;
+	public static int					raspberryBushID		= 522;
+	public static int					blueberryBushID		= 523;
+	public static int					blackberryBushID	= 524;
+	public static int					redcurrantBushID	= 525;
 	
 	public static ItemMoreFood			salt;
 	public static ItemMoreFood			pepper;
@@ -79,8 +79,11 @@ public class MoreFoodMod
 	public static BlockPlantMoreFood	cornPlant;
 	public static BlockPlantMoreFood	vanillaPlant;
 	public static Block					saltOre;
-	public static BlockBush				strawBerryBush;
-	public static BlockBush				raspBerryBush;
+	public static BlockBush				strawberryBush;
+	public static BlockBush				raspberryBush;
+	public static BlockBush				blueberryBush;
+	public static BlockBush				blackberryBush;
+	public static BlockBush				redcurrantBush;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -99,8 +102,11 @@ public class MoreFoodMod
 		cornPlantID = config.getBlock("Corn Plant ID", 518).getInt();
 		vanillaPlantID = config.getBlock("Vanilla Plant ID", 519).getInt();
 		saltOreID = config.getBlock("Salt Ore ID", 520).getInt();
-		strawBerryBushID = config.getBlock("Strawberry Bush ID", 520).getInt();
-		raspBerryBushID = config.getBlock("Raspberry Bush ID", 520).getInt();
+		strawberryBushID = config.getBlock("Strawberry Bush ID", 521).getInt();
+		raspberryBushID = config.getBlock("Raspberry Bush ID", 522).getInt();
+		blueberryBushID = config.getBlock("Blueberry Bush ID", 523).getInt();
+		blackberryBushID = config.getBlock("Blackberry Bush ID", 524).getInt();
+		redcurrantBushID = config.getBlock("Redcurrant Bush ID", 525).getInt();
 		
 		itemsID = config.getItem("Items ID", 13000).getInt();
 		
@@ -142,8 +148,11 @@ public class MoreFoodMod
 		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
 		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").setTextureName("saltore");
 		
-		strawBerryBush = new BlockBush(strawBerryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
-		raspBerryBush = new BlockBush(raspBerryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
+		strawberryBush = new BlockBush(strawberryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
+		raspberryBush = new BlockBush(raspberryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
+		blueberryBush = new BlockBush(blueberryBushID, Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem");
+		blackberryBush = new BlockBush(blackberryBushID, Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem");
+		redcurrantBush = new BlockBush(redcurrantBushID, Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem");
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 	}

@@ -94,7 +94,7 @@ public class BlockBush extends BlockFlower
 		if (meta == maxMeta)
 			return random.nextInt(2) + 2;
 		else
-			return 1;
+			return 0;
 	}
 
 	/* (non-Javadoc)
