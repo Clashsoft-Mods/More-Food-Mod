@@ -79,11 +79,11 @@ public class ItemFertilizer extends ItemMoreFood
 				return true;
 			}
 			
-			if (var11 == Block.sapling.blockID)
+			if (Block.blocksList[var11] instanceof BlockSapling)
 			{
 				if (!par3World.isRemote)
 				{
-					((BlockSapling) Block.sapling).growTree(par3World, par4, par5, par6, par3World.rand);
+					((BlockSapling) Block.blocksList[var11]).growTree(par3World, par4, par5, par6, par3World.rand);
 					--par1ItemStack.stackSize;
 				}
 				

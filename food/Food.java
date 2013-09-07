@@ -60,8 +60,8 @@ public class Food implements IItemMetadataList
 	public static Food			cereals2				= new Food(34, "Chocolate Cereals", "cereals_2", 0, new FoodRecipe(8, new ItemStack(Item.wheat), new ItemStack(Item.dyePowder, 1, 3)));
 	public static Food			honeydrop				= new Food(35, "Honey Drop", "honeydrop", 1, 0);
 	
-	public static Food			orange					= new Food(45, "Orange", "orange", 3, 0);
-	public static Food			pear					= new Food(46, "Pear", "pear", 3, 0);
+	public static Food			orange					= new Food(45, "Orange", "orange", 3, MoreFoodMod.fruitSaplingsID).setMetadataPlaced(0);
+	public static Food			pear					= new Food(46, "Pear", "pear", 3, MoreFoodMod.fruitSaplingsID).setMetadataPlaced(1);
 	public static Food			cherry					= new Food(47, "Cherry", "cherry", 3, 0);
 	public static Food			strawberry				= new Food(47, "Strawberry", "strawberry", 3, MoreFoodMod.strawberryBushID);
 	public static Food			raspberry				= new Food(48, "Raspberry", "raspberry", 3, MoreFoodMod.raspberryBushID);
@@ -236,6 +236,7 @@ public class Food implements IItemMetadataList
 	private String				icon					= "";
 	private int					foodValue				= 0;
 	private int					blockPlaced				= 0;
+	private int					metadataPlaced			= 0;
 	private boolean				isEnabled				= true;
 	
 	private FoodRecipe			recipe					= null;
@@ -519,5 +520,17 @@ public class Food implements IItemMetadataList
 	public Collection<String> getDescription()
 	{
 		return Collections.EMPTY_LIST;
+	}
+
+	@Override
+	public int getMetadataPlaced()
+	{
+		return metadataPlaced;
+	}
+	
+	public Food setMetadataPlaced(int i)
+	{
+		this.metadataPlaced = i;
+		return this;
 	}
 }

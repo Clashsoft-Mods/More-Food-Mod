@@ -139,6 +139,7 @@ public class ItemFoods extends ItemFoodMoreFood
 		super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
 		Food food = Food.fromItemStack(par1ItemStack);
 		int blockPlaced = food.getBlockPlaced();
+		int metaPlaced = food.getMetadataPlaced();
 		if (par7 != 1 || blockPlaced <= 0)
         {
             return false;
@@ -151,7 +152,7 @@ public class ItemFoods extends ItemFoodMoreFood
 
             if (soil != null && plant instanceof IPlantable && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, (IPlantable)plant) && par3World.isAirBlock(par4, par5 + 1, par6))
             {
-                par3World.setBlock(par4, par5 + 1, par6, blockPlaced);
+                par3World.setBlock(par4, par5 + 1, par6, blockPlaced, metaPlaced, 2);
                 --par1ItemStack.stackSize;
                 return true;
             }

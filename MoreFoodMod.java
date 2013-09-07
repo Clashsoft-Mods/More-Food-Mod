@@ -2,10 +2,9 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
+import clashsoft.clashsoftapi.ItemCustomBlock;
 import clashsoft.clashsoftapi.util.*;
-import clashsoft.mods.morefood.block.BlockBush;
-import clashsoft.mods.morefood.block.BlockPlantMoreFood;
-import clashsoft.mods.morefood.block.BlockSaltOre;
+import clashsoft.mods.morefood.block.*;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
 import clashsoft.mods.morefood.world.WorldGenGardener;
@@ -17,6 +16,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,6 +28,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 
 @Mod(modid = "MoreFoodMod", name = "More Food Mod", version = CSUtil.CURRENT_VERION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -56,6 +57,9 @@ public class MoreFoodMod
 	public static int					blueberryBushID		= 523;
 	public static int					blackberryBushID	= 524;
 	public static int					redcurrantBushID	= 525;
+	public static int					fruitSaplingsID		= 526;
+	public static int					fruitLogsID			= 527;
+	public static int					fruitLeavesID		= 528;
 	
 	public static ItemMoreFood			salt;
 	public static ItemMoreFood			pepper;
@@ -84,6 +88,9 @@ public class MoreFoodMod
 	public static BlockBush				blueberryBush;
 	public static BlockBush				blackberryBush;
 	public static BlockBush				redcurrantBush;
+	public static BlockFruitSapling		fruitSaplings;
+	public static BlockFruitLog			fruitLogs;
+	public static BlockFruitLeaves		fruitLeaves;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -107,6 +114,9 @@ public class MoreFoodMod
 		blueberryBushID = config.getBlock("Blueberry Bush ID", 523).getInt();
 		blackberryBushID = config.getBlock("Blackberry Bush ID", 524).getInt();
 		redcurrantBushID = config.getBlock("Redcurrant Bush ID", 525).getInt();
+		fruitSaplingsID = config.getBlock("Fruit Saplings ID", 526).getInt();
+		fruitLogsID = config.getBlock("Fruit Logs ID", 527).getInt();
+		fruitLeavesID = config.getBlock("Fruit Leaves ID", 528).getInt();
 		
 		itemsID = config.getItem("Items ID", 13000).getInt();
 		
@@ -148,13 +158,28 @@ public class MoreFoodMod
 		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
 		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").setTextureName("saltore");
 		
-		strawberryBush = new BlockBush(strawberryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
-		raspberryBush = new BlockBush(raspberryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
-		blueberryBush = new BlockBush(blueberryBushID, Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem");
-		blackberryBush = new BlockBush(blackberryBushID, Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem");
-		redcurrantBush = new BlockBush(redcurrantBushID, Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem");
+		strawberryBush = (BlockBush) new BlockBush(strawberryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem").setStepSound(Block.soundGrassFootstep);
+		raspberryBush = (BlockBush) new BlockBush(raspberryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem").setStepSound(Block.soundGrassFootstep);
+		blueberryBush = (BlockBush) new BlockBush(blueberryBushID, Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem").setStepSound(Block.soundGrassFootstep);
+		blackberryBush = (BlockBush) new BlockBush(blackberryBushID, Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem").setStepSound(Block.soundGrassFootstep);
+		redcurrantBush = (BlockBush) new BlockBush(redcurrantBushID, Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem").setStepSound(Block.soundGrassFootstep);
+		
+		fruitSaplings = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID).setUnlocalizedName("fruitSaplings").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
+		fruitLogs = (BlockFruitLog) new BlockFruitLog(fruitLogsID).setUnlocalizedName("fruitLogs").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
+		fruitLeaves = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID).setUnlocalizedName("fruitLeaves").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
+		CSBlocks.addBlock(fruitSaplings, ItemCustomBlock.class, "Fruit Saplings");
+		CSBlocks.addBlock(fruitLogs, ItemCustomBlock.class, "Fruit Logs");
+		CSBlocks.addBlock(fruitLeaves, ItemCustomBlock.class, "Fruit Leaves");
+		
+		for (int i = 0; i < 2; i++)
+		{
+			String fruit = i == 0 ? "Orange" : "Pear";
+			LanguageRegistry.instance().addStringLocalization("tile.fruitSaplings." + i + ".name", fruit + " Tree Sapling");
+			LanguageRegistry.instance().addStringLocalization("tile.fruitLogs." + i + ".name", fruit + " Tree Log");
+			LanguageRegistry.instance().addStringLocalization("tile.fruitLeaves." + i + ".name", fruit + " Tree Leaves");
+		}
 	}
 	
 	private void addItems()
@@ -182,6 +207,8 @@ public class MoreFoodMod
 	{
 		CSCrafting.addCrafting(true, new ItemStack(pepper, 4, 0), Food.pepperSeeds.asStack());
 		CSCrafting.addCrafting(true, new ItemStack(vanilla, 4, 0), Food.vanillaSeeds.asStack());
+		
+		CSCrafting.addCrafting(true, new ItemStack(Block.wood), new Object[] { new ItemStack(Block.wood, 1, OreDictionary.WILDCARD_VALUE) });
 		
 		for (int i = 0; i < 7; i++)
 		{
