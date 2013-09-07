@@ -7,6 +7,7 @@ import clashsoft.clashsoftapi.util.*;
 import clashsoft.mods.morefood.block.*;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
+import clashsoft.mods.morefood.world.WorldGenBushes;
 import clashsoft.mods.morefood.world.WorldGenFruitTree;
 import clashsoft.mods.morefood.world.WorldGenGardener;
 import cpw.mods.fml.common.*;
@@ -408,7 +409,6 @@ public class MoreFoodMod
 			int randPosY = 128;
 			int randPosZ = chunkZ * 16 + random.nextInt(16);
 			
-			
 			for (int j = randPosY; j > 0; j--)
 			{
 				if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
@@ -423,7 +423,7 @@ public class MoreFoodMod
 			}
 			
 			int bushType = random.nextInt(BUSHES.length);
-			world.setBlock(randPosX, randPosY, randPosZ, BUSHES[bushType], 3, 3);
+			(new WorldGenBushes(BUSHES[bushType], 3)).generate(world, random, randPosX, randPosY, randPosZ);
 		}
 	}
 	

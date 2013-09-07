@@ -21,6 +21,7 @@ public class BushRenderer implements ISimpleBlockRenderingHandler
 		BlockBush bush = (BlockBush)block;
 		
 		renderer.overrideBlockTexture = bush.stemIcon;
+		
 		renderer.renderCrossedSquares(block, x, y, z);
 		
 		int i1 = world.getBlockMetadata(x, y, z);
