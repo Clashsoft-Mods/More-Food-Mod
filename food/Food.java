@@ -45,7 +45,7 @@ public class Food implements IItemMetadataList
 	public static Food			bacon_raw				= new Food(19, "Raw Bacon Slice", "bacon_raw", 2, new FoodRecipe(3, new ItemStack(Item.porkRaw), new ItemStack(Item.porkRaw)));
 	public static Food			bacon					= new Food(20, "Bacon", "bacon_cooked", 6, new FoodRecipe(FURNACE, 1, bacon_raw.asStack(), 0.1F));
 	public static Food			pasta					= new Food(21, "Pasta", "pasta", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "wsw", 'w', Item.wheat, 's', MoreFoodMod.salt }));
-	public static Food			meatball				= new Food(22, "Meat Ball", "ham", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "bb ", "bb ", 'b', Item.beefCooked }));
+	public static Food			meatball				= new Food(22, "Meat Ball", "ham", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "bb", "bb", 'b', Item.beefCooked }));
 	public static Food			hamburger				= new Food(23, "Hamburger", "hamburger", 5, new FoodRecipe(CRAFTING, 1, new Object[] { " b ", "smt", " b ", 'b', breadslice.asStack(), 's', salad.asStack(), 'm', meatball.asStack(), 't', tomato.asStack() }));
 	public static Food			pizza					= new Food(24, "Pizza", "pizza", 6, new FoodRecipe(CRAFTING, 1, new Object[] { " S ", "sts", "www", 'S', salad.asStack(), 's', salami.asStack(), 't', tomato.asStack(), 'w', new ItemStack(Item.wheat) }));
 	public static Food			fried_egg				= new Food(25, "Fried Egg", "fried_egg", 4, new FoodRecipe(FURNACE, 1, new ItemStack(Item.egg), 0.2F));
@@ -120,8 +120,6 @@ public class Food implements IItemMetadataList
 	static
 	{
 		// Vanilla Food
-		// bread.register();
-		// cookie.register();
 		porkRaw.register();
 		porkCooked.register();
 		beefRaw.register();
@@ -132,6 +130,7 @@ public class Food implements IItemMetadataList
 		fishCooked.register();
 		rottenFlesh.register();
 		spiderEye.register();
+		// Vanilla Fruits
 		apple.register();
 		appleStomped.register();
 		appleGold1.register();
@@ -139,6 +138,12 @@ public class Food implements IItemMetadataList
 		appleDiamond.register();
 		melon.register();
 		melonGold1.register();
+		// Fruits
+		orange.register();
+		pear.register();
+		strawberry.register();
+		raspberry.register();
+		// Vanilla Vegetables
 		potato.register();
 		potatoCooked.register();
 		potatoStomped.register();
@@ -193,6 +198,16 @@ public class Food implements IItemMetadataList
 		chocolateCookie.register();
 		cereals1.register();
 		cereals2.register();
+		// Ice cream
+		icecube.register();
+		icecream.register();
+		icecreamChocolate.register();
+		icecreamVanilla.register();
+		icecreamStrawberry.register();
+		icecreamCone.register();
+		icecreamConeChocolate.register();
+		icecreamConeVanilla.register();
+		icecreamConeStrawberry.register();
 		
 		Drink.init();
 	}

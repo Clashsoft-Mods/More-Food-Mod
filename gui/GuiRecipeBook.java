@@ -1,9 +1,6 @@
 package clashsoft.mods.morefood.gui;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -29,6 +26,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class GuiRecipeBook extends GuiContainer
 {
@@ -299,8 +297,8 @@ public class GuiRecipeBook extends GuiContainer
 	{
 		String s = "";
 		int i = 0;
-		int j = 0;
-		int k = 0;
+		int j = 0; //Width
+		int k = 0; //Height
 		
 		if (objects[i] instanceof String[])
 		{
@@ -325,9 +323,9 @@ public class GuiRecipeBook extends GuiContainer
 			}
 		}
 		
-		HashMap hashmap;
+		Map<Character, ItemStack> hashmap = new HashMap<>();
 		
-		for (hashmap = new HashMap(); i < objects.length; i += 2)
+		for (; i < objects.length; i += 2)
 		{
 			Character character = (Character) objects[i];
 			ItemStack itemstack1 = null;
@@ -338,7 +336,7 @@ public class GuiRecipeBook extends GuiContainer
 			}
 			else if (objects[i + 1] instanceof Block)
 			{
-				itemstack1 = new ItemStack((Block) objects[i + 1], 1, 32767);
+				itemstack1 = new ItemStack((Block) objects[i + 1], 1, OreDictionary.WILDCARD_VALUE);
 			}
 			else if (objects[i + 1] instanceof ItemStack)
 			{
@@ -350,17 +348,17 @@ public class GuiRecipeBook extends GuiContainer
 		
 		ItemStack[][] ret = new ItemStack[3][3];
 		
-		for (int i1 = 0; i1 < j * k; ++i1)
+		for (int j1 = 0; j1 < j; ++j1)
 		{
-			char c0 = s.charAt(i1);
-			
-			if (hashmap.containsKey(Character.valueOf(c0)))
+			for (int k1 = 0; k1 < k; ++k1)
 			{
-				ret[(i1 / 3) % 3][i1 % 3] = ((ItemStack) hashmap.get(Character.valueOf(c0))).copy();
-			}
-			else
-			{
-				ret[(i1 / 3) % 3][i1 % 3] = null;
+				int i1 = (k1 * k) + j1;
+				char c0 = s.charAt(i1);
+				
+				if (hashmap.containsKey(c0))
+					ret[k1 % 3][j1 % 3] = ((ItemStack) hashmap.get(c0)).copy();
+				else
+					ret[k1 % 3][j1 % 3] = null;
 			}
 		}
 		return ret;
