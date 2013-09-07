@@ -8,20 +8,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class FoodRecipe implements IItemMetadataRecipe
-{
-	public static final int	CRAFTING			= 0;
-	public static final int	CRAFTING_SHAPELESS	= 1;
-	public static final int	FURNACE				= 2;
-	
+{	
 	private int				amount;
 	private int				craftingType;
 	private Object[]		data;
+	private ItemStack[][]	analysed;
 	
 	public FoodRecipe(int craftingType, int amount, Object... data)
 	{
 		this.craftingType = craftingType;
 		this.amount = amount;
 		this.data = data;
+		this.analysed = CSCrafting.analyseCrafting(this);
 	}
 	
 	public FoodRecipe(int amount, ItemStack... data)
@@ -61,5 +59,13 @@ public class FoodRecipe implements IItemMetadataRecipe
 	public Object[] getData()
 	{
 		return data;
+	}
+
+	/**
+	 * @return the analysed recipe
+	 */
+	public ItemStack[][] getAnalysedRecipe()
+	{
+		return analysed;
 	}
 }

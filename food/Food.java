@@ -70,10 +70,14 @@ public class Food implements IItemMetadataList
 	public static Food			icecreamChocolate		= new Food(82, "Chocolate Icecream", "icecream_chocolate", 1, new FoodRecipe(1, chocolate.asStack(), icecream.asStack()));
 	public static Food			icecreamVanilla			= new Food(83, "Vanilla Icecream", "icecream_vanilla", 1, new FoodRecipe(1, new ItemStack(MoreFoodMod.vanilla), icecream.asStack()));
 	public static Food			icecreamStrawberry		= new Food(84, "Strawberry Icecream", "icecream_strawberry", 1, new FoodRecipe(1, strawberry.asStack(), icecream.asStack()));
-	public static Food			icecreamCone			= new Food(90, "Icecream Cone", "icecream_cone", 2, new FoodRecipe(CRAFTING, 6, new Object[] { "w w", " w ", " w ", 'w', Item.wheat }));
-	public static Food			icecreamConeChocolate	= new Food(91, "Chocolate Icecream", "icecream_cone_chocolate", 3, new FoodRecipe(CRAFTING, 1, new Object[] { "i", "c", 'i', icecreamChocolate.asStack(), 'c', icecreamCone.asStack() }));
-	public static Food			icecreamConeVanilla		= new Food(92, "Vanilla Icecream", "icecream_cone_vanilla", 3, new FoodRecipe(CRAFTING, 1, new Object[] { "i", "c", 'i', icecreamVanilla.asStack(), 'c', icecreamCone.asStack() }));
-	public static Food			icecreamConeStrawberry	= new Food(93, "Strawberry Icecream", "icecream_cone_strawberry", 3, new FoodRecipe(CRAFTING, 1, new Object[] { "i", "c", 'i', icecreamStrawberry.asStack(), 'c', icecreamCone.asStack() }));
+	public static Food			icecreamCone			= new Food(85, "Icecream Cone", "icecream_cone", 2, new FoodRecipe(CRAFTING, 6, new Object[] { "w w", " w ", " w ", 'w', Item.wheat }));
+	public static Food			icecreamConeChocolate	= new Food(86, "Chocolate Icecream", "icecream_cone_chocolate", 3, new FoodRecipe(CRAFTING, 1, new Object[] { "i", "c", 'i', icecreamChocolate.asStack(), 'c', icecreamCone.asStack() }));
+	public static Food			icecreamConeVanilla		= new Food(87, "Vanilla Icecream", "icecream_cone_vanilla", 3, new FoodRecipe(CRAFTING, 1, new Object[] { "i", "c", 'i', icecreamVanilla.asStack(), 'c', icecreamCone.asStack() }));
+	public static Food			icecreamConeStrawberry	= new Food(88, "Strawberry Icecream", "icecream_cone_strawberry", 3, new FoodRecipe(CRAFTING, 1, new Object[] { "i", "c", 'i', icecreamStrawberry.asStack(), 'c', icecreamCone.asStack() }));
+	public static Food			icecreamConeCV			= new Food(89, "Icecream", "icecream_cone_c_v", 4, new FoodRecipe(CRAFTING, 1, new Object[] { "c", "v", "C", 'c', icecreamChocolate.asStack(), 'v', icecreamVanilla.asStack(), 'C', icecreamCone.asStack() }));
+	public static Food			icecreamConeCS			= new Food(90, "Icecream", "icecream_cone_c_s", 4, new FoodRecipe(CRAFTING, 1, new Object[] { "c", "s", "C", 'c', icecreamChocolate.asStack(), 's', icecreamStrawberry.asStack(), 'C', icecreamCone.asStack() }));
+	public static Food			icecreamConeVS			= new Food(91, "Icecream", "icecream_cone_v_s", 4, new FoodRecipe(CRAFTING, 1, new Object[] { "v", "s", "C", 'v', icecreamVanilla.asStack(), 's', icecreamStrawberry.asStack(), 'C', icecreamCone.asStack() }));
+	public static Food			icecreamConeCVS			= new Food(92, "Icecream", "icecream_cone_c_v_s", 5, new FoodRecipe(CRAFTING, 1, new Object[] { "cvs", " C ", 'c', icecreamChocolate.asStack(), 'v', icecreamVanilla.asStack(), 's', icecreamStrawberry.asStack(), 'C', icecreamCone.asStack() }));
 	
 	// Vanilla Food Items
 	
@@ -208,6 +212,10 @@ public class Food implements IItemMetadataList
 		icecreamConeChocolate.register();
 		icecreamConeVanilla.register();
 		icecreamConeStrawberry.register();
+		icecreamConeCV.register();
+		icecreamConeCS.register();
+		icecreamConeVS.register();
+		icecreamConeCVS.register();
 		
 		Drink.init();
 	}

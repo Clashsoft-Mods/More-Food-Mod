@@ -1,6 +1,9 @@
 package clashsoft.mods.morefood.gui;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -11,7 +14,6 @@ import clashsoft.mods.morefood.container.ContainerRecipeBook;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.food.FoodRecipe;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -20,19 +22,17 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class GuiRecipeBook extends GuiContainer
 {
-	public static final ResourceLocation	background	= new ResourceLocation("gui/recipebook.png");
+	public static final ResourceLocation	background			= new ResourceLocation("gui/recipebook.png");
 	
-	public static RenderItem				itemRender	= new RenderItem();
+	public static RenderItem				itemRender			= new RenderItem();
 	
 	public GuiButton						prev;
 	public GuiButton						next;
@@ -40,9 +40,10 @@ public class GuiRecipeBook extends GuiContainer
 	public GuiTextField						search;
 	
 	public ContainerRecipeBook				container;
-	public int								recipeID	= 0;
+	public int								recipeID			= 0;
 	public Food								food;
-	public ItemStack[][]					recipe		= null;
+	public List<Food>						currentDisplayList	= Food.getDisplayList();
+	public ItemStack[][]					recipe				= null;
 	
 	public EntityPlayer						player;
 	
@@ -85,7 +86,8 @@ public class GuiRecipeBook extends GuiContainer
 		this.mc.func_110434_K().func_110577_a(background);
 		this.drawTexturedModalRect(guiLeft, guiTop, 256, 256, 256, 256);
 		
-		String header = "Recipe Book (" + Food.getDisplayList().size() + " Entrys)";
+		int matchingEntrys = currentDisplayList.size();
+		String header = "Recipe Book (" + matchingEntrys + (matchingEntrys != Food.getDisplayList().size() ? " Matching" : "") + " Entry" + (matchingEntrys != 1 ? "s" : "") + ")";
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, guiTop + 10, 4210752, false);
 		
 		if (food != null)
@@ -94,8 +96,10 @@ public class GuiRecipeBook extends GuiContainer
 			
 			{
 				String name = food.asStack().getDisplayName();
-				String name2 = food.getName().toLowerCase().replace(" ", "");
-				String desc = StatCollector.translateToLocal("food." + name2 + ".desc");
+				String name2 = "food." + food.getName().toLowerCase().replace(" ", "") + ".desc";
+				String desc = StatCollector.translateToLocal(name2);
+				if (desc.equals(name2))
+					desc = "" + EnumChatFormatting.DARK_RED + EnumChatFormatting.ITALIC + "No description available. ";
 				
 				this.mc.fontRenderer.drawString(name, (this.width - this.mc.fontRenderer.getStringWidth(name)) / 2, guiTop + 27, 4210752, false);
 				
@@ -165,7 +169,7 @@ public class GuiRecipeBook extends GuiContainer
 			if (recipeID > 0)
 				recipeID--;
 		if (par1GuiButton.id == 1)
-			if (recipeID < Food.getDisplayList().size() - 1)
+			if (recipeID < currentDisplayList.size() - 1)
 				recipeID++;
 		this.setRecipe(recipeID);
 	}
@@ -187,7 +191,6 @@ public class GuiRecipeBook extends GuiContainer
 		this.buttonList.add(next);
 		
 		this.setRecipe(recipeID);
-		
 	}
 	
 	/**
@@ -204,21 +207,30 @@ public class GuiRecipeBook extends GuiContainer
 		if (this.search.isFocused() && this.search.getVisible())
 		{
 			boolean flag = true;
-			for (int i = 0; i < Food.getDisplayList().size(); i++)
+			if (search.getText().isEmpty())
 			{
-				String s = Food.getDisplayList().get(i).asStack().getDisplayName().toLowerCase().trim();
-				String s2 = search.getText().toLowerCase().trim();
-				if (s.startsWith(s2))
-				{
-					this.setRecipe(i);
-					flag = false;
-					break;
-				}
+				currentDisplayList = Food.getDisplayList();
 			}
-			if (flag)
-				search.setTextColor(0xFF0000);
 			else
-				search.setTextColor(0xFFFFFF);
+			{
+				currentDisplayList = new ArrayList();
+				for (int i = 0; i < Food.getDisplayList().size(); i++)
+				{
+					Food f = Food.getDisplayList().get(i);
+					String s = f.asStack().getDisplayName().toLowerCase().trim();
+					String s2 = search.getText().toLowerCase().trim();
+					if (s.startsWith(s2))
+					{
+						currentDisplayList.add(f);
+						flag = false;
+					}
+				}
+				if (flag)
+					search.setTextColor(0xFF0000);
+				else
+					search.setTextColor(0xFFFFFF);
+			}
+			this.setRecipe(0);
 		}
 	}
 	
@@ -233,135 +245,47 @@ public class GuiRecipeBook extends GuiContainer
 			{
 				search.setVisible(true);
 				search.setFocused(true);
-				search.setText(food.asStack().getDisplayName());
 			}
 			else
 			{
 				search.setVisible(false);
 				search.setFocused(false);
-				search.setText("");
 			}
 		}
 	}
 	
 	public void setRecipe(int recipe)
 	{
-		this.food = Food.getDisplayList().get(recipe);
-		this.recipe = getRecipe(food);
-		this.container.inventory.stacks = this.recipe;
-		this.recipeID = recipe;
+		if (recipe >= currentDisplayList.size())
+			recipe = currentDisplayList.size() - 1;
+		if (recipe < 0)
+			recipe = 0;
 		
-		if (recipeID == 0)
-			prev.enabled = false;
-		else
-			prev.enabled = true;
-		
-		if (recipeID == Food.getDisplayList().size() - 1)
-			next.enabled = false;
-		else
-			next.enabled = true;
+		if (recipe >= 0 && recipe < currentDisplayList.size())
+		{
+			this.food = currentDisplayList.get(recipe);
+			this.recipe = analyseRecipe(food);
+			this.container.inventory.stacks = this.recipe;
+			this.recipeID = recipe;
+			
+			if (recipeID == 0)
+				prev.enabled = false;
+			else
+				prev.enabled = true;
+			
+			if (recipeID == currentDisplayList.size() - 1)
+				next.enabled = false;
+			else
+				next.enabled = true;
+		}
 	}
 	
-	public ItemStack[][] getRecipe(Food f)
+	public ItemStack[][] analyseRecipe(Food f)
 	{
-		if (f != null && f.getRecipe() != null)
-		{
-			FoodRecipe r = f.getRecipe();
-			
-			if (r.getCraftingType() == FoodRecipe.FURNACE)
-			{
-				return new ItemStack[][] { { null, (ItemStack) r.getData()[0], null }, { null, new ItemStack(Block.fire, 1, -1), null }, { null, new ItemStack(Item.coal), null } };
-			}
-			else if (r.getCraftingType() == FoodRecipe.CRAFTING_SHAPELESS)
-			{
-				ItemStack[][] ret = new ItemStack[3][3];
-				
-				for (int i = 0; i < r.getData().length; i++)
-				{
-					int x = (i / 3) % 3;
-					int y = i % 3;
-					ret[x][y] = (ItemStack) r.getData()[i];
-				}
-				
-				return ret;
-			}
-			else if (r.getCraftingType() == FoodRecipe.CRAFTING)
-			{
-				return getCrafting(r.getData());
-			}
-		}
-		return new ItemStack[][] { { null, null, null }, { null, null, null }, { null, null, null } };
-	}
-	
-	public ItemStack[][] getCrafting(Object... objects)
-	{
-		String s = "";
-		int i = 0;
-		int j = 0; //Width
-		int k = 0; //Height
-		
-		if (objects[i] instanceof String[])
-		{
-			String[] astring = ((String[]) objects[i++]);
-			
-			for (int l = 0; l < astring.length; ++l)
-			{
-				String s1 = astring[l];
-				++k;
-				j = s1.length();
-				s = s + s1;
-			}
-		}
+		if (f == null || f.getRecipe() == null)
+			return new ItemStack[][] { { null, null, null }, { null, null, null }, { null, null, null } };
 		else
-		{
-			while (objects[i] instanceof String)
-			{
-				String s2 = (String) objects[i++];
-				++k;
-				j = s2.length();
-				s = s + s2;
-			}
-		}
-		
-		Map<Character, ItemStack> hashmap = new HashMap<>();
-		
-		for (; i < objects.length; i += 2)
-		{
-			Character character = (Character) objects[i];
-			ItemStack itemstack1 = null;
-			
-			if (objects[i + 1] instanceof Item)
-			{
-				itemstack1 = new ItemStack((Item) objects[i + 1]);
-			}
-			else if (objects[i + 1] instanceof Block)
-			{
-				itemstack1 = new ItemStack((Block) objects[i + 1], 1, OreDictionary.WILDCARD_VALUE);
-			}
-			else if (objects[i + 1] instanceof ItemStack)
-			{
-				itemstack1 = (ItemStack) objects[i + 1];
-			}
-			
-			hashmap.put(character, itemstack1);
-		}
-		
-		ItemStack[][] ret = new ItemStack[3][3];
-		
-		for (int j1 = 0; j1 < j; ++j1)
-		{
-			for (int k1 = 0; k1 < k; ++k1)
-			{
-				int i1 = (k1 * k) + j1;
-				char c0 = s.charAt(i1);
-				
-				if (hashmap.containsKey(c0))
-					ret[k1 % 3][j1 % 3] = ((ItemStack) hashmap.get(c0)).copy();
-				else
-					ret[k1 % 3][j1 % 3] = null;
-			}
-		}
-		return ret;
+			return f.getRecipe().getAnalysedRecipe();
 	}
 	
 	@Override
