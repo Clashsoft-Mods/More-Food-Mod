@@ -12,7 +12,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.event.terraingen.TerrainGen;
@@ -146,8 +145,6 @@ public class BlockFruitSapling extends BlockSapling
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-    	for (int i = 0; i < WOOD_TYPES.length; i++)
-			par3List.add(new ItemStack(this, 1, i));
     }
 
     @Override
