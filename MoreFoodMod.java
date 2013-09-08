@@ -180,9 +180,9 @@ public class MoreFoodMod
 		CSBlocks.addBlock(fruitLogs, ItemCustomBlock.class, "Fruit Logs");
 		CSBlocks.addBlock(fruitLeaves, ItemCustomBlock.class, "Fruit Leaves");
 		
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			String fruit = i == 0 ? "Orange" : "Pear";
+			String fruit = i == 0 ? "Orange" : (i == 1 ? "Pear" : "Cherry");
 			LanguageRegistry.instance().addStringLocalization("tile.fruitSaplings." + i + ".name", fruit + " Tree Sapling");
 			LanguageRegistry.instance().addStringLocalization("tile.fruitLogs." + i + ".name", fruit + " Tree Log");
 			LanguageRegistry.instance().addStringLocalization("tile.fruitLeaves." + i + ".name", fruit + " Tree Leaves");
@@ -355,7 +355,7 @@ public class MoreFoodMod
 			if (world.getBiomeGenForCoords(randPosX, randPosZ) instanceof BiomeGenOcean)
 				(new WorldGenMinable(saltOre.blockID, 6)).generate(world, random, randPosX, randPosY, randPosZ);
 		}
-		if (random.nextInt(100) == 0)
+		if (random.nextInt(200) == 0)
 		{
 			int randPosX = chunkX * 16 + random.nextInt(16);
 			int randPosY = 128;
@@ -378,13 +378,13 @@ public class MoreFoodMod
 			}
 		}
 		
-		if (random.nextInt(20) == 0)
+		if (random.nextInt(5) == 0)
 		{
 			int randPosX = chunkX * 16 + random.nextInt(16);
 			int randPosY = 128;
 			int randPosZ = chunkZ * 16 + random.nextInt(16);
 			
-			if ((world.getBiomeGenForCoords(randPosX, randPosY) instanceof BiomeGenForest))
+			if ((world.getBiomeGenForCoords(randPosX, randPosZ) instanceof BiomeGenForest))
 			{
 				for (int j = randPosY; j > 0; j--)
 				{
@@ -399,8 +399,8 @@ public class MoreFoodMod
 					}
 				}
 				
-				int treeType = random.nextInt(1);
-				(new WorldGenFruitTree(true, 4 + random.nextInt(4), fruitLogsID, fruitLeavesID, treeType, treeType)).generate(world, random, randPosX, randPosY, randPosZ);
+				int treeType = random.nextInt(2);
+				(new WorldGenFruitTree(false, 4 + random.nextInt(4), fruitLogsID, fruitLeavesID, treeType, treeType)).generate(world, random, randPosX, randPosY, randPosZ);
 			}
 		}
 		if (random.nextInt(10) == 0)

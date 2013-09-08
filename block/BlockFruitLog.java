@@ -15,7 +15,7 @@ import net.minecraft.util.Icon;
 public class BlockFruitLog extends BlockLog
 {
 	/** The type of tree this log came from. */
-	public static final String[]	woodType	= new String[] { "orange", "pear" };
+	public static final String[]	woodType	= new String[] { "orange", "pear", "cherry" };
 	
 	@SideOnly(Side.CLIENT)
 	public Icon[]					tree_side;
@@ -34,8 +34,8 @@ public class BlockFruitLog extends BlockLog
 	 */
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		par3List.add(new ItemStack(par1, 1, 0));
-		par3List.add(new ItemStack(par1, 1, 1));
+		for (int i = 0; i < woodType.length; i++)
+			par3List.add(new ItemStack(this, 1, i));
 	}
 	
 	@Override

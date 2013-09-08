@@ -19,7 +19,7 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class BlockFruitSapling extends BlockSapling
 {
-    public static final String[] WOOD_TYPES = new String[] {"orange", "pear"};
+    public static final String[] WOOD_TYPES = new String[] {"orange", "pear", "cherry"};
     @SideOnly(Side.CLIENT)
     private Icon[] saplingIcon;
 
@@ -135,7 +135,7 @@ public class BlockFruitSapling extends BlockSapling
 	public int damageDropped(int par1)
 	{
 		par1 &= 3;
-		return par1 == 0 ? Food.orange.getID() : (par1 == 1 ? Food.pear.getID() : 0);
+		return par1 == 0 ? Food.orange.getID() : (par1 == 1 ? Food.pear.getID() : (par1 == 2 ? Food.cherry.getID() : 0));
 	}
 
     @Override
@@ -146,8 +146,8 @@ public class BlockFruitSapling extends BlockSapling
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        par3List.add(new ItemStack(par1, 1, 0));
-        par3List.add(new ItemStack(par1, 1, 1));
+    	for (int i = 0; i < WOOD_TYPES.length; i++)
+			par3List.add(new ItemStack(this, 1, i));
     }
 
     @Override

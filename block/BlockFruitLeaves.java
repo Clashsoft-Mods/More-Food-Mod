@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import clashsoft.mods.morefood.MoreFoodMod;
-import clashsoft.mods.morefood.food.Food;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -18,7 +17,7 @@ import net.minecraft.world.World;
 
 public class BlockFruitLeaves extends BlockLeaves
 {
-	public static final String[]	LEAF_TYPES	= new String[] { "orange", "pear" };
+	public static final String[]	LEAF_TYPES	= new String[] { "orange", "pear", "cherry" };
 	
 	public int						iconType	= 0;
 	public Icon[]					iconArray	= new Icon[LEAF_TYPES.length];
@@ -93,8 +92,8 @@ public class BlockFruitLeaves extends BlockLeaves
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		par3List.add(new ItemStack(this, 1, 0));
-		par3List.add(new ItemStack(this, 1, 1));
+		for (int i = 0; i < LEAF_TYPES.length; i++)
+			par3List.add(new ItemStack(this, 1, i));
 	}
 	
 	@Override
@@ -118,8 +117,7 @@ public class BlockFruitLeaves extends BlockLeaves
 	@Override
 	public int damageDropped(int par1)
 	{
-		par1 &= 3;
-		return par1 == 0 ? Food.orange.getID() : (par1 == 1 ? Food.pear.getID() : 0);
+		return MoreFoodMod.fruitSaplings.damageDropped(par1);
 	}
 	
 	@Override
