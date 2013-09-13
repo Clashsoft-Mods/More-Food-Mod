@@ -38,7 +38,8 @@ public class FoodRecipe implements IItemMetadataRecipe
 			GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), data);
 			break;
 		case FURNACE:
-			CSCrafting.addSmelting((ItemStack) data[0], new ItemStack(item, this.amount, foodID), (float) data[1]);
+			Float f = (Float) data[1];
+			CSCrafting.addSmelting((ItemStack) data[0], new ItemStack(item, this.amount, foodID), f);
 			break;
 		}
 	}
