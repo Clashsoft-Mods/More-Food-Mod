@@ -141,29 +141,29 @@ public class ItemFoods extends ItemFoodMoreFood
 		int blockPlaced = food.getBlockPlaced();
 		int metaPlaced = food.getMetadataPlaced();
 		if (par7 != 1 || blockPlaced <= 0)
-        {
-            return false;
-        }
-        else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
-        {
-            int i1 = par3World.getBlockId(par4, par5, par6);
-            Block plant = Block.blocksList[blockPlaced];
-            Block soil = Block.blocksList[i1];
-
-            if (soil != null && plant instanceof IPlantable && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, (IPlantable)plant) && par3World.isAirBlock(par4, par5 + 1, par6))
-            {
-                par3World.setBlock(par4, par5 + 1, par6, blockPlaced, metaPlaced, 2);
-                --par1ItemStack.stackSize;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
+		{
+			return false;
+		}
+		else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+		{
+			int i1 = par3World.getBlockId(par4, par5, par6);
+			Block plant = Block.blocksList[blockPlaced];
+			Block soil = Block.blocksList[i1];
+			
+			if (soil != null && plant instanceof IPlantable && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, (IPlantable) plant) && par3World.isAirBlock(par4, par5 + 1, par6))
+			{
+				par3World.setBlock(par4, par5 + 1, par6, blockPlaced, metaPlaced, 2);
+				--par1ItemStack.stackSize;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

@@ -86,7 +86,7 @@ public class BlockFruitLeaves extends BlockLeaves
 	 */
 	public Icon getIcon(int par1, int par2)
 	{
-		return this.iconArray[par2 & 3 % iconArray.length];
+		return this.iconArray[par2 & 3];
 	}
 	
 	@Override

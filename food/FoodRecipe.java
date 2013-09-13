@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class FoodRecipe implements IItemMetadataRecipe
-{	
+{
 	private int				amount;
 	private int				craftingType;
 	private Object[]		data;
@@ -60,7 +60,7 @@ public class FoodRecipe implements IItemMetadataRecipe
 	{
 		return data;
 	}
-
+	
 	/**
 	 * @return the analysed recipe
 	 */

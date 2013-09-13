@@ -77,11 +77,11 @@ public class BlockFruitLog extends BlockLog
 	}
 	
 	/**
-     * Returns the ID of the items to drop on destruction.
-     */
-    @Override
+	 * Returns the ID of the items to drop on destruction.
+	 */
+	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
-    {
-        return this.blockID;
-    }
+	{
+		return this.blockID;
+	}
 }

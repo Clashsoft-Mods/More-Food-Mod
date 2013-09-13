@@ -24,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenOcean;
@@ -280,11 +281,14 @@ public class MoreFoodMod
 		addFoodDesc(Food.cheese_slice, "A tiny slice of the big cheese wheel");
 		addFoodDesc(Food.chili, "Hot and spicy!");
 		addFoodDesc(Food.chocolate, "Pretty sweet");
+		addFoodDesc(Food.chocolateWhite, "SWEET!");
+		addFoodDesc(Food.chocolateCow, EnumChatFormatting.UNDERLINE + "Not" + EnumChatFormatting.RESET + " made from cows!");
 		addFoodDesc(Food.chocolateCookie, "Chocolate cookies like your grandma would craft them");
 		addFoodDesc(Food.corn, "Better make some popcorn!");
 		addFoodDesc(Food.cucumber, "Long and green");
 		addFoodDesc(Food.fried_egg, "An egg");
 		addFoodDesc(Food.hamburger, "Directly from McDerp!");
+		addFoodDesc(Food.frenchfries, "Directly from McDerp!");
 		addFoodDesc(Food.honeydrop, "Made by bees");
 		addFoodDesc(Food.meatball, "Many cows died for this");
 		addFoodDesc(Food.omelette, "Many eggs");
@@ -305,6 +309,22 @@ public class MoreFoodMod
 		addFoodDesc(Food.toast_toasted, "Toasted toast");
 		addFoodDesc(Food.tomato, "A vegatable or a fruit?");
 		addFoodDesc(Food.vanillaSeeds, "Do not eat! Plant!");
+		
+		addFoodDesc(Food.orange, "The color is orange");
+		addFoodDesc(Food.pear, "Pearous");
+		addFoodDesc(Food.cherry, "Two cherrys. But the name says its one.");
+		addFoodDesc(Food.strawberry, "Make a bush");
+		addFoodDesc(Food.raspberry, "Make a bush");
+		addFoodDesc(Food.blueberry, "Make a bush");
+		addFoodDesc(Food.blackberry, "Make a bush");
+		addFoodDesc(Food.redcurrant, "Make a bush");
+		
+		addFoodDesc(Food.icecube, "An icy cube");
+		addFoodDesc(Food.icecreamCone, "A cone to be filled with icecream");
+		addFoodDesc(Food.icecream, "Tasty, cold icecream");
+		addFoodDesc(Food.icecreamChocolate, "Chocolate icecream made from icecream and chocolate");
+		addFoodDesc(Food.icecreamStrawberry, "Strawberry icecream made from icecream and strawberrys");
+		addFoodDesc(Food.icecreamVanilla, "Vanilla icecream made from icecream and vanilla");
 		
 		addFoodDesc(Food.apple, "An apple, dropped by an oak tree.");
 		addFoodDesc(Food.appleStomped, "Stomped");

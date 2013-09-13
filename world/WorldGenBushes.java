@@ -8,8 +8,8 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenBushes extends WorldGenerator
 {
-	public final int amount, rangeX, rangeY, rangeZ;
-	public final int bushID, bushMeta;
+	public final int	amount, rangeX, rangeY, rangeZ;
+	public final int	bushID, bushMeta;
 	
 	public WorldGenBushes(int bushID, int bushMeta)
 	{

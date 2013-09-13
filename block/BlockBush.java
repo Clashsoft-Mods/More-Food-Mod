@@ -19,22 +19,22 @@ public class BlockBush extends BlockFlower
 {
 	
 	/** The max meta. */
-	public int maxMeta = 3;
+	public int			maxMeta	= 3;
 	
 	/** The drop. */
-	public ItemStack drop;
+	public ItemStack	drop;
 	
 	/** The bush texture. */
-	public String bushTexture;
+	public String		bushTexture;
 	
 	/** The stem texture. */
-	public String stemTexture;
+	public String		stemTexture;
 	
 	/** The bush icon. */
-	public Icon bushIcon;
+	public Icon			bushIcon;
 	
 	/** The stem icon. */
-	public Icon stemIcon;
+	public Icon			stemIcon;
 	
 	/**
 	 * Instantiates a new block bush.
@@ -57,8 +57,11 @@ public class BlockBush extends BlockFlower
 		this.stemTexture = stemtexture;
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#setBlockBoundsBasedOnState(net.minecraft.world.IBlockAccess, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * net.minecraft.block.Block#setBlockBoundsBasedOnState(net.minecraft.world
+	 * .IBlockAccess, int, int, int)
 	 */
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess par1World, int par2, int par3, int par4)
@@ -70,17 +73,23 @@ public class BlockBush extends BlockFlower
 		this.setBlockBoundsForItemRender();
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#getBlockHardness(net.minecraft.world.World, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * net.minecraft.block.Block#getBlockHardness(net.minecraft.world.World,
+	 * int, int, int)
 	 */
 	@Override
 	public float getBlockHardness(World par1World, int par2, int par3, int par4)
 	{
 		return par1World.getBlockMetadata(par2, par3, par4) == maxMeta ? 0.6F : 0.2F;
 	}
-
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.BlockFlower#updateTick(net.minecraft.world.World, int, int, int, java.util.Random)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * net.minecraft.block.BlockFlower#updateTick(net.minecraft.world.World,
+	 * int, int, int, java.util.Random)
 	 */
 	@Override
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
@@ -92,8 +101,11 @@ public class BlockBush extends BlockFlower
 			par1World.setBlockMetadataWithNotify(par2, par3, par4, i + 1, 2);
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#onBlockDestroyedByPlayer(net.minecraft.world.World, int, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * net.minecraft.block.Block#onBlockDestroyedByPlayer(net.minecraft.world
+	 * .World, int, int, int, int)
 	 */
 	@Override
 	public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5)
@@ -102,16 +114,19 @@ public class BlockBush extends BlockFlower
 			par1World.setBlock(par2, par3, par4, blockID, 0, 2);
 	}
 	
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#idPicked(net.minecraft.world.World, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * @see net.minecraft.block.Block#idPicked(net.minecraft.world.World, int,
+	 * int, int)
 	 */
 	@Override
 	public int idPicked(World par1World, int par2, int par3, int par4)
 	{
 		return drop.itemID;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see net.minecraft.block.Block#idDropped(int, java.util.Random, int)
 	 */
 	@Override
@@ -119,8 +134,9 @@ public class BlockBush extends BlockFlower
 	{
 		return drop.itemID;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
 	 * @see net.minecraft.block.Block#damageDropped(int)
 	 */
 	@Override
@@ -128,9 +144,11 @@ public class BlockBush extends BlockFlower
 	{
 		return drop.getItemDamage();
 	}
-
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#quantityDropped(int, int, java.util.Random)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.minecraft.block.Block#quantityDropped(int, int,
+	 * java.util.Random)
 	 */
 	@Override
 	public int quantityDropped(int meta, int fortune, Random random)
@@ -140,9 +158,12 @@ public class BlockBush extends BlockFlower
 		else
 			return 0;
 	}
-
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer.texture.IconRegister)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer
+	 * .texture.IconRegister)
 	 */
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
@@ -151,7 +172,8 @@ public class BlockBush extends BlockFlower
 		this.blockIcon = this.stemIcon = par1IconRegister.registerIcon(stemTexture);
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see net.minecraft.block.BlockFlower#getRenderType()
 	 */
 	@Override
@@ -159,9 +181,11 @@ public class BlockBush extends BlockFlower
 	{
 		return ClientProxy.BUSH_RENDER_ID;
 	}
-
-	/* (non-Javadoc)
-	 * @see net.minecraft.block.Block#shouldSideBeRendered(net.minecraft.world.IBlockAccess, int, int, int, int)
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.minecraft.block.Block#shouldSideBeRendered(net.minecraft.world.
+	 * IBlockAccess, int, int, int, int)
 	 */
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5)
@@ -169,7 +193,8 @@ public class BlockBush extends BlockFlower
 		return true;
 	}
 	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see net.minecraft.block.BlockFlower#isOpaqueCube()
 	 */
 	@Override
@@ -177,7 +202,7 @@ public class BlockBush extends BlockFlower
 	{
 		return false;
 	}
-
+	
 	/**
 	 * Fertilize.
 	 * 
