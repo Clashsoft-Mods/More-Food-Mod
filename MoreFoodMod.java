@@ -26,7 +26,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenForest;
+import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -442,11 +444,21 @@ public class MoreFoodMod
 				}
 			}
 			
-			int bushType = random.nextInt(BUSHES.length);
-			(new WorldGenBushes(BUSHES[bushType], 3)).generate(world, random, randPosX, randPosY, randPosZ);
+			int bushType = getBushTypeForBiome(world.getBiomeGenForCoords(randPosX, randPosY), random);
+			(new WorldGenBushes(bushType, 3)).generate(world, random, randPosX, randPosY, randPosZ);
 		}
 	}
 	
+	public static int getBushTypeForBiome(BiomeGenBase biome, Random random)
+	{
+		if (biome instanceof BiomeGenForest)
+			return random.nextBoolean() ? raspberryBushID : blackberryBushID;
+		else if (biome instanceof BiomeGenJungle)
+			return random.nextBoolean() ? redcurrantBushID : blueberryBushID;
+		else
+			return BUSHES[random.nextInt(BUSHES.length)];
+	}
+
 	public class WorldGenHandler implements IWorldGenerator
 	{
 		@Override
