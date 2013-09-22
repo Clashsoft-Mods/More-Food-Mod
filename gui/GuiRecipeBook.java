@@ -1,9 +1,6 @@
 package clashsoft.mods.morefood.gui;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -38,9 +35,11 @@ public class GuiRecipeBook extends GuiContainer
 	public GuiButton						next;
 	
 	public GuiTextField						search;
+	public GuiFoodListSlot					foodListSlot;
 	
 	public ContainerRecipeBook				container;
-	public int								recipeID			= 0;
+	public int								currentEntry		= 0;
+	public String							currentEntryName 	= "";	
 	public Food								food;
 	public List<Food>						currentDisplayList	= Food.getDisplayList();
 	public ItemStack[][]					recipe				= null;
@@ -55,27 +54,38 @@ public class GuiRecipeBook extends GuiContainer
 	}
 	
 	@Override
+	public void drawScreen(int par1, int par2, float par3)
+	{
+		foodListSlot.drawScreen(par1, par2, 1F);
+		super.drawScreen(par1, par2, par3);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
 		GL11.glColor4f(1, 1, 1, 1);
 		search.drawTextBox();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslatef(-this.guiLeft, -this.guiTop, 0F);
+		foodListSlot.drawScreen(par1, par2, 1F);
+		GL11.glPopMatrix();
+		
 		if (isPointInRegion(next.xPosition - guiLeft, next.yPosition - guiTop, 20, 20, par1, par2) && next.enabled)
 		{
 			List<String> list = new LinkedList<String>();
-			list.add(Food.getDisplayList().get(recipeID + 1).asStack().getDisplayName());
+			list.add(Food.getDisplayList().get(currentEntry + 1).asStack().getDisplayName());
 			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
 		}
 		if (isPointInRegion(prev.xPosition - guiLeft, prev.yPosition - guiTop, 20, 20, par1, par2) && prev.enabled)
 		{
 			List<String> list = new LinkedList<String>();
-			list.add(Food.getDisplayList().get(recipeID - 1).asStack().getDisplayName());
+			list.add(Food.getDisplayList().get(currentEntry - 1).asStack().getDisplayName());
 			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
 		}
 		if (isPointInRegion(20, 50, 40, 40, par1, par2))
 		{
-			List<String> list = new LinkedList<String>();
-			list.add(Food.getDisplayList().get(recipeID).asStack().getDisplayName());
-			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+			this.drawHoveringText(Arrays.asList(currentEntryName), par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
 		}
 	}
 	
@@ -94,14 +104,15 @@ public class GuiRecipeBook extends GuiContainer
 		{
 			// Name + Description
 			
+			ItemStack stack = food.asStack();
+			
 			{
-				String name = food.asStack().getDisplayName();
 				String name2 = "food." + food.getName().toLowerCase().replace(" ", "") + ".desc";
 				String desc = StatCollector.translateToLocal(name2);
 				if (desc.equals(name2))
 					desc = "" + EnumChatFormatting.DARK_RED + EnumChatFormatting.ITALIC + "No description available. ";
 				
-				this.mc.fontRenderer.drawString(name, (this.width - this.mc.fontRenderer.getStringWidth(name)) / 2, guiTop + 27, 4210752, false);
+				this.mc.fontRenderer.drawString(currentEntryName, (this.width - this.mc.fontRenderer.getStringWidth(currentEntryName)) / 2, guiTop + 27, 4210752, false);
 				
 				String s4 = CSString.cutString(desc, 26);
 				String[] lines = CSString.makeLineList(s4);
@@ -117,7 +128,7 @@ public class GuiRecipeBook extends GuiContainer
 				
 				if (food.getRecipe() != null && recipe != null)
 				{
-					String s = food.getRecipe().getAmount() + "x " + food.asStack().getDisplayName();
+					String s = food.getRecipe().getAmount() + "x " + currentEntryName;
 					String[] split = CSUtil.makeLineList(CSString.cutString(s, 15));
 					
 					for (int i = 0; i < split.length; i++)
@@ -152,13 +163,14 @@ public class GuiRecipeBook extends GuiContainer
 			
 			// Icon
 			
-			GL11.glScalef(2.5F, 2.5F, 1F);
-			itemRender.zLevel = 100F;
-			ItemStack stack = food.asStack();
-			itemRender.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, stack, (int) ((guiLeft + 22) / 2.5F), (int) ((guiTop + 50) / 2.5F));
-			itemRender.zLevel = 0F;
-			GL11.glScalef(0.4F, 0.4F, 1F);
-			GL11.glColor4f(1F, 1F, 1F, 1F);
+			{
+				GL11.glScalef(2.5F, 2.5F, 1F);
+				itemRender.zLevel = 100F;
+				itemRender.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, stack, (int) ((guiLeft + 22) / 2.5F), (int) ((guiTop + 50) / 2.5F));
+				itemRender.zLevel = 0F;
+				GL11.glScalef(0.4F, 0.4F, 1F);
+				GL11.glColor4f(1F, 1F, 1F, 1F);
+			}
 		}
 	}
 	
@@ -166,12 +178,12 @@ public class GuiRecipeBook extends GuiContainer
 	protected void actionPerformed(GuiButton par1GuiButton)
 	{
 		if (par1GuiButton.id == 0)
-			if (recipeID > 0)
-				recipeID--;
+			if (currentEntry > 0)
+				currentEntry--;
 		if (par1GuiButton.id == 1)
-			if (recipeID < currentDisplayList.size() - 1)
-				recipeID++;
-		this.setRecipe(recipeID);
+			if (currentEntry < currentDisplayList.size() - 1)
+				currentEntry++;
+		this.setRecipe(currentEntry);
 	}
 	
 	@Override
@@ -187,10 +199,12 @@ public class GuiRecipeBook extends GuiContainer
 		search = new GuiTextField(fontRenderer, 44, 20, xSize - 40 - 48, 20);
 		search.setVisible(false);
 		
+		foodListSlot = new GuiFoodListSlot(this);
+		
 		this.buttonList.add(prev);
 		this.buttonList.add(next);
 		
-		this.setRecipe(recipeID);
+		this.setRecipe(currentEntry);
 	}
 	
 	/**
@@ -266,14 +280,15 @@ public class GuiRecipeBook extends GuiContainer
 			this.food = currentDisplayList.get(recipe);
 			this.recipe = analyseRecipe(food);
 			this.container.inventory.stacks = this.recipe;
-			this.recipeID = recipe;
+			this.currentEntry = recipe;
+			this.currentEntryName = food.asStack().getDisplayName();
 			
-			if (recipeID == 0)
+			if (currentEntry == 0)
 				prev.enabled = false;
 			else
 				prev.enabled = true;
 			
-			if (recipeID == currentDisplayList.size() - 1)
+			if (currentEntry == currentDisplayList.size() - 1)
 				next.enabled = false;
 			else
 				next.enabled = true;
@@ -338,7 +353,7 @@ public class GuiRecipeBook extends GuiContainer
 			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
 			this.drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
 			this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
-			int i2 = 0xFFFFFFFF;
+			int i2 = 0xFFFF8100;
 			int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
 			this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
 			this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);
@@ -367,9 +382,8 @@ public class GuiRecipeBook extends GuiContainer
 		}
 	}
 	
-	@Override
-	public boolean doesGuiPauseGame()
+	public int getGuiLeft()
 	{
-		return super.doesGuiPauseGame();
+		return this.guiLeft;
 	}
 }
