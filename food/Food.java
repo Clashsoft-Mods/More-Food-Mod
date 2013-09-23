@@ -130,106 +130,114 @@ public class Food implements IItemMetadataList
 	
 	static
 	{
-		// Vanilla Food
-		porkRaw.register();
-		porkCooked.register();
-		beefRaw.register();
-		beefCooked.register();
-		chickenRaw.register();
-		chickenCooked.register();
-		fishRaw.register();
-		fishCooked.register();
-		rottenFlesh.register();
-		spiderEye.register();
-		// Vanilla Fruits
-		apple.register();
-		appleStomped.register();
-		appleGold1.register();
-		appleGold2.register();
-		appleDiamond.register();
-		melon.register();
-		melonGold1.register();
-		// Fruits
-		orange.register();
-		pear.register();
-		cherry.register();
-		strawberry.register();
-		raspberry.register();
-		blackberry.register();
-		blueberry.register();
-		redcurrant.register();
-		// Vanilla Vegetables
-		potato.register();
-		potatoCooked.register();
-		potatoStomped.register();
-		potatoGold1.register();
-		potatoGold2.register();
-		potatoDiamond.register();
-		poisonousPotato.register();
-		carrot.register();
-		carrotCooked.register();
-		carrotStomped.register();
-		carrotGold1.register();
-		carrotDiamond.register();
-		// Vegetables
-		salad.register();
-		cucumber.register();
-		rice.register();
-		chili.register();
-		tomato.register();
-		paprika.register();
-		onion.register();
-		pepperSeeds.register();
-		vanillaSeeds.register();
-		corn.register();
-		// Bread and Toast
-		bread.register();
-		breadslice.register();
-		toast.register();
-		toast_toasted.register();
-		toast_cheese.register();
-		toast_salami.register();
-		// Other food
-		cheese.register();
-		cheese_slice.register();
-		bacon_raw.register();
-		bacon.register();
-		pasta.register();
-		meatball.register();
-		salami.register();
-		hamburger.register();
-		frenchfries.register();
-		pizza.register();
-		omelette.register();
-		pumpkinPie.register();
-		fried_egg.register();
-		// Sweet stuff
-		popcorn.register();
-		popcorn_sweet.register();
-		popcorn_salty.register();
-		candycane.register();
-		butter.register();
-		chocolate.register();
-		chocolateWhite.register();
-		chocolateCow.register();
-		cookie.register();
-		chocolateCookie.register();
-		cereals1.register();
-		cereals2.register();
-		// Ice cream
-		icecube.register();
-		icecream.register();
-		icecreamChocolate.register();
-		icecreamVanilla.register();
-		icecreamStrawberry.register();
-		icecreamCone.register();
-		icecreamConeChocolate.register();
-		icecreamConeVanilla.register();
-		icecreamConeStrawberry.register();
-		icecreamConeCV.register();
-		icecreamConeCS.register();
-		icecreamConeVS.register();
-		icecreamConeCVS.register();
+		setCategory("Vanilla Meat Items", 0x442319,
+		porkRaw.register(),
+		porkCooked.register(),
+		beefRaw.register(),
+		beefCooked.register(),
+		chickenRaw.register(),
+		chickenCooked.register(),
+		fishRaw.register(),
+		fishCooked.register(),
+		rottenFlesh.register(),
+		spiderEye.register());
+		
+		setCategory("Vanilla Fruit Items", 0x00FF00,
+		apple.register(),
+		appleStomped.register(),
+		appleGold1.register(),
+		appleGold2.register(),
+		appleDiamond.register(),
+		melon.register(),
+		melonGold1.register());
+		
+		setCategory("Fruit Items", 0xFF0000,
+		orange.register(),
+		pear.register(),
+		cherry.register(),
+		strawberry.register(),
+		raspberry.register(),
+		blackberry.register(),
+		blueberry.register(),
+		redcurrant.register());
+		
+		setCategory("Vanilla Vegetables", 0xFFDB92,
+		potato.register(),
+		potatoCooked.register(),
+		potatoStomped.register(),
+		potatoGold1.register(),
+		potatoGold2.register(),
+		potatoDiamond.register(),
+		poisonousPotato.register(),
+		carrot.register(),
+		carrotCooked.register(),
+		carrotStomped.register(),
+		carrotGold1.register(),
+		carrotDiamond.register());
+		
+		setCategory("Vegetables", 0x008100,
+		salad.register(),
+		cucumber.register(),
+		rice.register(),
+		chili.register(),
+		tomato.register(),
+		paprika.register(),
+		onion.register(),
+		pepperSeeds.register(),
+		vanillaSeeds.register(),
+		corn.register());
+		
+		setCategory("Wheat Products", 0x906C22,
+		bread.register(),
+		breadslice.register(),
+		toast.register(),
+		toast_toasted.register(),
+		toast_cheese.register(),
+		toast_salami.register());
+		
+		setCategory("Food Products", 0xFFFF00,
+		cheese.register(),
+		cheese_slice.register(),
+		bacon_raw.register(),
+		bacon.register(),
+		pasta.register(),
+		meatball.register(),
+		salami.register(),
+		hamburger.register(),
+		frenchfries.register(),
+		pizza.register(),
+		omelette.register(),
+		pumpkinPie.register(),
+		fried_egg.register());
+		
+		setCategory("Sweet Food Items", 0xEFEFEF,
+		popcorn.register(),
+		popcorn_sweet.register(),
+		popcorn_salty.register(),
+		candycane.register(),
+		butter.register(),
+		chocolate.register(),
+		chocolateWhite.register(),
+		chocolateCow.register(),
+		cookie.register(),
+		chocolateCookie.register(),
+		cereals1.register(),
+		cereals2.register());
+		
+		setCategory("Cold Food Items", 0xD5FEFF,
+		icecube.register(),
+		icecream.register(),
+		icecreamChocolate.register(),
+		icecreamVanilla.register(),
+		icecreamStrawberry.register(),
+		icecreamCone.register(),
+		icecreamConeChocolate.register(),
+		icecreamConeVanilla.register(),
+		icecreamConeStrawberry.register(),
+		icecreamConeCV.register(),
+		icecreamConeCS.register(),
+		icecreamConeVS.register(),
+		icecreamConeCVS.register());
 		
 		Drink.init();
 	}
@@ -244,6 +252,7 @@ public class Food implements IItemMetadataList
 	private int					blockPlaced				= 0;
 	private int					metadataPlaced			= 0;
 	private boolean				isEnabled				= true;
+	private FoodCategory		category				= new FoodCategory("Food Items", 0x818181);
 	
 	private FoodRecipe			recipe					= null;
 	private PotionEffect[]		effects					= new PotionEffect[0];
@@ -321,9 +330,10 @@ public class Food implements IItemMetadataList
 	 * @see clashsoft.mods.morefood.food.IItemMetadataList#register()
 	 */
 	@Override
-	public void register()
+	public Food register()
 	{
 		foodList.add(this);
+		return this;
 	}
 	
 	public void addRecipe()
@@ -538,5 +548,23 @@ public class Food implements IItemMetadataList
 	{
 		this.metadataPlaced = i;
 		return this;
+	}
+	
+	public Food setCategory(FoodCategory category)
+	{
+		this.category = category;
+		return this;
+	}
+	
+	public FoodCategory getCategory()
+	{
+		return this.category;
+	}
+	
+	public static void setCategory(String name, int color, Food... foods)
+	{
+		FoodCategory category = new FoodCategory(name, color);
+		for (Food f : foods)
+			f.setCategory(category);
 	}
 }

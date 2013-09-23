@@ -1,11 +1,13 @@
 package clashsoft.mods.morefood.gui;
 
+import clashsoft.clashsoftapi.util.CSString;
 import clashsoft.mods.morefood.food.Food;
 import cpw.mods.fml.client.GuiScrollingList;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Icon;
 
 public class GuiFoodListSlot extends GuiScrollingList
 {
@@ -16,7 +18,7 @@ public class GuiFoodListSlot extends GuiScrollingList
 		super(Minecraft.getMinecraft(), parent.getGuiLeft(), parent.height, 0, parent.height, 0, 36);
 		this.parentGui = parent;
 	}
-
+	
 	@Override
 	protected int getSize()
 	{
@@ -46,32 +48,25 @@ public class GuiFoodListSlot extends GuiScrollingList
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		Food food = parentGui.currentDisplayList.get(id);
+		Icon icon = food.asStack().getIconIndex();
+		
+		int offsX = 0;
+		
 		String name = food.asStack().getDisplayName();
+		name = CSString.trimStringToRenderWidth(name, this.listWidth - offsX - 2);
 		
-		int i = mc.fontRenderer.getStringWidth("...");
-		boolean flag = false;
-		while(name.length() > 0 && mc.fontRenderer.getStringWidth(name) + i > this.listWidth - 8)
-		{
-			name = name.substring(0, name.length() - 1);
-			flag = true;
-		}
-		if (flag)
-			name += "...";
-		
-		int offs = 0;
-		
+		int offsY = 0;
 		if (!parentGui.search.getText().isEmpty())
 		{
-			offs = 10;
-			mc.fontRenderer.drawString("Match:", 2, y + 2, 0xFF8100, true);
+			offsY = 10;
+			mc.fontRenderer.drawString(parentGui.search.getText().startsWith("category:") ? "Category Match:" : "Match:", offsX + 2, y + 2, 0xFF8100, true);
 		}
 		
-		mc.fontRenderer.drawString(name, 2, y + offs + 2, 0xFFFFFF, true);
+		mc.fontRenderer.drawString(name, offsX + 2, y + offsY + 2, 0xFFFFFF, true);
 		
-		int number = food.getID() + 1;
-		if (number != 0)
-			mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + "Food Item", 2, y + offs + 12, 0x0081FF, true);
-		else
-			mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + "Vanilla Item", 2, y + offs + 12, 0x00EE00);
+		String category = EnumChatFormatting.ITALIC + food.getCategory().name;
+		category = CSString.trimStringToRenderWidth(category, this.listWidth);
+		
+		mc.fontRenderer.drawString(category, offsX + 2, y + offsY + 12, food.getCategory().color, true);
 	}
 }

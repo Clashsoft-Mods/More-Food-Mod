@@ -98,7 +98,7 @@ public class GuiRecipeBook extends GuiContainer
 		
 		int matchingEntrys = currentDisplayList.size();
 		String header = "Recipe Book (" + matchingEntrys + (matchingEntrys != Food.getDisplayList().size() ? " Matching" : "") + " Entry" + (matchingEntrys != 1 ? "s" : "") + ")";
-		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, guiTop + 10, 4210752, false);
+		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, guiTop + 10, 0x404040, false);
 		
 		if (food != null)
 		{
@@ -114,10 +114,12 @@ public class GuiRecipeBook extends GuiContainer
 				
 				this.mc.fontRenderer.drawString(currentEntryName, (this.width - this.mc.fontRenderer.getStringWidth(currentEntryName)) / 2, guiTop + 27, 4210752, false);
 				
+				this.mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + food.getCategory().name, guiLeft + 70, guiTop + 45, 0x404040);
+				
 				String s4 = CSString.cutString(desc, 26);
 				String[] lines = CSString.makeLineList(s4);
 				for (int i = 0; i < lines.length; i++)
-					this.mc.fontRenderer.drawString(lines[i], guiLeft + 70, guiTop + 50 + (i * 10), 4210752, false);
+					this.mc.fontRenderer.drawString(lines[i], guiLeft + 70, guiTop + 60 + (i * 10), 4210752);
 			}
 			
 			// Crafting
@@ -228,12 +230,23 @@ public class GuiRecipeBook extends GuiContainer
 			else
 			{
 				currentDisplayList = new ArrayList();
+				String searchText = search.getText().toLowerCase().trim();
 				for (int i = 0; i < Food.getDisplayList().size(); i++)
 				{
 					Food f = Food.getDisplayList().get(i);
 					String s = f.asStack().getDisplayName().toLowerCase().trim();
-					String s2 = search.getText().toLowerCase().trim();
-					if (s.startsWith(s2))
+					
+					if (searchText.startsWith("category:"))
+					{
+						String s1 = searchText.substring(searchText.indexOf(':') + 1);
+						String s2 = f.getCategory().name.toLowerCase().trim();
+						if (s2.startsWith(s1))
+						{
+							currentDisplayList.add(f);
+							flag = false;
+						}
+					}
+					else if (s.startsWith(searchText))
 					{
 						currentDisplayList.add(f);
 						flag = false;
