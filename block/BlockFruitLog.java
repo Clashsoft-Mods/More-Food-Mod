@@ -15,16 +15,17 @@ import net.minecraft.util.Icon;
 public class BlockFruitLog extends BlockLog
 {
 	/** The type of tree this log came from. */
-	public static final String[]	woodType	= new String[] { "orange", "pear", "cherry" };
+	public String[]	woodTypes;
 	
 	@SideOnly(Side.CLIENT)
-	public Icon[]					tree_side;
+	public Icon[]	tree_side;
 	@SideOnly(Side.CLIENT)
-	public Icon[]					tree_top;
+	public Icon[]	tree_top;
 	
-	public BlockFruitLog(int par1)
+	public BlockFruitLog(int par1, String[] types)
 	{
 		super(par1);
+		this.woodTypes = types;
 	}
 	
 	@Override
@@ -34,7 +35,7 @@ public class BlockFruitLog extends BlockLog
 	 */
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < woodType.length; i++)
+		for (int i = 0; i < woodTypes.length; i++)
 			par3List.add(new ItemStack(this, 1, i));
 	}
 	
@@ -46,13 +47,13 @@ public class BlockFruitLog extends BlockLog
 	 */
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.tree_side = new Icon[woodType.length];
-		this.tree_top = new Icon[woodType.length];
+		this.tree_side = new Icon[woodTypes.length];
+		this.tree_top = new Icon[woodTypes.length];
 		
 		for (int i = 0; i < this.tree_side.length; ++i)
 		{
-			this.tree_side[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + woodType[i]);
-			this.tree_top[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + woodType[i] + "_top");
+			this.tree_side[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + woodTypes[i]);
+			this.tree_top[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + woodTypes[i] + "_top");
 		}
 	}
 	

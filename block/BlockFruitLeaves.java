@@ -17,14 +17,16 @@ import net.minecraft.world.World;
 
 public class BlockFruitLeaves extends BlockLeaves
 {
-	public static final String[]	LEAF_TYPES	= new String[] { "orange", "pear", "cherry" };
+	public String[]	leafTypes;
 	
-	public int						iconType	= 0;
-	public Icon[]					iconArray	= new Icon[LEAF_TYPES.length];
+	public int		iconType	= 0;
+	public Icon[]	iconArray;
 	
-	public BlockFruitLeaves(int par1)
+	public BlockFruitLeaves(int par1, String[] types)
 	{
 		super(par1);
+		this.leafTypes = types;
+		this.iconArray = new Icon[leafTypes.length];
 	}
 	
 	@Override
@@ -73,9 +75,9 @@ public class BlockFruitLeaves extends BlockLeaves
 	@Override
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		for (int i = 0; i < LEAF_TYPES.length; ++i)
+		for (int i = 0; i < leafTypes.length; ++i)
 		{
-			iconArray[i] = par1IconRegister.registerIcon(getTextureName() + "_" + LEAF_TYPES[i]);
+			iconArray[i] = par1IconRegister.registerIcon(getTextureName() + "_" + leafTypes[i]);
 		}
 	}
 	
@@ -92,7 +94,7 @@ public class BlockFruitLeaves extends BlockLeaves
 	@Override
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
 	{
-		for (int i = 0; i < LEAF_TYPES.length; i++)
+		for (int i = 0; i < leafTypes.length; i++)
 			par3List.add(new ItemStack(this, 1, i));
 	}
 	

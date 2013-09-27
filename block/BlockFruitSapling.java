@@ -18,13 +18,15 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class BlockFruitSapling extends BlockSapling
 {
-	public static final String[]	WOOD_TYPES	= new String[] { "orange", "pear", "cherry" };
+	public String[]	saplingTypes;
 	@SideOnly(Side.CLIENT)
-	private Icon[]					saplingIcon;
+	private Icon[]	saplingIcon;
 	
-	public BlockFruitSapling(int par1)
+	public BlockFruitSapling(int par1, String[] types)
 	{
 		super(par1);
+		this.saplingTypes = types;
+		
 		float f = 0.4F;
 		this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
 		this.setCreativeTab(CreativeTabs.tabDecorations);
@@ -58,6 +60,7 @@ public class BlockFruitSapling extends BlockSapling
 		return this.saplingIcon[par2];
 	}
 	
+	@Override
 	public void markOrGrowMarked(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		int l = par1World.getBlockMetadata(par2, par3, par4);
@@ -75,6 +78,7 @@ public class BlockFruitSapling extends BlockSapling
 	/**
 	 * Attempts to grow a sapling into a tree
 	 */
+	@Override
 	public void growTree(World par1World, int par2, int par3, int par4, Random par5Random)
 	{
 		if (!TerrainGen.saplingGrowTree(par1World, par5Random, par2, par3, par4))
@@ -107,6 +111,7 @@ public class BlockFruitSapling extends BlockSapling
 	/**
 	 * Determines if the same sapling is present at the given location.
 	 */
+	@Override
 	public boolean isSameSapling(World par1World, int par2, int par3, int par4, int par5)
 	{
 		return par1World.getBlockId(par2, par3, par4) == this.blockID && (par1World.getBlockMetadata(par2, par3, par4) & 3) == par5;
@@ -154,11 +159,11 @@ public class BlockFruitSapling extends BlockSapling
 	 */
 	public void registerIcons(IconRegister par1IconRegister)
 	{
-		this.saplingIcon = new Icon[WOOD_TYPES.length];
+		this.saplingIcon = new Icon[saplingTypes.length];
 		
 		for (int i = 0; i < this.saplingIcon.length; ++i)
 		{
-			this.saplingIcon[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + WOOD_TYPES[i]);
+			this.saplingIcon[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + saplingTypes[i]);
 		}
 	}
 }

@@ -1,15 +1,18 @@
 package clashsoft.mods.morefood.gui;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import clashsoft.clashsoftapi.util.CSString;
 import clashsoft.clashsoftapi.util.CSUtil;
+import clashsoft.clashsoftapi.util.IItemMetadataRecipe;
 import clashsoft.mods.morefood.container.ContainerRecipeBook;
 import clashsoft.mods.morefood.food.Food;
-import clashsoft.mods.morefood.food.FoodRecipe;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -38,9 +41,9 @@ public class GuiRecipeBook extends GuiContainer
 	public GuiFoodListSlot					foodListSlot;
 	
 	public ContainerRecipeBook				container;
-	public int								currentEntry		= 0;
-	public String							currentEntryName 	= "";	
-	public Food								food;
+	public int								currentEntryID		= 0;
+	public String							currentEntryName	= "";
+	public Food								currentEntry;
 	public List<Food>						currentDisplayList	= Food.getDisplayList();
 	public ItemStack[][]					recipe				= null;
 	
@@ -60,6 +63,8 @@ public class GuiRecipeBook extends GuiContainer
 		super.drawScreen(par1, par2, par3);
 	}
 	
+	List<String>	temp	= new ArrayList<String>();
+	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
 	{
@@ -71,21 +76,25 @@ public class GuiRecipeBook extends GuiContainer
 		foodListSlot.drawScreen(par1, par2, 1F);
 		GL11.glPopMatrix();
 		
-		if (isPointInRegion(next.xPosition - guiLeft, next.yPosition - guiTop, 20, 20, par1, par2) && next.enabled)
+		if (next.enabled && isPointInRegion(next.xPosition - guiLeft, next.yPosition - guiTop, 20, 20, par1, par2))
 		{
-			List<String> list = new LinkedList<String>();
-			list.add(Food.getDisplayList().get(currentEntry + 1).asStack().getDisplayName());
-			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+			Food f = currentDisplayList.get(currentEntryID + 1);
+			
+			temp.add(f.asStack().getDisplayName());
+			this.drawHoveringText(temp, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer, f.getCategory().color);
+			temp.clear();
 		}
-		if (isPointInRegion(prev.xPosition - guiLeft, prev.yPosition - guiTop, 20, 20, par1, par2) && prev.enabled)
+		if (prev.enabled && isPointInRegion(prev.xPosition - guiLeft, prev.yPosition - guiTop, 20, 20, par1, par2))
 		{
-			List<String> list = new LinkedList<String>();
-			list.add(Food.getDisplayList().get(currentEntry - 1).asStack().getDisplayName());
-			this.drawHoveringText(list, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+			Food f = currentDisplayList.get(currentEntryID - 1);
+			
+			temp.add(f.asStack().getDisplayName());
+			this.drawHoveringText(temp, par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer, f.getCategory().color);
+			temp.clear();
 		}
 		if (isPointInRegion(20, 50, 40, 40, par1, par2))
 		{
-			this.drawHoveringText(Arrays.asList(currentEntryName), par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer);
+			this.drawHoveringText(Arrays.asList(currentEntryName), par1 - guiLeft, par2 - guiTop, this.mc.fontRenderer, currentEntry.getCategory().color);
 		}
 	}
 	
@@ -100,21 +109,21 @@ public class GuiRecipeBook extends GuiContainer
 		String header = "Recipe Book (" + matchingEntrys + (matchingEntrys != Food.getDisplayList().size() ? " Matching" : "") + " Entry" + (matchingEntrys != 1 ? "s" : "") + ")";
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, guiTop + 10, 0x404040, false);
 		
-		if (food != null)
+		if (currentEntry != null)
 		{
 			// Name + Description
 			
-			ItemStack stack = food.asStack();
+			ItemStack stack = currentEntry.asStack();
 			
 			{
-				String name2 = "food." + food.getName().toLowerCase().replace(" ", "") + ".desc";
+				String name2 = "food." + currentEntry.getName().toLowerCase().replace(" ", "") + ".desc";
 				String desc = StatCollector.translateToLocal(name2);
 				if (desc.equals(name2))
 					desc = "" + EnumChatFormatting.DARK_RED + EnumChatFormatting.ITALIC + "No description available. ";
 				
 				this.mc.fontRenderer.drawString(currentEntryName, (this.width - this.mc.fontRenderer.getStringWidth(currentEntryName)) / 2, guiTop + 27, 4210752, false);
 				
-				this.mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + food.getCategory().name, guiLeft + 70, guiTop + 45, 0x404040);
+				this.mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + currentEntry.getCategory().name, guiLeft + 70, guiTop + 45, 0x404040);
 				
 				String s4 = CSString.cutString(desc, 26);
 				String[] lines = CSString.makeLineList(s4);
@@ -125,12 +134,12 @@ public class GuiRecipeBook extends GuiContainer
 			// Crafting
 			
 			{
-				String crafting = food.getRecipe() == null ? EnumChatFormatting.RED + "Not craftable" : (food.getRecipe().getCraftingType() == FoodRecipe.CRAFTING ? "Crafting" : (food.getRecipe().getCraftingType() == FoodRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
+				String crafting = currentEntry.getRecipe() == null ? EnumChatFormatting.RED + "Not craftable" : (currentEntry.getRecipe().getCraftingType() == IItemMetadataRecipe.CRAFTING ? "Crafting" : (currentEntry.getRecipe().getCraftingType() == IItemMetadataRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
 				this.mc.fontRenderer.drawString(crafting, guiLeft + 22, guiTop + 103, 4210752, false);
 				
-				if (food.getRecipe() != null && recipe != null)
+				if (currentEntry.getRecipe() != null && recipe != null)
 				{
-					String s = food.getRecipe().getAmount() + "x " + currentEntryName;
+					String s = currentEntry.getRecipe().getAmount() + "x " + currentEntryName;
 					String[] split = CSUtil.makeLineList(CSString.cutString(s, 15));
 					
 					for (int i = 0; i < split.length; i++)
@@ -145,19 +154,19 @@ public class GuiRecipeBook extends GuiContainer
 				
 				this.mc.fontRenderer.drawString("Stats", guiLeft + statsX, guiTop + 103, 4210752);
 				
-				String foodValue = food.getFoodValue() == 0 ? EnumChatFormatting.RED + "Not eatable" : ((food.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + food.getFoodValue());
+				String foodValue = currentEntry.getFoodValue() == 0 ? EnumChatFormatting.RED + "Not eatable" : ((currentEntry.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + currentEntry.getFoodValue());
 				this.mc.fontRenderer.drawString(foodValue, guiLeft + statsX, guiTop + 120, 4210752, false);
 				
-				String plantable = food.getBlockPlaced() == 0 ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
+				String plantable = currentEntry.getBlockPlaced() == 0 ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
 				this.mc.fontRenderer.drawString(plantable, guiLeft + statsX, guiTop + 130, 4210752, false);
 				
-				boolean hasEffects = food.getEffects() != null && food.getEffects().length > 0;
+				boolean hasEffects = currentEntry.getEffects() != null && currentEntry.getEffects().length > 0;
 				String effects = hasEffects ? "Effects:" : "No effects";
 				this.mc.fontRenderer.drawString(effects, guiLeft + statsX, guiTop + 145, 4210752, false);
 				if (hasEffects)
-					for (int i = 0; i < food.getEffects().length && i < 3; i++)
+					for (int i = 0; i < currentEntry.getEffects().length && i < 3; i++)
 					{
-						PotionEffect effect = food.getEffects()[i];
+						PotionEffect effect = currentEntry.getEffects()[i];
 						String var = " " + StatCollector.translateToLocal(effect.getEffectName());
 						this.mc.fontRenderer.drawString(var, guiLeft + statsX, guiTop + 155 + (i * 10), 4210752, false);
 					}
@@ -180,12 +189,12 @@ public class GuiRecipeBook extends GuiContainer
 	protected void actionPerformed(GuiButton par1GuiButton)
 	{
 		if (par1GuiButton.id == 0)
-			if (currentEntry > 0)
-				currentEntry--;
+			if (currentEntryID > 0)
+				currentEntryID--;
 		if (par1GuiButton.id == 1)
-			if (currentEntry < currentDisplayList.size() - 1)
-				currentEntry++;
-		this.setRecipe(currentEntry);
+			if (currentEntryID < currentDisplayList.size() - 1)
+				currentEntryID++;
+		this.setRecipe(currentEntryID);
 	}
 	
 	@Override
@@ -206,7 +215,7 @@ public class GuiRecipeBook extends GuiContainer
 		this.buttonList.add(prev);
 		this.buttonList.add(next);
 		
-		this.setRecipe(currentEntry);
+		this.setRecipe(currentEntryID);
 	}
 	
 	/**
@@ -290,18 +299,18 @@ public class GuiRecipeBook extends GuiContainer
 		
 		if (recipe >= 0 && recipe < currentDisplayList.size())
 		{
-			this.food = currentDisplayList.get(recipe);
-			this.recipe = analyseRecipe(food);
+			this.currentEntry = currentDisplayList.get(recipe);
+			this.recipe = analyseRecipe(currentEntry);
 			this.container.inventory.stacks = this.recipe;
-			this.currentEntry = recipe;
-			this.currentEntryName = food.asStack().getDisplayName();
+			this.currentEntryID = recipe;
+			this.currentEntryName = currentEntry.asStack().getDisplayName();
 			
-			if (currentEntry == 0)
+			if (currentEntryID == 0)
 				prev.enabled = false;
 			else
 				prev.enabled = true;
 			
-			if (currentEntry == currentDisplayList.size() - 1)
+			if (currentEntryID == currentDisplayList.size() - 1)
 				next.enabled = false;
 			else
 				next.enabled = true;
@@ -318,6 +327,11 @@ public class GuiRecipeBook extends GuiContainer
 	
 	@Override
 	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font)
+	{
+		this.drawHoveringText(par1List, par2, par3, font, 0xFFFFFF);
+	}
+	
+	protected void drawHoveringText(List par1List, int par2, int par3, FontRenderer font, int color)
 	{
 		if (!par1List.isEmpty())
 		{
@@ -366,7 +380,7 @@ public class GuiRecipeBook extends GuiContainer
 			this.drawGradientRect(i1 - 3, j1 - 3, i1 + k + 3, j1 + k1 + 3, l1, l1);
 			this.drawGradientRect(i1 - 4, j1 - 3, i1 - 3, j1 + k1 + 3, l1, l1);
 			this.drawGradientRect(i1 + k + 3, j1 - 3, i1 + k + 4, j1 + k1 + 3, l1, l1);
-			int i2 = 0xFFFF8100;
+			int i2 = 0xFF000000 | color;
 			int j2 = (i2 & 0xFEFEFE) >> 1 | i2 & 0xFF000000;
 			this.drawGradientRect(i1 - 3, j1 - 3 + 1, i1 - 3 + 1, j1 + k1 + 3 - 1, i2, j2);
 			this.drawGradientRect(i1 + k + 2, j1 - 3 + 1, i1 + k + 3, j1 + k1 + 3 - 1, i2, j2);

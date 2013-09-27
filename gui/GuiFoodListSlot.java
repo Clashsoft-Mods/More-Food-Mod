@@ -11,7 +11,7 @@ import net.minecraft.util.Icon;
 
 public class GuiFoodListSlot extends GuiScrollingList
 {
-	public GuiRecipeBook parentGui;
+	public GuiRecipeBook	parentGui;
 	
 	public GuiFoodListSlot(GuiRecipeBook parent)
 	{
@@ -34,7 +34,7 @@ public class GuiFoodListSlot extends GuiScrollingList
 	@Override
 	protected boolean isSelected(int i)
 	{
-		return i == parentGui.currentEntry;
+		return i == parentGui.currentEntryID;
 	}
 	
 	@Override

@@ -114,6 +114,10 @@ public class Food implements IItemMetadataList
 	public static Food			blueberry				= new Food(54, "Blueberry", "blueberry", 2, MoreFoodMod.blueberryBushID);
 	public static Food			redcurrant				= new Food(55, "Redcurrant", "redcurrant", 2, MoreFoodMod.redcurrantBushID);
 	
+	public static Food			plum					= new Food(56, "Plum", "plum", 3, MoreFoodMod.fruitSaplingsID).setMetadataPlaced(3);
+	public static Food			banana					= new Food(57, "Banana", "banana", 3, MoreFoodMod.fruitSaplingsID2).setMetadataPlaced(0);
+	public static Food			seagrass				= new Food(58, "Sea Grass", "seagrass", 2);
+	
 	public static Food			icecube					= new Food(80, "Ice Cube", "icecube", 0, new FoodRecipe(4, new ItemStack(Block.ice)));
 	public static Food			icecream				= new Food(81, "Icecream", "icecream", 0, new FoodRecipe(2, icecube.asStack(), new ItemStack(Item.snowball), new ItemStack(Item.bucketMilk)));
 	public static Food			icecreamChocolate		= new Food(82, "Chocolate Icecream", "icecream_chocolate", 1, new FoodRecipe(1, chocolate.asStack(), icecream.asStack()));
@@ -130,114 +134,23 @@ public class Food implements IItemMetadataList
 	
 	static
 	{
-		setCategory("Vanilla Meat Items", 0x442319,
-		porkRaw.register(),
-		porkCooked.register(),
-		beefRaw.register(),
-		beefCooked.register(),
-		chickenRaw.register(),
-		chickenCooked.register(),
-		fishRaw.register(),
-		fishCooked.register(),
-		rottenFlesh.register(),
-		spiderEye.register());
+		setCategory("Vanilla Meat Items", 0x442319, porkRaw.register(), porkCooked.register(), beefRaw.register(), beefCooked.register(), chickenRaw.register(), chickenCooked.register(), fishRaw.register(), fishCooked.register(), rottenFlesh.register(), spiderEye.register());
 		
-		setCategory("Vanilla Fruit Items", 0x00FF00,
-		apple.register(),
-		appleStomped.register(),
-		appleGold1.register(),
-		appleGold2.register(),
-		appleDiamond.register(),
-		melon.register(),
-		melonGold1.register());
+		setCategory("Vanilla Fruit Items", 0x00FF00, apple.register(), appleStomped.register(), appleGold1.register(), appleGold2.register(), appleDiamond.register(), melon.register(), melonGold1.register());
 		
-		setCategory("Fruit Items", 0xFF0000,
-		orange.register(),
-		pear.register(),
-		cherry.register(),
-		strawberry.register(),
-		raspberry.register(),
-		blackberry.register(),
-		blueberry.register(),
-		redcurrant.register());
+		setCategory("Fruit Items", 0xFF0000, orange.register(), pear.register(), cherry.register(), plum.register(), banana.register(), strawberry.register(), raspberry.register(), blackberry.register(), blueberry.register(), redcurrant.register());
 		
-		setCategory("Vanilla Vegetables", 0xFFDB92,
-		potato.register(),
-		potatoCooked.register(),
-		potatoStomped.register(),
-		potatoGold1.register(),
-		potatoGold2.register(),
-		potatoDiamond.register(),
-		poisonousPotato.register(),
-		carrot.register(),
-		carrotCooked.register(),
-		carrotStomped.register(),
-		carrotGold1.register(),
-		carrotDiamond.register());
+		setCategory("Vanilla Vegetables", 0xFFDB92, potato.register(), potatoCooked.register(), potatoStomped.register(), potatoGold1.register(), potatoGold2.register(), potatoDiamond.register(), poisonousPotato.register(), carrot.register(), carrotCooked.register(), carrotStomped.register(), carrotGold1.register(), carrotDiamond.register());
 		
-		setCategory("Vegetables", 0x008100,
-		salad.register(),
-		cucumber.register(),
-		rice.register(),
-		chili.register(),
-		tomato.register(),
-		paprika.register(),
-		onion.register(),
-		pepperSeeds.register(),
-		vanillaSeeds.register(),
-		corn.register());
+		setCategory("Vegetables", 0x008100, salad.register(), cucumber.register(), rice.register(), chili.register(), tomato.register(), paprika.register(), onion.register(), pepperSeeds.register(), vanillaSeeds.register(), corn.register(), seagrass.register());
 		
-		setCategory("Wheat Products", 0x906C22,
-		bread.register(),
-		breadslice.register(),
-		toast.register(),
-		toast_toasted.register(),
-		toast_cheese.register(),
-		toast_salami.register());
+		setCategory("Wheat Products", 0x906C22, bread.register(), breadslice.register(), toast.register(), toast_toasted.register(), toast_cheese.register(), toast_salami.register());
 		
-		setCategory("Food Products", 0xFFFF00,
-		cheese.register(),
-		cheese_slice.register(),
-		bacon_raw.register(),
-		bacon.register(),
-		pasta.register(),
-		meatball.register(),
-		salami.register(),
-		hamburger.register(),
-		frenchfries.register(),
-		pizza.register(),
-		omelette.register(),
-		pumpkinPie.register(),
-		fried_egg.register());
+		setCategory("Food Products", 0xFFFF00, cheese.register(), cheese_slice.register(), bacon_raw.register(), bacon.register(), pasta.register(), meatball.register(), salami.register(), hamburger.register(), frenchfries.register(), pizza.register(), omelette.register(), pumpkinPie.register(), fried_egg.register());
 		
-		setCategory("Sweet Food Items", 0xEFEFEF,
-		popcorn.register(),
-		popcorn_sweet.register(),
-		popcorn_salty.register(),
-		candycane.register(),
-		butter.register(),
-		chocolate.register(),
-		chocolateWhite.register(),
-		chocolateCow.register(),
-		cookie.register(),
-		chocolateCookie.register(),
-		cereals1.register(),
-		cereals2.register());
+		setCategory("Sweet Food Items", 0xEFEFEF, popcorn.register(), popcorn_sweet.register(), popcorn_salty.register(), candycane.register(), butter.register(), chocolate.register(), chocolateWhite.register(), chocolateCow.register(), cookie.register(), chocolateCookie.register(), cereals1.register(), cereals2.register());
 		
-		setCategory("Cold Food Items", 0xD5FEFF,
-		icecube.register(),
-		icecream.register(),
-		icecreamChocolate.register(),
-		icecreamVanilla.register(),
-		icecreamStrawberry.register(),
-		icecreamCone.register(),
-		icecreamConeChocolate.register(),
-		icecreamConeVanilla.register(),
-		icecreamConeStrawberry.register(),
-		icecreamConeCV.register(),
-		icecreamConeCS.register(),
-		icecreamConeVS.register(),
-		icecreamConeCVS.register());
+		setCategory("Cold Food Items", 0xD5FEFF, icecube.register(), icecream.register(), icecreamChocolate.register(), icecreamVanilla.register(), icecreamStrawberry.register(), icecreamCone.register(), icecreamConeChocolate.register(), icecreamConeVanilla.register(), icecreamConeStrawberry.register(), icecreamConeCV.register(), icecreamConeCS.register(), icecreamConeVS.register(), icecreamConeCVS.register());
 		
 		Drink.init();
 	}

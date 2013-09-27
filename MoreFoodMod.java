@@ -47,6 +47,7 @@ public class MoreFoodMod
 	public static CommonProxy			proxy;
 	
 	public static int					itemsID				= 13000;
+	
 	public static int					cucumberPlantID		= 510;
 	public static int					tomatoPlantID		= 511;
 	public static int					pepperPlantID		= 512;
@@ -57,15 +58,23 @@ public class MoreFoodMod
 	public static int					ricePlantID			= 517;
 	public static int					cornPlantID			= 518;
 	public static int					vanillaPlantID		= 519;
+	
 	public static int					saltOreID			= 520;
+	
 	public static int					strawberryBushID	= 521;
 	public static int					raspberryBushID		= 522;
 	public static int					blueberryBushID		= 523;
 	public static int					blackberryBushID	= 524;
 	public static int					redcurrantBushID	= 525;
+	
 	public static int					fruitSaplingsID		= 526;
 	public static int					fruitLogsID			= 527;
 	public static int					fruitLeavesID		= 528;
+	public static int					fruitSaplingsID2	= 529;
+	public static int					fruitLogsID2		= 530;
+	public static int					fruitLeavesID2		= 531;
+	
+	public static int					seagrassID			= 523;
 	
 	private static int[]				BUSHES;
 	
@@ -90,15 +99,21 @@ public class MoreFoodMod
 	public static BlockPlantMoreFood	ricePlant;
 	public static BlockPlantMoreFood	cornPlant;
 	public static BlockPlantMoreFood	vanillaPlant;
+	
 	public static Block					saltOre;
+	
 	public static BlockBush				strawberryBush;
 	public static BlockBush				raspberryBush;
 	public static BlockBush				blueberryBush;
 	public static BlockBush				blackberryBush;
 	public static BlockBush				redcurrantBush;
+	
 	public static BlockFruitSapling		fruitSaplings;
 	public static BlockFruitLog			fruitLogs;
 	public static BlockFruitLeaves		fruitLeaves;
+	public static BlockFruitSapling		fruitSaplings2;
+	public static BlockFruitLog			fruitLogs2;
+	public static BlockFruitLeaves		fruitLeaves2;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -116,15 +131,23 @@ public class MoreFoodMod
 		ricePlantID = config.getBlock("Rice Plant ID", 517).getInt();
 		cornPlantID = config.getBlock("Corn Plant ID", 518).getInt();
 		vanillaPlantID = config.getBlock("Vanilla Plant ID", 519).getInt();
+		
 		saltOreID = config.getBlock("Salt Ore ID", 520).getInt();
+		
 		strawberryBushID = config.getBlock("Strawberry Bush ID", 521).getInt();
 		raspberryBushID = config.getBlock("Raspberry Bush ID", 522).getInt();
 		blueberryBushID = config.getBlock("Blueberry Bush ID", 523).getInt();
 		blackberryBushID = config.getBlock("Blackberry Bush ID", 524).getInt();
 		redcurrantBushID = config.getBlock("Redcurrant Bush ID", 525).getInt();
+		
 		fruitSaplingsID = config.getBlock("Fruit Saplings ID", 526).getInt();
 		fruitLogsID = config.getBlock("Fruit Logs ID", 527).getInt();
 		fruitLeavesID = config.getBlock("Fruit Leaves ID", 528).getInt();
+		fruitSaplingsID2 = config.getBlock("Fruit Saplings 2 ID", 529).getInt();
+		fruitLogsID2 = config.getBlock("Fruit Logs 2 ID", 530).getInt();
+		fruitLeavesID2 = config.getBlock("Fruit Leaves 2 ID", 531).getInt();
+		
+		seagrassID = config.getBlock("Sea Grass", 532).getInt();
 		
 		BUSHES = new int[] { strawberryBushID, raspberryBushID, blueberryBushID, blackberryBushID, redcurrantBushID };
 		
@@ -174,21 +197,38 @@ public class MoreFoodMod
 		blackberryBush = (BlockBush) new BlockBush(blackberryBushID, Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem").setStepSound(Block.soundGrassFootstep);
 		redcurrantBush = (BlockBush) new BlockBush(redcurrantBushID, Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem").setStepSound(Block.soundGrassFootstep);
 		
-		fruitSaplings = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID).setUnlocalizedName("fruitSaplings").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
-		fruitLogs = (BlockFruitLog) new BlockFruitLog(fruitLogsID).setUnlocalizedName("fruitLogs").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
-		fruitLeaves = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID).setUnlocalizedName("fruitLeaves").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+		String[] fruits1 = { "orange", "pear", "cherry", "plum" };
+		String[] fruits2 = { "banana" };
+		
+		fruitSaplings = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID, fruits1).setUnlocalizedName("fruitSaplings").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
+		fruitLogs = (BlockFruitLog) new BlockFruitLog(fruitLogsID, fruits1).setUnlocalizedName("fruitLogs").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
+		fruitLeaves = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID, fruits1).setUnlocalizedName("fruitLeaves").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID2, fruits2).setUnlocalizedName("fruitSaplings2").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
+		fruitLogs2 = (BlockFruitLog) new BlockFruitLog(fruitLogsID2, fruits2).setUnlocalizedName("fruitLogs2").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
+		fruitLeaves2 = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID2, fruits2).setUnlocalizedName("fruitLeaves2").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 		CSBlocks.addBlock(fruitSaplings, ItemCustomBlock.class, "Fruit Saplings");
 		CSBlocks.addBlock(fruitLogs, ItemCustomBlock.class, "Fruit Logs");
 		CSBlocks.addBlock(fruitLeaves, ItemCustomBlock.class, "Fruit Leaves");
+		CSBlocks.addBlock(fruitSaplings2, ItemCustomBlock.class, "Fruit Saplings 2");
+		CSBlocks.addBlock(fruitLogs2, ItemCustomBlock.class, "Fruit Logs 2");
+		CSBlocks.addBlock(fruitLeaves2, ItemCustomBlock.class, "Fruit Leaves 2");
 		
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < fruits1.length; i++)
 		{
-			String fruit = i == 0 ? "Orange" : (i == 1 ? "Pear" : "Cherry");
+			String fruit = CSString.firstCharToUpperCase(fruits1[i]);
 			LanguageRegistry.instance().addStringLocalization("tile.fruitSaplings." + i + ".name", fruit + " Tree Sapling");
 			LanguageRegistry.instance().addStringLocalization("tile.fruitLogs." + i + ".name", fruit + " Tree Log");
 			LanguageRegistry.instance().addStringLocalization("tile.fruitLeaves." + i + ".name", fruit + " Tree Leaves");
+		}
+		
+		for (int i = 0; i < fruits2.length; i++)
+		{
+			String fruit = CSString.firstCharToUpperCase(fruits2[i]);
+			LanguageRegistry.instance().addStringLocalization("tile.fruitSaplings2." + i + ".name", fruit + " Tree Sapling");
+			LanguageRegistry.instance().addStringLocalization("tile.fruitLogs2." + i + ".name", fruit + " Tree Log");
+			LanguageRegistry.instance().addStringLocalization("tile.fruitLeaves2." + i + ".name", fruit + " Tree Leaves");
 		}
 	}
 	
@@ -320,6 +360,10 @@ public class MoreFoodMod
 		addFoodDesc(Food.blueberry, "Make a bush");
 		addFoodDesc(Food.blackberry, "Make a bush");
 		addFoodDesc(Food.redcurrant, "Make a bush");
+		
+		addFoodDesc(Food.plum, "Plum");
+		addFoodDesc(Food.banana, "A yellow banana looking weird");
+		addFoodDesc(Food.seagrass, "Lives under the sea");
 		
 		addFoodDesc(Food.icecube, "An icy cube");
 		addFoodDesc(Food.icecreamCone, "A cone to be filled with icecream");
@@ -458,7 +502,7 @@ public class MoreFoodMod
 		else
 			return BUSHES[random.nextInt(BUSHES.length)];
 	}
-
+	
 	public class WorldGenHandler implements IWorldGenerator
 	{
 		@Override

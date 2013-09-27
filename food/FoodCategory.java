@@ -2,8 +2,8 @@ package clashsoft.mods.morefood.food;
 
 public class FoodCategory
 {
-	public String name;
-	public int color;
+	public String	name;
+	public int		color;
 	
 	public FoodCategory(String name, int color)
 	{
