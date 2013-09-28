@@ -4,13 +4,13 @@ import java.util.Random;
 
 import clashsoft.clashsoftapi.ItemCustomBlock;
 import clashsoft.clashsoftapi.util.*;
+import clashsoft.clashsoftapi.util.update.ModUpdate;
 import clashsoft.mods.morefood.block.*;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
 import clashsoft.mods.morefood.world.WorldGenBushes;
 import clashsoft.mods.morefood.world.WorldGenFruitTree;
 import clashsoft.mods.morefood.world.WorldGenGardener;
-import clashsoft.mods.morepotions.MorePotionsMod;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -196,9 +196,8 @@ public class MoreFoodMod
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			String nextVersion = CSUtil.checkForUpdate("mfm", CSUtil.CLASHSOFT_ADFLY, MorePotionsMod.VERSION);
-			if (nextVersion != MorePotionsMod.VERSION)
-				((EntityPlayer) event.entity).addChatMessage("A new More Food Mod version is available: " + nextVersion + ". You are using " + MorePotionsMod.VERSION);
+			ModUpdate update = CSUtil.checkForUpdate("mfm", CSUtil.CLASHSOFT_ADFLY, MoreFoodMod.VERSION);
+			CSUtil.notifyUpdate((EntityPlayer) event.entity, "More Food Mod", update);
 		}
 	}
 	
