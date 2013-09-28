@@ -465,7 +465,7 @@ public class MoreFoodMod
 					}
 				}
 				
-				int treeType = random.nextInt(4);
+				int treeType = random.nextInt(5);
 				(new WorldGenFruitTree(false, 4 + random.nextInt(4), treeType > 3 ? fruitLogsID2 : fruitLogsID, treeType > 3 ? fruitLeavesID2 : fruitLeavesID, treeType % 4, treeType % 4)).generate(world, random, randPosX, randPosY, randPosZ);
 			}
 		}
