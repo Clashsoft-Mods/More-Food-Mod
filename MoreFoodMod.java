@@ -74,7 +74,9 @@ public class MoreFoodMod
 	public static int					fruitLogsID2		= 530;
 	public static int					fruitLeavesID2		= 531;
 	
-	public static int					seagrassID			= 523;
+	public static int					seagrassID			= 532;
+	
+	public static int					pizzaID				= 533;
 	
 	private static int[]				BUSHES;
 	
@@ -115,6 +117,8 @@ public class MoreFoodMod
 	public static BlockFruitLog			fruitLogs2;
 	public static BlockFruitLeaves		fruitLeaves2;
 	
+	public static BlockPizza			pizza;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
@@ -147,7 +151,9 @@ public class MoreFoodMod
 		fruitLogsID2 = config.getBlock("Fruit Logs 2 ID", 530).getInt();
 		fruitLeavesID2 = config.getBlock("Fruit Leaves 2 ID", 531).getInt();
 		
-		seagrassID = config.getBlock("Sea Grass", 532).getInt();
+		seagrassID = config.getBlock("Sea Grass ID", 532).getInt();
+		
+		pizzaID = config.getBlock("Pizza ID", 533).getInt();
 		
 		BUSHES = new int[] { strawberryBushID, raspberryBushID, blueberryBushID, blackberryBushID, redcurrantBushID };
 		
@@ -206,6 +212,8 @@ public class MoreFoodMod
 		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID2, fruits2).setUnlocalizedName("fruitSaplings2").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
 		fruitLogs2 = (BlockFruitLog) new BlockFruitLog(fruitLogsID2, fruits2).setUnlocalizedName("fruitLogs2").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
 		fruitLeaves2 = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID2, fruits2).setUnlocalizedName("fruitLeaves2").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+		
+		pizza = (BlockPizza) new BlockPizza(pizzaID).setHardness(0.5F).setStepSound(Block.soundClothFootstep).setUnlocalizedName("cake");
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 		CSBlocks.addBlock(fruitSaplings, ItemCustomBlock.class, "Fruit Saplings");

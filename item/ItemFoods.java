@@ -2,6 +2,7 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
+import clashsoft.clashsoftapi.util.CSWorld;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
@@ -158,12 +159,14 @@ public class ItemFoods extends ItemFoodMoreFood
 			}
 			else
 			{
-				return false;
+				if (plant.canPlaceBlockAt(par3World, par4 + CSWorld.sideMap[par7][0], par5 + CSWorld.sideMap[par7][1], par6 + CSWorld.sideMap[par7][2]))
+				{
+					CSWorld.setBlockAtSide(par3World, par4, par5, par6, par7, blockPlaced, metaPlaced);
+					--par1ItemStack.stackSize;
+					return true;
+				}
 			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 }

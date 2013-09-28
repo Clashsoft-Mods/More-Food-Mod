@@ -89,7 +89,7 @@ public class Food implements IItemMetadataList
 	public static Food			pasta					= new Food(21, "Pasta", "pasta", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "wsw", 'w', Item.wheat, 's', MoreFoodMod.salt }));
 	public static Food			meatball				= new Food(22, "Meat Ball", "ham", 2, new FoodRecipe(CRAFTING, 4, new Object[] { "bb", "bb", 'b', Item.beefCooked }));
 	public static Food			hamburger				= new Food(23, "Hamburger", "hamburger", 5, new FoodRecipe(CRAFTING, 1, new Object[] { " b ", "smt", " b ", 'b', breadslice.asStack(), 's', salad.asStack(), 'm', meatball.asStack(), 't', tomato.asStack() }));
-	public static Food			pizza					= new Food(24, "Pizza", "pizza", 6, new FoodRecipe(CRAFTING, 1, new Object[] { " S ", "sts", "www", 'S', salad.asStack(), 's', salami.asStack(), 't', tomato.asStack(), 'w', new ItemStack(Item.wheat) }));
+	public static Food			pizza					= new Food(24, "Pizza", "pizza", 0, MoreFoodMod.pizzaID, new FoodRecipe(CRAFTING, 1, new Object[] { " S ", "sts", "www", 'S', salad.asStack(), 's', salami.asStack(), 't', tomato.asStack(), 'w', new ItemStack(Item.wheat) }));
 	public static Food			fried_egg				= new Food(25, "Fried Egg", "fried_egg", 4, new FoodRecipe(FURNACE, 1, new ItemStack(Item.egg), 0.2F));
 	public static Food			omelette				= new Food(26, "Omelette", "omelette", 7, new FoodRecipe(CRAFTING, 1, new Object[] { "eee", 'e', new ItemStack(Item.egg) }));
 	public static Food			popcorn					= new Food(27, "Popcorn", "popcorn", 4, new FoodRecipe(FURNACE, 4, corn.asStack(), 0.25F));
