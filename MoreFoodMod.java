@@ -10,6 +10,7 @@ import clashsoft.mods.morefood.item.*;
 import clashsoft.mods.morefood.world.WorldGenBushes;
 import clashsoft.mods.morefood.world.WorldGenFruitTree;
 import clashsoft.mods.morefood.world.WorldGenGardener;
+import clashsoft.mods.morepotions.MorePotionsMod;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -22,6 +23,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -34,12 +36,17 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-@Mod(modid = "MoreFoodMod", name = "More Food Mod", version = CSUtil.CURRENT_VERION)
+@Mod(modid = "MoreFoodMod", name = "More Food Mod", version = MoreFoodMod.VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class MoreFoodMod
 {
+	public static final int				REVISION			= 1;
+	public static final String			VERSION				= CSUtil.CURRENT_VERION + "-" + REVISION;
+	
 	@Instance("MoreFoodMod")
 	public static MoreFoodMod			instance;
 	
@@ -181,6 +188,18 @@ public class MoreFoodMod
 		MinecraftForge.setBlockHarvestLevel(saltOre, "pickaxe", 1);
 		
 		proxy.registerRenderers();
+		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	@ForgeSubscribe
+	public void playerJoined(EntityJoinWorldEvent event)
+	{
+		if (event.entity instanceof EntityPlayer)
+		{
+			String nextVersion = CSUtil.checkForUpdate("mfm", CSUtil.CLASHSOFT_ADFLY, MorePotionsMod.VERSION);
+			if (nextVersion != MorePotionsMod.VERSION)
+				((EntityPlayer) event.entity).addChatMessage("A new More Food Mod version is available: " + nextVersion + ". You are using " + MorePotionsMod.VERSION);
+		}
 	}
 	
 	private void addBlocks()

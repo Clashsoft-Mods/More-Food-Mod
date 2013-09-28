@@ -144,15 +144,20 @@ public class BlockFruitSapling extends BlockSapling
 		if (this.blockID == MoreFoodMod.fruitSaplingsID)
 			switch (par1)
 			{
-			case 0: return Food.orange.getID();
-			case 1: return Food.pear.getID();
-			case 2: return Food.cherry.getID();
-			case 3: return Food.plum.getID();
+			case 0:
+				return Food.orange.getID();
+			case 1:
+				return Food.pear.getID();
+			case 2:
+				return Food.cherry.getID();
+			case 3:
+				return Food.plum.getID();
 			}
 		else
 			switch (par1)
 			{
-			case 0: return Food.banana.getID();
+			case 0:
+				return Food.banana.getID();
 			}
 		return 0;
 	}
