@@ -92,7 +92,9 @@ public class BlockFruitSapling extends BlockSapling
 		
 		par1World.setBlock(par2, par3, par4, 0, 0, 4);
 		
-		if (!(new WorldGenFruitTree(true, 4 + par5Random.nextInt(4), MoreFoodMod.fruitLogsID, MoreFoodMod.fruitLeavesID, l, l)).generate(par1World, par5Random, par2 + i1, par3, par4 + j1))
+		int woodBlock = this.blockID == MoreFoodMod.fruitSaplingsID ? MoreFoodMod.fruitLogsID : MoreFoodMod.fruitLogsID2;
+		int leafBlock = this.blockID == MoreFoodMod.fruitSaplingsID ? MoreFoodMod.fruitLeavesID : MoreFoodMod.fruitLeavesID2;
+		if (!(new WorldGenFruitTree(true, 4 + par5Random.nextInt(4), woodBlock, leafBlock, l, l)).generate(par1World, par5Random, par2 + i1, par3, par4 + j1))
 		{
 			if (flag)
 			{
@@ -139,7 +141,20 @@ public class BlockFruitSapling extends BlockSapling
 	public int damageDropped(int par1)
 	{
 		par1 &= 3;
-		return par1 == 0 ? Food.orange.getID() : (par1 == 1 ? Food.pear.getID() : (par1 == 2 ? Food.cherry.getID() : 0));
+		if (this.blockID == MoreFoodMod.fruitSaplingsID)
+			switch (par1)
+			{
+			case 0: return Food.orange.getID();
+			case 1: return Food.pear.getID();
+			case 2: return Food.cherry.getID();
+			case 3: return Food.plum.getID();
+			}
+		else
+			switch (par1)
+			{
+			case 0: return Food.banana.getID();
+			}
+		return 0;
 	}
 	
 	@Override
