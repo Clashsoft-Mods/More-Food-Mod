@@ -45,7 +45,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class MoreFoodMod
 {
 	public static final int				REVISION			= 1;
-	public static final String			VERSION				= CSUtil.CURRENT_VERION + "-" + REVISION;
+	public static final String			VERSION				= CSUpdate.CURRENT_VERION + "-" + REVISION;
 	
 	@Instance("MoreFoodMod")
 	public static MoreFoodMod			instance;
@@ -196,8 +196,8 @@ public class MoreFoodMod
 	{
 		if (event.entity instanceof EntityPlayer)
 		{
-			ModUpdate update = CSUtil.checkForUpdate("mfm", CSUtil.CLASHSOFT_ADFLY, MoreFoodMod.VERSION);
-			CSUtil.notifyUpdate((EntityPlayer) event.entity, "More Food Mod", update);
+			ModUpdate update = CSUpdate.checkForUpdate("More Food Mod", MoreFoodMod.VERSION);
+			CSUpdate.notifyUpdate((EntityPlayer) event.entity, "More Food Mod", update);
 		}
 	}
 	
