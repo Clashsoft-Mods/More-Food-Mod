@@ -2,7 +2,7 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
-import clashsoft.clashsoftapi.util.CSWorld;
+import clashsoft.cslib.minecraft.util.CSWorld;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;

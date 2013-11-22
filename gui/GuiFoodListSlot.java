@@ -1,6 +1,6 @@
 package clashsoft.mods.morefood.gui;
 
-import clashsoft.clashsoftapi.util.CSString;
+import clashsoft.cslib.minecraft.util.CSString;
 import clashsoft.mods.morefood.food.Food;
 import cpw.mods.fml.client.GuiScrollingList;
 

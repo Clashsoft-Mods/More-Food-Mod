@@ -8,9 +8,8 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import clashsoft.clashsoftapi.util.CSString;
-import clashsoft.clashsoftapi.util.CSUtil;
-import clashsoft.clashsoftapi.util.IItemMetadataRecipe;
+import clashsoft.cslib.minecraft.item.IMetaItemRecipe;
+import clashsoft.cslib.util.CSString;
 import clashsoft.mods.morefood.container.ContainerRecipeBook;
 import clashsoft.mods.morefood.food.Food;
 
@@ -134,13 +133,13 @@ public class GuiRecipeBook extends GuiContainer
 			// Crafting
 			
 			{
-				String crafting = currentEntry.getRecipe() == null ? EnumChatFormatting.RED + "Not craftable" : (currentEntry.getRecipe().getCraftingType() == IItemMetadataRecipe.CRAFTING ? "Crafting" : (currentEntry.getRecipe().getCraftingType() == IItemMetadataRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
+				String crafting = currentEntry.getRecipe() == null ? EnumChatFormatting.RED + "Not craftable" : (currentEntry.getRecipe().getCraftingType() == IMetaItemRecipe.CRAFTING ? "Crafting" : (currentEntry.getRecipe().getCraftingType() == IMetaItemRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
 				this.mc.fontRenderer.drawString(crafting, guiLeft + 22, guiTop + 103, 4210752, false);
 				
 				if (currentEntry.getRecipe() != null && recipe != null)
 				{
 					String s = currentEntry.getRecipe().getAmount() + "x " + currentEntryName;
-					String[] split = CSUtil.makeLineList(CSString.cutString(s, 15));
+					String[] split = CSString.makeLineList(CSString.cutString(s, 15));
 					
 					for (int i = 0; i < split.length; i++)
 						this.mc.fontRenderer.drawString(split[i], guiLeft + 22, guiTop + 175 + (i * 10), 4210752, false);

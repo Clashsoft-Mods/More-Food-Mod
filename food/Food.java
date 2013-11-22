@@ -1,24 +1,24 @@
 package clashsoft.mods.morefood.food;
 
-import static clashsoft.clashsoftapi.util.IItemMetadataRecipe.CRAFTING;
-import static clashsoft.clashsoftapi.util.IItemMetadataRecipe.FURNACE;
+import static clashsoft.cslib.minecraft.item.IMetaItemRecipe.CRAFTING;
+import static clashsoft.cslib.minecraft.item.IMetaItemRecipe.FURNACE;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import clashsoft.clashsoftapi.util.IItemMetadataList;
+import clashsoft.cslib.minecraft.item.IMetaItem;
 import clashsoft.mods.morefood.MoreFoodMod;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.EnumChatFormatting;
 
-public class Food implements IItemMetadataList
+public class Food implements IMetaItem
 {
 	public static Food[]		foodTypes				= new Food[1024];
 	public static List<Food>	foodList				= new ArrayList<Food>();
@@ -223,7 +223,7 @@ public class Food implements IItemMetadataList
 		}
 		catch (NoSuchMethodError err)
 		{
-			s = ModLoader.<String, Item> getPrivateValue(Item.class, item, "iconString");
+			s = ObfuscationReflectionHelper.<String, Item> getPrivateValue(Item.class, item, "iconString");
 		}
 		return s;
 	}
@@ -270,7 +270,7 @@ public class Food implements IItemMetadataList
 	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setEnabled(boolean)
 	 */
 	@Override
-	public IItemMetadataList setEnabled(boolean enabled)
+	public IMetaItem setEnabled(boolean enabled)
 	{
 		this.isEnabled = enabled;
 		return this;
