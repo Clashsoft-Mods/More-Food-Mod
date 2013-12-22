@@ -221,7 +221,7 @@ public class Food implements IMetaItem
 		{
 			s = item.getIconFromDamage(damage).getIconName();
 		}
-		catch (NoSuchMethodError err)
+		catch (Exception ex)
 		{
 			s = ObfuscationReflectionHelper.<String, Item> getPrivateValue(Item.class, item, "iconString");
 		}

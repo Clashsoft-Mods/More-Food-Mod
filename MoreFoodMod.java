@@ -294,12 +294,12 @@ public class MoreFoodMod
 		for (int i = 0; i < 7; i++)
 		{
 			ItemStack theSoup = new ItemStack(soupBowls, 1, i);
-			CSCrafting.addShapelessCrafting(ItemSoupBowls.addModifierToItemStack(theSoup.copy(), true, ItemSoupBowls.isPeppered(theSoup)), new Object[] { theSoup, salt });
-			CSCrafting.addShapelessCrafting(ItemSoupBowls.addModifierToItemStack(theSoup.copy(), ItemSoupBowls.isSalted(theSoup), true), new Object[] { theSoup, pepper });
-			CSCrafting.addShapelessCrafting(ItemSoupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] { theSoup, pepper, salt });
-			CSCrafting.addShapelessCrafting(ItemSoupBowls.addModifierToItemStack(theSoup.copy(), true, ItemSoupBowls.isPeppered(theSoup)), new Object[] { theSoup, salt });
-			CSCrafting.addShapelessCrafting(ItemSoupBowls.addModifierToItemStack(theSoup.copy(), ItemSoupBowls.isSalted(theSoup), true), new Object[] { theSoup, pepper });
-			CSCrafting.addShapelessCrafting(ItemSoupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] { theSoup, pepper, salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), new Object[] { theSoup, salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), soupBowls.isSalted(theSoup), true), new Object[] { theSoup, pepper });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] { theSoup, pepper, salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), new Object[] { theSoup, salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), soupBowls.isSalted(theSoup), true), new Object[] { theSoup, pepper });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] { theSoup, pepper, salt });
 		}
 		
 		CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 0), new Object[] { Item.bowlEmpty, Item.bucketWater });
