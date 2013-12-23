@@ -49,7 +49,7 @@ import net.minecraftforge.oredict.OreDictionary;
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class MoreFoodMod
 {
-	public static final int				REVISION			= 2;
+	public static final int				REVISION			= 3;
 	public static final String			VERSION				= CSUpdate.CURRENT_VERSION + "-" + REVISION;
 	
 	@Instance("MoreFoodMod")
