@@ -17,6 +17,7 @@ import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Icon;
 
 public class Food implements IMetaItem
 {
@@ -216,16 +217,15 @@ public class Food implements IMetaItem
 	
 	private static String getIconName(Item item, int damage)
 	{
-		String s = "";
 		try
 		{
-			s = item.getIconFromDamage(damage).getIconName();
+			Icon icon = item.getIconFromDamage(damage);
+			return icon.getIconName();
 		}
-		catch (Exception ex)
+		catch (Throwable ex)
 		{
-			s = ObfuscationReflectionHelper.<String, Item> getPrivateValue(Item.class, item, "iconString");
+			return ObfuscationReflectionHelper.<String, Item> getPrivateValue(Item.class, item, "iconString");
 		}
-		return s;
 	}
 	
 	public static Food fromItemStack(ItemStack stack)
