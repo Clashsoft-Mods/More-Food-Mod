@@ -278,9 +278,7 @@ public class Food implements IMetaItem
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * clashsoft.mods.morefood.food.IItemMetadataList#setEffects(net.minecraft
-	 * .potion.PotionEffect)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setEffects(net.minecraft .potion.PotionEffect)
 	 */
 	@Override
 	public Food setEffects(PotionEffect... effects)
@@ -383,8 +381,7 @@ public class Food implements IMetaItem
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * clashsoft.mods.morefood.food.IItemMetadataList#setName(java.lang.String)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setName(java.lang.String)
 	 */
 	@Override
 	public void setName(String name)
@@ -404,9 +401,7 @@ public class Food implements IMetaItem
 	
 	/*
 	 * (non-Javadoc)
-	 * @see
-	 * clashsoft.mods.morefood.food.IItemMetadataList#setIconName(java.lang.
-	 * String)
+	 * @see clashsoft.mods.morefood.food.IItemMetadataList#setIconName(java.lang. String)
 	 */
 	@Override
 	public void setIconName(String icon)
@@ -479,5 +474,12 @@ public class Food implements IMetaItem
 		FoodCategory category = new FoodCategory(name, color);
 		for (Food f : foods)
 			f.setCategory(category);
+	}
+	
+	/**
+	 * Runs the static initializer of this class
+	 */
+	public static void init()
+	{
 	}
 }

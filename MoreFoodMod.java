@@ -3,13 +3,15 @@ package clashsoft.mods.morefood;
 import java.util.Random;
 
 import clashsoft.cslib.minecraft.ItemCustomBlock;
+import clashsoft.cslib.minecraft.block.BlockCustomLeaves;
+import clashsoft.cslib.minecraft.block.BlockCustomLog;
+import clashsoft.cslib.minecraft.block.BlockCustomSapling;
 import clashsoft.cslib.minecraft.update.CSUpdate;
 import clashsoft.cslib.minecraft.update.ModUpdate;
 import clashsoft.cslib.minecraft.util.CSBlocks;
 import clashsoft.cslib.minecraft.util.CSCrafting;
 import clashsoft.cslib.minecraft.util.CSItems;
 import clashsoft.cslib.minecraft.util.CSLang;
-import clashsoft.cslib.util.*;
 import clashsoft.mods.morefood.block.*;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
@@ -24,7 +26,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -122,12 +123,12 @@ public class MoreFoodMod
 	public static BlockBush				blackberryBush;
 	public static BlockBush				redcurrantBush;
 	
-	public static BlockFruitSapling		fruitSaplings;
-	public static BlockFruitLog			fruitLogs;
-	public static BlockFruitLeaves		fruitLeaves;
-	public static BlockFruitSapling		fruitSaplings2;
-	public static BlockFruitLog			fruitLogs2;
-	public static BlockFruitLeaves		fruitLeaves2;
+	public static BlockCustomSapling	fruitSaplings;
+	public static BlockCustomLog		fruitLogs;
+	public static BlockCustomLeaves		fruitLeaves;
+	public static BlockCustomSapling	fruitSaplings2;
+	public static BlockCustomLog		fruitLogs2;
+	public static BlockCustomLeaves		fruitLeaves2;
 	
 	public static BlockPizza			pizza;
 	
@@ -179,10 +180,11 @@ public class MoreFoodMod
 	{
 		GameRegistry.registerWorldGenerator(new WorldGenHandler());
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
-		
+				
 		foods = (ItemFoods) new ItemFoods(itemsID + 8, 3, 1.0F).setUnlocalizedName("edibleIgredient");
 		
 		addItems();
+		Food.init();
 		addBlocks();
 		addCraftingRecipes();
 		addSmeltingRecipes();
@@ -226,17 +228,25 @@ public class MoreFoodMod
 		blackberryBush = (BlockBush) new BlockBush(blackberryBushID, Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem").setStepSound(Block.soundGrassFootstep);
 		redcurrantBush = (BlockBush) new BlockBush(redcurrantBushID, Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem").setStepSound(Block.soundGrassFootstep);
 		
-		String[] fruits1 = { "orange", "pear", "cherry", "plum" };
-		String[] fruits2 = { "banana" };
+		fruitSaplings = (BlockCustomSapling) new BlockFruitSapling(fruitSaplingsID, new String[] { "Orange Tree Sapling", "Pear Tree Sapling", "Cherry Tree Sapling", "Plum Tree Sapling" }, new String[] { "fruitsapling_orange", "fruitsapling_pear", "fruitsapling_cherry", "fruitsapling_plum" });
+		fruitSaplings.setUnlocalizedName("fruitSaplings").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID2, new String[] { "Banana Tree Sapling" }, new String[] { "fruitsapling_banana" });
+		fruitSaplings2.setUnlocalizedName("fruitSaplings2").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
 		
-		fruitSaplings = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID, fruits1).setUnlocalizedName("fruitSaplings").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
-		fruitLogs = (BlockFruitLog) new BlockFruitLog(fruitLogsID, fruits1).setUnlocalizedName("fruitLogs").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
-		fruitLeaves = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID, fruits1).setUnlocalizedName("fruitLeaves").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID2, fruits2).setUnlocalizedName("fruitSaplings2").setTextureName("fruitsapling").setHardness(0F).setStepSound(Block.soundGrassFootstep);
-		fruitLogs2 = (BlockFruitLog) new BlockFruitLog(fruitLogsID2, fruits2).setUnlocalizedName("fruitLogs2").setTextureName("fruitlog").setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setCreativeTab(CreativeTabs.tabBlock);
-		fruitLeaves2 = (BlockFruitLeaves) new BlockFruitLeaves(fruitLeavesID2, fruits2).setUnlocalizedName("fruitLeaves2").setTextureName("fruitleaves").setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+		fruitLogs = (BlockCustomLog) new BlockCustomLog(fruitLogsID, new String[] { "Orange Tree Log", "Pear Tree Log", "Cherry Tree Log", "Plum Tree Log" }, new String[] { "fruitlog_orange_top", "fruitlog_pear_top", "fruitlog_cherry_top", "fruitlog_plum_top" }, new String[] { "fruitlog_orange", "fruitlog_pear", "fruitlog_cherry", "fruitlog_plum" });
+		fruitLogs.setUnlocalizedName("fruitLogs").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
+		fruitLogs2 = (BlockCustomLog) new BlockCustomLog(fruitLogsID2, new String[] { "Banana Tree Log" }, new String[] { "fruitlog_banana_top" }, new String[] { "fruitlog_banana" });
+		fruitLogs2.setUnlocalizedName("fruitLogs2").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
 		
-		pizza = (BlockPizza) new BlockPizza(pizzaID).setHardness(0.5F).setStepSound(Block.soundClothFootstep).setUnlocalizedName("cake");
+		fruitLeaves = (BlockCustomLeaves) new BlockCustomLeaves(fruitLeavesID, new String[] { "Orange Tree Leaves", "Pear Tree Leaves", "Cherry Tree Leaves", "Plum Tree Leaves" }, new String[] { "fruitleaves_orange", "fruitleaves_pear", "fruitleaves_cherry", "fruitleaves_plum" });
+		fruitLeaves.setUnlocalizedName("fruitLeaves").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitLeaves.setSaplingStacks(Food.orange.asStack(), Food.pear.asStack(), Food.cherry.asStack(), Food.plum.asStack());
+		
+		fruitLeaves2 = (BlockCustomLeaves) new BlockCustomLeaves(fruitLeavesID2, new String[] { "Banana Tree Leaves" }, new String[] { "fruitleaves_banana" });
+		fruitLeaves2.setUnlocalizedName("fruitLeaves2").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitLeaves2.setSaplingStacks(Food.banana.asStack());
+		
+		pizza = (BlockPizza) new BlockPizza(pizzaID).setUnlocalizedName("pizza").setHardness(0.5F).setStepSound(Block.soundClothFootstep);
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 		CSBlocks.addBlock(fruitSaplings, ItemCustomBlock.class, "Fruit Saplings");
@@ -245,22 +255,7 @@ public class MoreFoodMod
 		CSBlocks.addBlock(fruitSaplings2, ItemCustomBlock.class, "Fruit Saplings 2");
 		CSBlocks.addBlock(fruitLogs2, ItemCustomBlock.class, "Fruit Logs 2");
 		CSBlocks.addBlock(fruitLeaves2, ItemCustomBlock.class, "Fruit Leaves 2");
-		
-		for (int i = 0; i < fruits1.length; i++)
-		{
-			String fruit = CSString.firstCharToCase(fruits1[i], 1);
-			LanguageRegistry.instance().addStringLocalization("tile.fruitSaplings." + i + ".name", fruit + " Tree Sapling");
-			LanguageRegistry.instance().addStringLocalization("tile.fruitLogs." + i + ".name", fruit + " Tree Log");
-			LanguageRegistry.instance().addStringLocalization("tile.fruitLeaves." + i + ".name", fruit + " Tree Leaves");
-		}
-		
-		for (int i = 0; i < fruits2.length; i++)
-		{
-			String fruit = CSString.firstCharToCase(fruits2[i], 1);
-			LanguageRegistry.instance().addStringLocalization("tile.fruitSaplings2." + i + ".name", fruit + " Tree Sapling");
-			LanguageRegistry.instance().addStringLocalization("tile.fruitLogs2." + i + ".name", fruit + " Tree Log");
-			LanguageRegistry.instance().addStringLocalization("tile.fruitLeaves2." + i + ".name", fruit + " Tree Leaves");
-		}
+		CSBlocks.addBlock(pizza, "Pizza");
 	}
 	
 	private void addItems()
