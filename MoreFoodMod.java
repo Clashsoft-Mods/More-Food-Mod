@@ -57,7 +57,7 @@ public class MoreFoodMod
 	public static MoreFoodMod			instance;
 	
 	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMCommonProxy")
-	public static MFMCommonProxy			proxy;
+	public static MFMCommonProxy		proxy;
 	
 	public static Item					salt;
 	public static Item					pepper;
@@ -105,12 +105,12 @@ public class MoreFoodMod
 		
 		foods = (ItemFoods) new ItemFoods(3, 1.0F).setUnlocalizedName("edibleIgredient");
 		
-		addItems();
+		this.addItems();
 		Food.init();
-		addBlocks();
-		addCraftingRecipes();
-		addSmeltingRecipes();
-		addLocalizations();
+		this.addBlocks();
+		this.addCraftingRecipes();
+		this.addSmeltingRecipes();
+		this.addLocalizations();
 		
 		MinecraftForge.addGrassSeed(Food.pepperSeeds.asStack(), 8);
 		MinecraftForge.addGrassSeed(Food.vanillaSeeds.asStack(), 6);
@@ -143,13 +143,13 @@ public class MoreFoodMod
 		vanillaPlant = new BlockPlantMoreFood(4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
 		saltOre = (new BlockSaltOre()).setHardness(3.0F).setResistance(5.0F).setBlockName("saltOre").setBlockTextureName("saltore");
 		
-		strawberryBush = (BlockBush) new BlockBush(Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
-		raspberryBush = (BlockBush) new BlockBush(Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
-		blueberryBush = (BlockBush) new BlockBush(Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem");
-		blackberryBush = (BlockBush) new BlockBush(Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem");
-		redcurrantBush = (BlockBush) new BlockBush(Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem");
+		strawberryBush = new BlockBush(Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
+		raspberryBush = new BlockBush(Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
+		blueberryBush = new BlockBush(Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem");
+		blackberryBush = new BlockBush(Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem");
+		redcurrantBush = new BlockBush(Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem");
 		
-		fruitSaplings = (BlockCustomSapling) new BlockFruitSapling(new String[] {
+		fruitSaplings = new BlockFruitSapling(new String[] {
 				"Orange Tree Sapling",
 				"Pear Tree Sapling",
 				"Cherry Tree Sapling",
@@ -159,10 +159,10 @@ public class MoreFoodMod
 				"fruitsapling_cherry",
 				"fruitsapling_plum" });
 		fruitSaplings.setBlockName("fruitSaplings").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
-		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(new String[] { "Banana Tree Sapling" }, new String[] { "fruitsapling_banana" });
+		fruitSaplings2 = new BlockFruitSapling(new String[] { "Banana Tree Sapling" }, new String[] { "fruitsapling_banana" });
 		fruitSaplings2.setBlockName("fruitSaplings2").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
 		
-		fruitLogs = (BlockCustomLog) new BlockCustomLog(new String[] {
+		fruitLogs = new BlockCustomLog(new String[] {
 				"Orange Tree Log",
 				"Pear Tree Log",
 				"Cherry Tree Log",
@@ -176,10 +176,10 @@ public class MoreFoodMod
 				"fruitlog_cherry",
 				"fruitlog_plum" });
 		fruitLogs.setBlockName("fruitLogs").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
-		fruitLogs2 = (BlockCustomLog) new BlockCustomLog(new String[] { "Banana Tree Log" }, new String[] { "fruitlog_banana_top" }, new String[] { "fruitlog_banana" });
+		fruitLogs2 = new BlockCustomLog(new String[] { "Banana Tree Log" }, new String[] { "fruitlog_banana_top" }, new String[] { "fruitlog_banana" });
 		fruitLogs2.setBlockName("fruitLogs2").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
 		
-		fruitLeaves = (BlockCustomLeaves) new BlockCustomLeaves(new String[] {
+		fruitLeaves = new BlockCustomLeaves(new String[] {
 				"Orange Tree Leaves",
 				"Pear Tree Leaves",
 				"Cherry Tree Leaves",
@@ -191,7 +191,7 @@ public class MoreFoodMod
 		fruitLeaves.setBlockName("fruitLeaves").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitLeaves.setSaplingStacks(Food.orange.asStack(), Food.pear.asStack(), Food.cherry.asStack(), Food.plum.asStack());
 		
-		fruitLeaves2 = (BlockCustomLeaves) new BlockCustomLeaves(new String[] { "Banana Tree Leaves" }, new String[] { "fruitleaves_banana" });
+		fruitLeaves2 = new BlockCustomLeaves(new String[] { "Banana Tree Leaves" }, new String[] { "fruitleaves_banana" });
 		fruitLeaves2.setBlockName("fruitLeaves2").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitLeaves2.setSaplingStacks(Food.banana.asStack());
 		

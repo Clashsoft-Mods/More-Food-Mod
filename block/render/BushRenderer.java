@@ -18,7 +18,7 @@ public class BushRenderer implements ISimpleBlockRenderingHandler
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
 	{
-		BlockBush bush = (BlockBush)block;
+		BlockBush bush = (BlockBush) block;
 		
 		renderer.renderCrossedSquares(block, x, y, z);
 		

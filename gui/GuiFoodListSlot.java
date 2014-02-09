@@ -22,19 +22,19 @@ public class GuiFoodListSlot extends GuiScrollingList
 	@Override
 	protected int getSize()
 	{
-		return parentGui.currentDisplayList.size();
+		return this.parentGui.currentDisplayList.size();
 	}
 	
 	@Override
 	protected void elementClicked(int i, boolean flag)
 	{
-		parentGui.setRecipe(i);
+		this.parentGui.setRecipe(i);
 	}
 	
 	@Override
 	protected boolean isSelected(int i)
 	{
-		return i == parentGui.currentEntryID;
+		return i == this.parentGui.currentEntryID;
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class GuiFoodListSlot extends GuiScrollingList
 	{
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		Food food = parentGui.currentDisplayList.get(id);
+		Food food = this.parentGui.currentDisplayList.get(id);
 		IIcon icon = food.asStack().getIconIndex();
 		
 		int offsX = 0;
@@ -56,10 +56,10 @@ public class GuiFoodListSlot extends GuiScrollingList
 		name = CSString.trimStringToRenderWidth(name, this.listWidth - offsX - 2);
 		
 		int offsY = 0;
-		if (!parentGui.search.getText().isEmpty())
+		if (!this.parentGui.search.getText().isEmpty())
 		{
 			offsY = 10;
-			mc.fontRenderer.drawString(parentGui.search.getText().startsWith("category:") ? "Category Match:" : "Match:", offsX + 2, y + 2, 0xFF8100, true);
+			mc.fontRenderer.drawString(this.parentGui.search.getText().startsWith("category:") ? "Category Match:" : "Match:", offsX + 2, y + 2, 0xFF8100, true);
 		}
 		
 		mc.fontRenderer.drawString(name, offsX + 2, y + offsY + 2, 0xFFFFFF, true);

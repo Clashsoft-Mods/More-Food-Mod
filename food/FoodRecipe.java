@@ -51,14 +51,14 @@ public class FoodRecipe implements IMetaItemRecipe
 		switch (this.craftingType)
 		{
 			case CRAFTING:
-				GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), data);
+				GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), this.data);
 				break;
 			case CRAFTING_SHAPELESS:
-				GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), data);
+				GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), this.data);
 				break;
 			case FURNACE:
-				Float f = (Float) data[1];
-				CSCrafting.addSmelting((ItemStack) data[0], new ItemStack(item, this.amount, foodID), f);
+				Float f = (Float) this.data[1];
+				CSCrafting.addSmelting((ItemStack) this.data[0], new ItemStack(item, this.amount, foodID), f);
 				break;
 		}
 	}
@@ -66,19 +66,19 @@ public class FoodRecipe implements IMetaItemRecipe
 	@Override
 	public int getAmount()
 	{
-		return amount;
+		return this.amount;
 	}
 	
 	@Override
 	public int getCraftingType()
 	{
-		return craftingType;
+		return this.craftingType;
 	}
 	
 	@Override
 	public Object[] getData()
 	{
-		return data;
+		return this.data;
 	}
 	
 	/**

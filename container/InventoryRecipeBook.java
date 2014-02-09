@@ -17,7 +17,7 @@ public class InventoryRecipeBook implements IInventory
 	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		return stacks[i / 3][i % 3];
+		return this.stacks[i / 3][i % 3];
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class InventoryRecipeBook implements IInventory
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack)
 	{
-		stacks[i / 3][i % 3] = itemstack;
+		this.stacks[i / 3][i % 3] = itemstack;
 	}
 	
 	@Override

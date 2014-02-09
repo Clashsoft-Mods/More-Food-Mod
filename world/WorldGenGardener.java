@@ -61,9 +61,9 @@ public class WorldGenGardener extends WorldGenerator
 		
 		CSWorld.setBlock(world, x + 1, y + 1, z + 2, Blocks.crafting_table, 0);
 		CSWorld.setBlock(world, x + 1, y + 1, z + 1, Blocks.furnace, 0);
-		world.setTileEntity(x + 1, y + 1, z + 1, createFurnace());
+		world.setTileEntity(x + 1, y + 1, z + 1, this.createFurnace());
 		CSWorld.setBlock(world, x + 1, y + 1, z + 3, Blocks.chest, 0);
-		world.setTileEntity(x + 1, y + 1, z + 3, createGardenerChest());
+		world.setTileEntity(x + 1, y + 1, z + 3, this.createGardenerChest());
 		
 		direction -= 2;
 		

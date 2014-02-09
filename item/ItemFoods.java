@@ -38,7 +38,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (isEdible(stack))
+		if (this.isEdible(stack))
 		{
 			--stack.stackSize;
 			player.getFoodStats().addStats(Food.fromItemStack(stack).getFoodValue(), 1.0F);
@@ -66,7 +66,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (player.canEat(false) && isEdible(stack))
+		if (player.canEat(false) && this.isEdible(stack))
 		{
 			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 		}
@@ -83,7 +83,7 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		return isEdible(stack) ? Food.fromItemStack(stack).getAction() : EnumAction.none;
+		return this.isEdible(stack) ? Food.fromItemStack(stack).getAction() : EnumAction.none;
 	}
 	
 	@Override
@@ -95,20 +95,20 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public IIcon getIconFromDamage(int metadata)
 	{
-		return this.icons != null ? icons[metadata % icons.length] : null;
+		return this.icons != null ? this.icons[metadata % this.icons.length] : null;
 	}
 	
 	@Override
 	public void registerIcons(IIconRegister iconRegister)
 	{
 		Food[] types = Food.foodTypes;
-		icons = new IIcon[types.length];
+		this.icons = new IIcon[types.length];
 		for (int i = 0; i < types.length; i++)
 		{
 			Food f = types[i];
 			if (f != null)
 			{
-				icons[i] = iconRegister.registerIcon(f.getIconName());
+				this.icons[i] = iconRegister.registerIcon(f.getIconName());
 			}
 		}
 	}

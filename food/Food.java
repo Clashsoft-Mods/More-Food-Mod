@@ -1,5 +1,8 @@
 package clashsoft.mods.morefood.food;
 
+import static clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe.CRAFTING;
+import static clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe.FURNACE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,8 +20,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-
-import static clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe.*;
 
 public class Food implements IMetaItem
 {
@@ -433,9 +434,9 @@ public class Food implements IMetaItem
 	
 	public void addRecipe()
 	{
-		if (recipe != null && getID() >= 0)
+		if (this.recipe != null && this.getID() >= 0)
 		{
-			recipe.addRecipe(MoreFoodMod.foods, this.getID());
+			this.recipe.addRecipe(MoreFoodMod.foods, this.getID());
 		}
 	}
 	
@@ -462,19 +463,19 @@ public class Food implements IMetaItem
 	@Override
 	public PotionEffect[] getEffects()
 	{
-		return effects;
+		return this.effects;
 	}
 	
 	@Override
 	public ItemStack asStack()
 	{
-		return asStack(1);
+		return this.asStack(1);
 	}
 	
 	@Override
 	public ItemStack asStack(int i)
 	{
-		ItemStack is = stack;
+		ItemStack is = this.stack;
 		is.stackSize = i;
 		return is;
 	}
@@ -482,7 +483,7 @@ public class Food implements IMetaItem
 	@Override
 	public int getFoodValue()
 	{
-		return foodValue;
+		return this.foodValue;
 	}
 	
 	@Override
@@ -494,7 +495,7 @@ public class Food implements IMetaItem
 	@Override
 	public Block getBlockPlaced()
 	{
-		return blockPlaced;
+		return this.blockPlaced;
 	}
 	
 	@Override
@@ -506,13 +507,13 @@ public class Food implements IMetaItem
 	@Override
 	public boolean isEnabled()
 	{
-		return isEnabled;
+		return this.isEnabled;
 	}
 	
 	@Override
 	public String getName()
 	{
-		return name;
+		return this.name;
 	}
 	
 	@Override
@@ -524,7 +525,7 @@ public class Food implements IMetaItem
 	@Override
 	public String getIconName()
 	{
-		return icon;
+		return this.icon;
 	}
 	
 	@Override
@@ -536,7 +537,7 @@ public class Food implements IMetaItem
 	@Override
 	public int getID()
 	{
-		return foodID;
+		return this.foodID;
 	}
 	
 	@Override
@@ -548,7 +549,7 @@ public class Food implements IMetaItem
 	@Override
 	public FoodRecipe getRecipe()
 	{
-		return recipe;
+		return this.recipe;
 	}
 	
 	public static List<Food> getDisplayList()
@@ -565,7 +566,7 @@ public class Food implements IMetaItem
 	@Override
 	public int getMetadataPlaced()
 	{
-		return metadataPlaced;
+		return this.metadataPlaced;
 	}
 	
 	public Food setMetadataPlaced(int i)
