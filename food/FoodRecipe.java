@@ -28,23 +28,38 @@ public class FoodRecipe implements IMetaItemRecipe
 	
 	public FoodRecipe(int amount, ItemStack input, float exp)
 	{
-		this(FURNACE, amount, new Object[] {input, exp});
+		this(FURNACE, amount, new Object[] { input, exp });
+	}
+	
+	public String getTypeString()
+	{
+		switch (this.getCraftingType())
+		{
+			case CRAFTING:
+				return "Crafting";
+			case CRAFTING_SHAPELESS:
+				return "Shapeless Crafting";
+			case FURNACE:
+				return "Smelting";
+			default:
+				return "Crafting";
+		}
 	}
 	
 	public void addRecipe(Item item, int foodID)
 	{
 		switch (this.craftingType)
 		{
-		case CRAFTING:
-			GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), data);
-			break;
-		case CRAFTING_SHAPELESS:
-			GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), data);
-			break;
-		case FURNACE:
-			Float f = (Float) data[1];
-			CSCrafting.addSmelting((ItemStack) data[0], new ItemStack(item, this.amount, foodID), f);
-			break;
+			case CRAFTING:
+				GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), data);
+				break;
+			case CRAFTING_SHAPELESS:
+				GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), data);
+				break;
+			case FURNACE:
+				Float f = (Float) data[1];
+				CSCrafting.addSmelting((ItemStack) data[0], new ItemStack(item, this.amount, foodID), f);
+				break;
 		}
 	}
 	
