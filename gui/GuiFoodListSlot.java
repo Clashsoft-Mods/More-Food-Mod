@@ -7,7 +7,7 @@ import cpw.mods.fml.client.GuiScrollingList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 
 public class GuiFoodListSlot extends GuiScrollingList
 {
@@ -48,7 +48,7 @@ public class GuiFoodListSlot extends GuiScrollingList
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		Food food = parentGui.currentDisplayList.get(id);
-		Icon icon = food.asStack().getIconIndex();
+		IIcon icon = food.asStack().getIconIndex();
 		
 		int offsX = 0;
 		
