@@ -1,7 +1,7 @@
 package clashsoft.mods.morefood.block.render;
 
-import clashsoft.mods.morefood.ClientProxy;
 import clashsoft.mods.morefood.block.BlockBush;
+import clashsoft.mods.morefood.client.MFMClientProxy;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 import net.minecraft.block.Block;
@@ -20,13 +20,11 @@ public class BushRenderer implements ISimpleBlockRenderingHandler
 	{
 		BlockBush bush = (BlockBush)block;
 		
-		renderer.overrideBlockTexture = bush.stemIcon;
-		
 		renderer.renderCrossedSquares(block, x, y, z);
 		
 		int i1 = world.getBlockMetadata(x, y, z);
 		
-		if (i1 == bush.maxMeta)
+		if (i1 == bush.fullGrownMetadata)
 		{
 			renderer.overrideBlockTexture = bush.bushIcon;
 			renderer.renderStandardBlock(block, x, y, z);
@@ -38,7 +36,7 @@ public class BushRenderer implements ISimpleBlockRenderingHandler
 	}
 	
 	@Override
-	public boolean shouldRender3DInInventory()
+	public boolean shouldRender3DInInventory(int metadata)
 	{
 		return false;
 	}
@@ -46,7 +44,6 @@ public class BushRenderer implements ISimpleBlockRenderingHandler
 	@Override
 	public int getRenderId()
 	{
-		return ClientProxy.BUSH_RENDER_ID;
+		return MFMClientProxy.BUSH_RENDER_ID;
 	}
-	
 }

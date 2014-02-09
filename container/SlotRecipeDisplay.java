@@ -7,25 +7,24 @@ import net.minecraft.item.ItemStack;
 
 public class SlotRecipeDisplay extends Slot
 {
-	public SlotRecipeDisplay(IInventory par1iInventory, int par2, int par3, int par4)
+	public SlotRecipeDisplay(IInventory inventory, int slotID, int x, int y)
 	{
-		super(par1iInventory, par2, par3, par4);
+		super(inventory, slotID, x, y);
 	}
 	
 	@Override
-	public boolean isItemValid(ItemStack par1ItemStack)
+	public boolean isItemValid(ItemStack stack)
 	{
 		return false;
 	}
 	
 	@Override
-	public void putStack(ItemStack par1ItemStack)
+	public void putStack(ItemStack stack)
 	{
-		;
 	}
 	
 	@Override
-	public boolean canTakeStack(EntityPlayer par1EntityPlayer)
+	public boolean canTakeStack(EntityPlayer player)
 	{
 		return false;
 	}

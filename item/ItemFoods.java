@@ -2,171 +2,160 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
-import clashsoft.cslib.minecraft.util.CSWorld;
+import clashsoft.cslib.minecraft.world.CSWorld;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemFoods extends ItemFoodMoreFood
 {
-	public Icon[]	icons;
+	public IIcon[]	icons;
 	
-	public ItemFoods(int par1, int par2, float par3)
+	public ItemFoods(int healAmount, float saturationModifier)
 	{
-		super(par1, par2, par3);
+		super(healAmount, saturationModifier);
 		this.setHasSubtypes(true);
 		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 	
-	public static boolean isEdible(ItemStack stack)
+	public boolean isEdible(ItemStack stack)
 	{
-		return Food.fromItemStack(stack) != null && Food.fromItemStack(stack).isEnabled() && Food.fromItemStack(stack).getFoodValue() != 0;
+		Food food = Food.fromItemStack(stack);
+		return food != null && food.isEnabled() && food.getFoodValue() != 0;
 	}
 	
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (isEdible(par1ItemStack))
+		if (isEdible(stack))
 		{
-			--par1ItemStack.stackSize;
-			par3EntityPlayer.getFoodStats().addStats(Food.fromItemStack(par1ItemStack).getFoodValue(), 1.0F);
-			par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
-			this.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
+			--stack.stackSize;
+			player.getFoodStats().addStats(Food.fromItemStack(stack).getFoodValue(), 1.0F);
+			world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			this.onFoodEaten(stack, world, player);
 		}
-		return par1ItemStack;
+		return stack;
 	}
 	
 	@Override
-	protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		super.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
+		super.onFoodEaten(stack, world, player);
 		
-		Food f = Food.fromItemStack(par1ItemStack);
+		Food f = Food.fromItemStack(stack);
 		if (f != null)
+		{
 			for (PotionEffect effect : f.getEffects())
-				par3EntityPlayer.addPotionEffect(effect);
+			{
+				player.addPotionEffect(effect);
+			}
+		}
 	}
 	
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (par3EntityPlayer.canEat(false) && isEdible(par1ItemStack))
+		if (player.canEat(false) && isEdible(stack))
 		{
-			par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
+			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 		}
 		
-		return par1ItemStack;
+		return stack;
 	}
 	
-	/**
-	 * How long it takes to use or consume an item
-	 */
 	@Override
-	public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 32;
 	}
 	
-	/**
-	 * returns the action that specifies what animation to play when the items
-	 * is being used
-	 */
 	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		return isEdible(par1ItemStack) ? Food.fromItemStack(par1ItemStack).getAction() : EnumAction.none;
+		return isEdible(stack) ? Food.fromItemStack(stack).getAction() : EnumAction.none;
 	}
 	
 	@Override
-	public String getItemDisplayName(ItemStack par1ItemStack)
+	public String getItemStackDisplayName(ItemStack stack)
 	{
-		return Food.fromItemStack(par1ItemStack).getName();
+		return Food.fromItemStack(stack).getName();
 	}
 	
 	@Override
-	public Icon getIconFromDamage(int par1)
+	public IIcon getIconFromDamage(int metadata)
 	{
-		return icons[par1 % icons.length];
+		return this.icons != null ? icons[metadata % icons.length] : null;
 	}
 	
 	@Override
-	public void registerIcons(IconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegister)
 	{
-		icons = new Icon[Food.foodTypes.length];
-		for (int i = 0; i < Food.foodTypes.length; i++)
+		Food[] types = Food.foodTypes;
+		icons = new IIcon[types.length];
+		for (int i = 0; i < types.length; i++)
 		{
-			Food f = Food.foodTypes[i];
+			Food f = types[i];
 			if (f != null)
-				icons[i] = par1IconRegister.registerIcon(f.getIconName());
+			{
+				icons[i] = iconRegister.registerIcon(f.getIconName());
+			}
 		}
 	}
 	
-	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye
-	 * returns 16 items)
-	 */
 	@Override
-	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+	public void getSubItems(Item item, CreativeTabs tab, List list)
 	{
 		for (Food f : Food.foodList)
 		{
 			if (f != null && f.isEnabled() && f.getID() != -1)
-				par3List.add(f.asStack());
+			{
+				list.add(f.asStack());
+			}
 		}
 	}
 	
-	/**
-	 * Callback for item usage. If the item does something special on right
-	 * clicking, he will have one of those. Return True if something happen and
-	 * false if it don't. This is for ITEMS, not BLOCKS
-	 */
 	@Override
-	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
-		super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5, par6, par7, par8, par9, par10);
-		Food food = Food.fromItemStack(par1ItemStack);
-		int blockPlaced = food.getBlockPlaced();
+		Food food = Food.fromItemStack(stack);
+		Block block = food.getBlockPlaced();
 		int metaPlaced = food.getMetadataPlaced();
-		if (par7 != 1 || blockPlaced <= 0)
+		
+		if (block == null)
 		{
 			return false;
 		}
-		else if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4, par5 + 1, par6, par7, par1ItemStack))
+		else if (player.canPlayerEdit(x, y, z, side, stack) && player.canPlayerEdit(x, y + 1, z, side, stack))
 		{
-			int i1 = par3World.getBlockId(par4, par5, par6);
-			Block plant = Block.blocksList[blockPlaced];
-			Block soil = Block.blocksList[i1];
+			Block soil = world.getBlock(x, y, z);
 			
-			if (soil != null && plant instanceof IPlantable && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, (IPlantable) plant) && par3World.isAirBlock(par4, par5 + 1, par6))
+			if (soil != null && block instanceof IPlantable && soil.canSustainPlant(world, x, y, z, ForgeDirection.UP, (IPlantable) block) && world.isAirBlock(x, y + 1, z))
 			{
-				par3World.setBlock(par4, par5 + 1, par6, blockPlaced, metaPlaced, 2);
-				--par1ItemStack.stackSize;
+				world.setBlock(x, y + 1, z, block, metaPlaced, 2);
+				--stack.stackSize;
 				return true;
 			}
 			else
 			{
-				if (plant.canPlaceBlockAt(par3World, par4 + CSWorld.sideMap[par7][0], par5 + CSWorld.sideMap[par7][1], par6 + CSWorld.sideMap[par7][2]))
+				if (block.canPlaceBlockAt(world, x + CSWorld.sideMap[side][0], y + CSWorld.sideMap[side][1], z + CSWorld.sideMap[side][2]))
 				{
-					CSWorld.setBlockAtSide(par3World, par4, par5, par6, par7, blockPlaced, metaPlaced);
-					--par1ItemStack.stackSize;
+					CSWorld.setBlockAtSide(world, x, y, z, side, block, metaPlaced);
+					--stack.stackSize;
 					return true;
 				}
 			}
 		}
-		return false;
+		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
 }

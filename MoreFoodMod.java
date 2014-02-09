@@ -2,34 +2,36 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
-import clashsoft.cslib.minecraft.ItemCustomBlock;
 import clashsoft.cslib.minecraft.block.BlockCustomLeaves;
 import clashsoft.cslib.minecraft.block.BlockCustomLog;
 import clashsoft.cslib.minecraft.block.BlockCustomSapling;
+import clashsoft.cslib.minecraft.block.CSBlocks;
+import clashsoft.cslib.minecraft.crafting.CSCrafting;
+import clashsoft.cslib.minecraft.item.CSItems;
+import clashsoft.cslib.minecraft.item.block.ItemCustomBlock;
+import clashsoft.cslib.minecraft.lang.CSLang;
 import clashsoft.cslib.minecraft.update.CSUpdate;
 import clashsoft.cslib.minecraft.update.ModUpdate;
-import clashsoft.cslib.minecraft.util.CSBlocks;
-import clashsoft.cslib.minecraft.util.CSCrafting;
-import clashsoft.cslib.minecraft.util.CSItems;
-import clashsoft.cslib.minecraft.util.CSLang;
+import clashsoft.cslib.minecraft.world.gen.CustomTreeGenerator;
 import clashsoft.mods.morefood.block.*;
+import clashsoft.mods.morefood.common.MFMCommonProxy;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
 import clashsoft.mods.morefood.world.WorldGenBushes;
-import clashsoft.mods.morefood.world.WorldGenFruitTree;
 import clashsoft.mods.morefood.world.WorldGenGardener;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,65 +42,28 @@ import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.oredict.OreDictionary;
 
-@Mod(modid = "MoreFoodMod", name = "More Food Mod", version = MoreFoodMod.VERSION)
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@Mod(modid = MoreFoodMod.MODID, name = MoreFoodMod.NAME, version = MoreFoodMod.VERSION)
 public class MoreFoodMod
 {
-	public static final int				REVISION			= 3;
-	public static final String			VERSION				= CSUpdate.CURRENT_VERSION + "-" + REVISION;
+	public static final String			MODID		= "morefood";
+	public static final String			NAME		= "More Food Mod";
+	public static final int				REVISION	= 0;
+	public static final String			VERSION		= CSUpdate.CURRENT_VERSION + "-" + REVISION;
 	
-	@Instance("MoreFoodMod")
+	@Instance(MODID)
 	public static MoreFoodMod			instance;
 	
-	@SidedProxy(modId = "MoreFoodMod", clientSide = "clashsoft.mods.morefood.ClientProxy", serverSide = "clashsoft.mods.morefood.CommonProxy")
-	public static CommonProxy			proxy;
+	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMCommonProxy")
+	public static MFMCommonProxy			proxy;
 	
-	public static int					itemsID				= 13000;
-	
-	public static int					cucumberPlantID		= 510;
-	public static int					tomatoPlantID		= 511;
-	public static int					pepperPlantID		= 512;
-	public static int					saladPlantID		= 513;
-	public static int					onionPlantID		= 514;
-	public static int					chiliPlantID		= 515;
-	public static int					paprikaPlantID		= 516;
-	public static int					ricePlantID			= 517;
-	public static int					cornPlantID			= 518;
-	public static int					vanillaPlantID		= 519;
-	
-	public static int					saltOreID			= 520;
-	
-	public static int					strawberryBushID	= 521;
-	public static int					raspberryBushID		= 522;
-	public static int					blueberryBushID		= 523;
-	public static int					blackberryBushID	= 524;
-	public static int					redcurrantBushID	= 525;
-	
-	public static int					fruitSaplingsID		= 526;
-	public static int					fruitLogsID			= 527;
-	public static int					fruitLeavesID		= 528;
-	public static int					fruitSaplingsID2	= 529;
-	public static int					fruitLogsID2		= 530;
-	public static int					fruitLeavesID2		= 531;
-	
-	public static int					seagrassID			= 532;
-	
-	public static int					pizzaID				= 533;
-	
-	private static int[]				BUSHES;
-	
-	public static ItemMoreFood			salt;
-	public static ItemMoreFood			pepper;
-	public static ItemMoreFood			cinnamon;
-	public static ItemMoreFood			vanilla;
+	public static Item					salt;
+	public static Item					pepper;
+	public static Item					cinnamon;
+	public static Item					vanilla;
 	public static ItemJuice				juice;
-	public static ItemFertilizer		fertilizer;
 	public static ItemMilkBowls			milkBowls;
 	public static ItemSoupBowls			soupBowls;
 	public static ItemFoods				foods;
@@ -133,55 +98,12 @@ public class MoreFoodMod
 	public static BlockPizza			pizza;
 	
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event)
-	{
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		config.load();
-		
-		cucumberPlantID = config.getBlock("Cucumber Plant ID", 510).getInt();
-		tomatoPlantID = config.getBlock("Tomato Plant ID", 511).getInt();
-		pepperPlantID = config.getBlock("Pepper Plant ID", 512).getInt();
-		saladPlantID = config.getBlock("Salad Plant ID", 513).getInt();
-		onionPlantID = config.getBlock("Onion Plant ID", 514).getInt();
-		chiliPlantID = config.getBlock("Chili Plant ID", 515).getInt();
-		paprikaPlantID = config.getBlock("Paprika Plant ID", 516).getInt();
-		ricePlantID = config.getBlock("Rice Plant ID", 517).getInt();
-		cornPlantID = config.getBlock("Corn Plant ID", 518).getInt();
-		vanillaPlantID = config.getBlock("Vanilla Plant ID", 519).getInt();
-		
-		saltOreID = config.getBlock("Salt Ore ID", 520).getInt();
-		
-		strawberryBushID = config.getBlock("Strawberry Bush ID", 521).getInt();
-		raspberryBushID = config.getBlock("Raspberry Bush ID", 522).getInt();
-		blueberryBushID = config.getBlock("Blueberry Bush ID", 523).getInt();
-		blackberryBushID = config.getBlock("Blackberry Bush ID", 524).getInt();
-		redcurrantBushID = config.getBlock("Redcurrant Bush ID", 525).getInt();
-		
-		fruitSaplingsID = config.getBlock("Fruit Saplings ID", 526).getInt();
-		fruitLogsID = config.getBlock("Fruit Logs ID", 527).getInt();
-		fruitLeavesID = config.getBlock("Fruit Leaves ID", 528).getInt();
-		fruitSaplingsID2 = config.getBlock("Fruit Saplings 2 ID", 529).getInt();
-		fruitLogsID2 = config.getBlock("Fruit Logs 2 ID", 530).getInt();
-		fruitLeavesID2 = config.getBlock("Fruit Leaves 2 ID", 531).getInt();
-		
-		seagrassID = config.getBlock("Sea Grass ID", 532).getInt();
-		
-		pizzaID = config.getBlock("Pizza ID", 533).getInt();
-		
-		BUSHES = new int[] { strawberryBushID, raspberryBushID, blueberryBushID, blackberryBushID, redcurrantBushID };
-		
-		itemsID = config.getItem("Items ID", 13000).getInt();
-		
-		config.save();
-	}
-	
-	@EventHandler
 	public void init(FMLInitializationEvent e)
 	{
-		GameRegistry.registerWorldGenerator(new WorldGenHandler());
-		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
-				
-		foods = (ItemFoods) new ItemFoods(itemsID + 8, 3, 1.0F).setUnlocalizedName("edibleIgredient");
+		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 8);
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
+		
+		foods = (ItemFoods) new ItemFoods(3, 1.0F).setUnlocalizedName("edibleIgredient");
 		
 		addItems();
 		Food.init();
@@ -192,13 +114,12 @@ public class MoreFoodMod
 		
 		MinecraftForge.addGrassSeed(Food.pepperSeeds.asStack(), 8);
 		MinecraftForge.addGrassSeed(Food.vanillaSeeds.asStack(), 6);
-		MinecraftForge.setBlockHarvestLevel(saltOre, "pickaxe", 1);
 		
 		proxy.registerRenderers();
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void playerJoined(EntityJoinWorldEvent event)
 	{
 		if (event.entity instanceof EntityPlayer)
@@ -210,43 +131,71 @@ public class MoreFoodMod
 	
 	private void addBlocks()
 	{
-		cucumberPlant = new BlockPlantMoreFood(cucumberPlantID, 3, Food.cucumber.asStack(), Food.cucumber.asStack(), "cucumber");
-		tomatoPlant = new BlockPlantMoreFood(tomatoPlantID, 3, Food.tomato.asStack(), Food.tomato.asStack(), "tomato");
-		pepperPlant = new BlockPlantMoreFood(pepperPlantID, 3, Food.pepperSeeds.asStack(), new ItemStack(pepper), "pepper");
-		saladPlant = new BlockPlantMoreFood(saladPlantID, 3, Food.salad.asStack(), Food.salad.asStack(), "salad");
-		onionPlant = new BlockPlantMoreFood(onionPlantID, 4, Food.onion.asStack(), Food.onion.asStack(), "onion");
-		chiliPlant = new BlockPlantMoreFood(chiliPlantID, 6, Food.chili.asStack(), Food.chili.asStack(), "chili");
-		paprikaPlant = new BlockPlantMoreFood(paprikaPlantID, 6, Food.paprika.asStack(), Food.paprika.asStack(), "paprika");
-		ricePlant = new BlockPlantMoreFood(ricePlantID, 6, Food.rice.asStack(), Food.rice.asStack(), "rice");
-		cornPlant = new BlockPlantMoreFood(cornPlantID, 6, Food.corn.asStack(), Food.corn.asStack(), "corn");
-		vanillaPlant = new BlockPlantMoreFood(vanillaPlantID, 4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
-		saltOre = (new BlockSaltOre(saltOreID)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("saltOre").setTextureName("saltore");
+		cucumberPlant = new BlockPlantMoreFood(3, Food.cucumber.asStack(), Food.cucumber.asStack(), "cucumber");
+		tomatoPlant = new BlockPlantMoreFood(3, Food.tomato.asStack(), Food.tomato.asStack(), "tomato");
+		pepperPlant = new BlockPlantMoreFood(3, Food.pepperSeeds.asStack(), new ItemStack(pepper), "pepper");
+		saladPlant = new BlockPlantMoreFood(3, Food.salad.asStack(), Food.salad.asStack(), "salad");
+		onionPlant = new BlockPlantMoreFood(4, Food.onion.asStack(), Food.onion.asStack(), "onion");
+		chiliPlant = new BlockPlantMoreFood(6, Food.chili.asStack(), Food.chili.asStack(), "chili");
+		paprikaPlant = new BlockPlantMoreFood(6, Food.paprika.asStack(), Food.paprika.asStack(), "paprika");
+		ricePlant = new BlockPlantMoreFood(6, Food.rice.asStack(), Food.rice.asStack(), "rice");
+		cornPlant = new BlockPlantMoreFood(6, Food.corn.asStack(), Food.corn.asStack(), "corn");
+		vanillaPlant = new BlockPlantMoreFood(4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla), "vanilla");
+		saltOre = (new BlockSaltOre()).setHardness(3.0F).setResistance(5.0F).setBlockName("saltOre").setBlockTextureName("saltore");
 		
-		strawberryBush = (BlockBush) new BlockBush(strawberryBushID, Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem").setStepSound(Block.soundGrassFootstep);
-		raspberryBush = (BlockBush) new BlockBush(raspberryBushID, Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem").setStepSound(Block.soundGrassFootstep);
-		blueberryBush = (BlockBush) new BlockBush(blueberryBushID, Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem").setStepSound(Block.soundGrassFootstep);
-		blackberryBush = (BlockBush) new BlockBush(blackberryBushID, Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem").setStepSound(Block.soundGrassFootstep);
-		redcurrantBush = (BlockBush) new BlockBush(redcurrantBushID, Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem").setStepSound(Block.soundGrassFootstep);
+		strawberryBush = (BlockBush) new BlockBush(Food.strawberry.asStack(), "strawberry_bush", "strawberry_bush_stem");
+		raspberryBush = (BlockBush) new BlockBush(Food.raspberry.asStack(), "raspberry_bush", "raspberry_bush_stem");
+		blueberryBush = (BlockBush) new BlockBush(Food.blueberry.asStack(), "blueberry_bush", "blueberry_bush_stem");
+		blackberryBush = (BlockBush) new BlockBush(Food.blackberry.asStack(), "blackberry_bush", "blackberry_bush_stem");
+		redcurrantBush = (BlockBush) new BlockBush(Food.redcurrant.asStack(), "redcurrant_bush", "redcurrant_bush_stem");
 		
-		fruitSaplings = (BlockCustomSapling) new BlockFruitSapling(fruitSaplingsID, new String[] { "Orange Tree Sapling", "Pear Tree Sapling", "Cherry Tree Sapling", "Plum Tree Sapling" }, new String[] { "fruitsapling_orange", "fruitsapling_pear", "fruitsapling_cherry", "fruitsapling_plum" });
-		fruitSaplings.setUnlocalizedName("fruitSaplings").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
-		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(fruitSaplingsID2, new String[] { "Banana Tree Sapling" }, new String[] { "fruitsapling_banana" });
-		fruitSaplings2.setUnlocalizedName("fruitSaplings2").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitSaplings = (BlockCustomSapling) new BlockFruitSapling(new String[] {
+				"Orange Tree Sapling",
+				"Pear Tree Sapling",
+				"Cherry Tree Sapling",
+				"Plum Tree Sapling" }, new String[] {
+				"fruitsapling_orange",
+				"fruitsapling_pear",
+				"fruitsapling_cherry",
+				"fruitsapling_plum" });
+		fruitSaplings.setBlockName("fruitSaplings").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitSaplings2 = (BlockFruitSapling) new BlockFruitSapling(new String[] { "Banana Tree Sapling" }, new String[] { "fruitsapling_banana" });
+		fruitSaplings2.setBlockName("fruitSaplings2").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
 		
-		fruitLogs = (BlockCustomLog) new BlockCustomLog(fruitLogsID, new String[] { "Orange Tree Log", "Pear Tree Log", "Cherry Tree Log", "Plum Tree Log" }, new String[] { "fruitlog_orange_top", "fruitlog_pear_top", "fruitlog_cherry_top", "fruitlog_plum_top" }, new String[] { "fruitlog_orange", "fruitlog_pear", "fruitlog_cherry", "fruitlog_plum" });
-		fruitLogs.setUnlocalizedName("fruitLogs").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
-		fruitLogs2 = (BlockCustomLog) new BlockCustomLog(fruitLogsID2, new String[] { "Banana Tree Log" }, new String[] { "fruitlog_banana_top" }, new String[] { "fruitlog_banana" });
-		fruitLogs2.setUnlocalizedName("fruitLogs2").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
+		fruitLogs = (BlockCustomLog) new BlockCustomLog(new String[] {
+				"Orange Tree Log",
+				"Pear Tree Log",
+				"Cherry Tree Log",
+				"Plum Tree Log" }, new String[] {
+				"fruitlog_orange_top",
+				"fruitlog_pear_top",
+				"fruitlog_cherry_top",
+				"fruitlog_plum_top" }, new String[] {
+				"fruitlog_orange",
+				"fruitlog_pear",
+				"fruitlog_cherry",
+				"fruitlog_plum" });
+		fruitLogs.setBlockName("fruitLogs").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
+		fruitLogs2 = (BlockCustomLog) new BlockCustomLog(new String[] { "Banana Tree Log" }, new String[] { "fruitlog_banana_top" }, new String[] { "fruitlog_banana" });
+		fruitLogs2.setBlockName("fruitLogs2").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
 		
-		fruitLeaves = (BlockCustomLeaves) new BlockCustomLeaves(fruitLeavesID, new String[] { "Orange Tree Leaves", "Pear Tree Leaves", "Cherry Tree Leaves", "Plum Tree Leaves" }, new String[] { "fruitleaves_orange", "fruitleaves_pear", "fruitleaves_cherry", "fruitleaves_plum" });
-		fruitLeaves.setUnlocalizedName("fruitLeaves").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitLeaves = (BlockCustomLeaves) new BlockCustomLeaves(new String[] {
+				"Orange Tree Leaves",
+				"Pear Tree Leaves",
+				"Cherry Tree Leaves",
+				"Plum Tree Leaves" }, new String[] {
+				"fruitleaves_orange",
+				"fruitleaves_pear",
+				"fruitleaves_cherry",
+				"fruitleaves_plum" });
+		fruitLeaves.setBlockName("fruitLeaves").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitLeaves.setSaplingStacks(Food.orange.asStack(), Food.pear.asStack(), Food.cherry.asStack(), Food.plum.asStack());
 		
-		fruitLeaves2 = (BlockCustomLeaves) new BlockCustomLeaves(fruitLeavesID2, new String[] { "Banana Tree Leaves" }, new String[] { "fruitleaves_banana" });
-		fruitLeaves2.setUnlocalizedName("fruitLeaves2").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitLeaves2 = (BlockCustomLeaves) new BlockCustomLeaves(new String[] { "Banana Tree Leaves" }, new String[] { "fruitleaves_banana" });
+		fruitLeaves2.setBlockName("fruitLeaves2").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitLeaves2.setSaplingStacks(Food.banana.asStack());
 		
-		pizza = (BlockPizza) new BlockPizza(pizzaID).setUnlocalizedName("pizza").setHardness(0.5F).setStepSound(Block.soundClothFootstep);
+		pizza = (BlockPizza) new BlockPizza().setBlockName("pizza").setHardness(0.5F).setStepSound(Block.soundTypeSnow);
 		
 		CSBlocks.addBlock(saltOre, "Salt Ore");
 		CSBlocks.addBlock(fruitSaplings, ItemCustomBlock.class, "Fruit Saplings");
@@ -260,23 +209,39 @@ public class MoreFoodMod
 	
 	private void addItems()
 	{
-		salt = (ItemMoreFood) new ItemMoreFood(itemsID).setUnlocalizedName("salt");
-		pepper = (ItemMoreFood) new ItemMoreFood(itemsID + 1).setUnlocalizedName("pepper");
-		cinnamon = (ItemMoreFood) new ItemMoreFood(itemsID + 2).setUnlocalizedName("cinnamon");
-		vanilla = (ItemMoreFood) new ItemMoreFood(itemsID + 3).setUnlocalizedName("vanilla");
-		juice = (ItemJuice) new ItemJuice(itemsID + 4).setUnlocalizedName("juice");
-		fertilizer = (ItemFertilizer) new ItemFertilizer(itemsID + 5).setUnlocalizedName("fertilizer");
-		milkBowls = (ItemMilkBowls) new ItemMilkBowls(itemsID + 6, 4).setUnlocalizedName("cerealsWithMilk");
-		soupBowls = (ItemSoupBowls) new ItemSoupBowls(itemsID + 7, 6).setUnlocalizedName("soups");
-		recipeBook = (ItemRecipeBook) new ItemRecipeBook(itemsID + 9).setUnlocalizedName("recipebook").setCreativeTab(CreativeTabs.tabMisc);
+		salt = new Item().setUnlocalizedName("salt").setTextureName("salt");
+		pepper = new Item().setUnlocalizedName("pepper").setTextureName("pepper");
+		cinnamon = new Item().setUnlocalizedName("cinnamon").setTextureName("cinnamon");
+		vanilla = new Item().setUnlocalizedName("vanilla").setTextureName("vanilla");
+		juice = (ItemJuice) new ItemJuice().setUnlocalizedName("juice");
+		milkBowls = (ItemMilkBowls) new ItemMilkBowls(4).setUnlocalizedName("cerealsWithMilk");
+		soupBowls = (ItemSoupBowls) new ItemSoupBowls(6).setUnlocalizedName("soups");
+		recipeBook = (ItemRecipeBook) new ItemRecipeBook().setUnlocalizedName("recipebook").setCreativeTab(CreativeTabs.tabMisc);
 		
 		CSItems.addItem(salt, "Salt");
 		CSItems.addItemWithShapelessRecipe(pepper, "Pepper", 4, new Object[] { Food.pepperSeeds.asStack() });
-		CSItems.addItemWithShapelessRecipe(cinnamon, "Cinnamon", 3, new Object[] { new ItemStack(Item.dyePowder, 1, 3), Item.sugar, Item.sugar });
+		CSItems.addItemWithShapelessRecipe(cinnamon, "Cinnamon", 3, new Object[] {
+				new ItemStack(Items.dye, 1, 3),
+				Items.sugar,
+				Items.sugar });
 		CSItems.addItem(vanilla, "Vanilla");
-		CSItems.addItemWithRecipe(fertilizer, "Fertilizer", 16, new Object[] { " w ", "sDs", " w ", 'w', Item.wheat, 's', Item.seeds, 'D', Block.dirt });
 		
-		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] { " s ", "bBp", " t ", 's', Food.salad.asStack(), 'b', Item.beefCooked, 'B', Item.book, 'p', Item.porkCooked, 't', Food.tomato.asStack() });
+		GameRegistry.registerItem(foods, "morefood:food_items", MODID);
+		
+		CSItems.addItemWithRecipe(recipeBook, "Recipe Book", 1, new Object[] {
+				" s ",
+				"bBp",
+				" t ",
+				's',
+				Food.salad.asStack(),
+				'b',
+				Items.beef,
+				'B',
+				Items.book,
+				'p',
+				Items.cooked_porkchop,
+				't',
+				Food.tomato.asStack() });
 	}
 	
 	private void addCraftingRecipes()
@@ -284,41 +249,93 @@ public class MoreFoodMod
 		CSCrafting.addShapelessCrafting(new ItemStack(pepper, 4, 0), Food.pepperSeeds.asStack());
 		CSCrafting.addShapelessCrafting(new ItemStack(vanilla, 4, 0), Food.vanillaSeeds.asStack());
 		
-		CSCrafting.addShapelessCrafting(new ItemStack(Block.wood), new Object[] { new ItemStack(Block.wood, 1, OreDictionary.WILDCARD_VALUE) });
-		
 		for (int i = 0; i < 7; i++)
 		{
 			ItemStack theSoup = new ItemStack(soupBowls, 1, i);
-			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), new Object[] { theSoup, salt });
-			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), soupBowls.isSalted(theSoup), true), new Object[] { theSoup, pepper });
-			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] { theSoup, pepper, salt });
-			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), new Object[] { theSoup, salt });
-			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), soupBowls.isSalted(theSoup), true), new Object[] { theSoup, pepper });
-			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] { theSoup, pepper, salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), new Object[] {
+					theSoup,
+					salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), soupBowls.isSalted(theSoup), true), new Object[] {
+					theSoup,
+					pepper });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] {
+					theSoup,
+					pepper,
+					salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), new Object[] {
+					theSoup,
+					salt });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), soupBowls.isSalted(theSoup), true), new Object[] {
+					theSoup,
+					pepper });
+			CSCrafting.addShapelessCrafting(soupBowls.addModifierToItemStack(theSoup.copy(), true, true), new Object[] {
+					theSoup,
+					pepper,
+					salt });
 		}
 		
-		CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 0), new Object[] { Item.bowlEmpty, Item.bucketWater });
+		CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 0), new Object[] {
+				Items.bowl,
+				Items.water_bucket });
 		for (int i = 0; i <= 7; i += 7)
 		{
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 1 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Item.bakedPotato });
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 2 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.carrotCooked.asStack() });
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 3 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.carrotCooked.asStack(), Item.bakedPotato });
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 4 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.tomato.asStack() });
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 5 + i), new Object[] { new ItemStack(soupBowls, 1, 4 + i), Food.rice.asStack() });
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 6 + i), new Object[] { new ItemStack(soupBowls, 1, 0 + i), Food.pasta.asStack() });
+			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 1 + i), new Object[] {
+					new ItemStack(soupBowls, 1, 0 + i),
+					Items.baked_potato });
+			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 2 + i), new Object[] {
+					new ItemStack(soupBowls, 1, 0 + i),
+					Food.carrotCooked.asStack() });
+			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 3 + i), new Object[] {
+					new ItemStack(soupBowls, 1, 0 + i),
+					Food.carrotCooked.asStack(),
+					Items.baked_potato });
+			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 4 + i), new Object[] {
+					new ItemStack(soupBowls, 1, 0 + i),
+					Food.tomato.asStack() });
+			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 5 + i), new Object[] {
+					new ItemStack(soupBowls, 1, 4 + i),
+					Food.rice.asStack() });
+			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 6 + i), new Object[] {
+					new ItemStack(soupBowls, 1, 0 + i),
+					Food.pasta.asStack() });
 		}
 		
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 0), new Object[] { Item.bowlEmpty, Item.bucketMilk });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 1), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.getID()) });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 2), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals2.getID()) });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 3), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(foods, 1, Food.cereals1.getID()), new ItemStack(foods, 1, Food.cereals2.getID()) });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 4), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack() });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack(), cinnamon });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 5), new Object[] { new ItemStack(milkBowls, 1, 4), cinnamon });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 0), Food.rice.asStack(), vanilla });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 6), new Object[] { new ItemStack(milkBowls, 1, 4), vanilla });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 7), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(Item.dyePowder, 1, 1) });
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 8), new Object[] { new ItemStack(milkBowls, 1, 0), new ItemStack(Item.dyePowder, 1, 10) });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 0), new Object[] {
+				Items.bowl,
+				Items.milk_bucket });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 1), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				new ItemStack(foods, 1, Food.cereals1.getID()) });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 2), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				new ItemStack(foods, 1, Food.cereals2.getID()) });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 3), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				new ItemStack(foods, 1, Food.cereals1.getID()),
+				new ItemStack(foods, 1, Food.cereals2.getID()) });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 4), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				Food.rice.asStack() });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 5), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				Food.rice.asStack(),
+				cinnamon });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 5), new Object[] {
+				new ItemStack(milkBowls, 1, 4),
+				cinnamon });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 6), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				Food.rice.asStack(),
+				vanilla });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 6), new Object[] {
+				new ItemStack(milkBowls, 1, 4),
+				vanilla });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 7), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				new ItemStack(Items.dye, 1, 1) });
+		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 8), new Object[] {
+				new ItemStack(milkBowls, 1, 0),
+				new ItemStack(Items.dye, 1, 10) });
 		
 		for (Food f : Food.foodList)
 		{
@@ -326,9 +343,15 @@ public class MoreFoodMod
 				f.addRecipe();
 		}
 		
-		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 0), new Object[] { Item.glassBottle, Food.appleStomped.asStack() });
-		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 1), new Object[] { Item.glassBottle, Food.orange.asStack() });
-		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 2), new Object[] { Item.glassBottle, Food.tomato.asStack() });
+		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 0), new Object[] {
+				Items.glass_bottle,
+				Food.appleStomped.asStack() });
+		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 1), new Object[] {
+				Items.glass_bottle,
+				Food.orange.asStack() });
+		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 2), new Object[] {
+				Items.glass_bottle,
+				Food.tomato.asStack() });
 	}
 	
 	private void addSmeltingRecipes()
@@ -445,7 +468,7 @@ public class MoreFoodMod
 			int randPosY = random.nextInt(48);
 			int randPosZ = chunkZ * 16 + random.nextInt(16);
 			if (world.getBiomeGenForCoords(randPosX, randPosZ) instanceof BiomeGenOcean)
-				(new WorldGenMinable(saltOre.blockID, 6)).generate(world, random, randPosX, randPosY, randPosZ);
+				(new WorldGenMinable(saltOre, 6)).generate(world, random, randPosX, randPosY, randPosZ);
 		}
 		if (random.nextInt(200) == 0)
 		{
@@ -454,7 +477,7 @@ public class MoreFoodMod
 			int randPosZ = chunkZ * 16 + random.nextInt(16);
 			for (int j = randPosY; j > 0; j--)
 			{
-				if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
+				if ((world.getBlock(randPosX, randPosY, randPosZ) == Blocks.grass || world.getBlock(randPosX, randPosY, randPosZ) == Blocks.dirt))
 				{
 					randPosY = j;
 					break;
@@ -480,7 +503,7 @@ public class MoreFoodMod
 			{
 				for (int j = randPosY; j > 0; j--)
 				{
-					if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
+					if ((world.getBlock(randPosX, randPosY, randPosZ) == Blocks.grass || world.getBlock(randPosX, randPosY, randPosZ) == Blocks.dirt))
 					{
 						randPosY = j;
 						break;
@@ -492,7 +515,7 @@ public class MoreFoodMod
 				}
 				
 				int treeType = random.nextInt(5);
-				(new WorldGenFruitTree(false, 4 + random.nextInt(4), treeType > 3 ? fruitLogsID2 : fruitLogsID, treeType > 3 ? fruitLeavesID2 : fruitLeavesID, treeType % 4, treeType % 4)).generate(world, random, randPosX, randPosY, randPosZ);
+				(new CustomTreeGenerator(false, 4 + random.nextInt(4), treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3)).generate(world, random, randPosX, randPosY, randPosZ);
 			}
 		}
 		if (random.nextInt(10) == 0)
@@ -503,7 +526,7 @@ public class MoreFoodMod
 			
 			for (int j = randPosY; j > 0; j--)
 			{
-				if ((world.getBlockId(randPosX, randPosY, randPosZ) == Block.grass.blockID || world.getBlockId(randPosX, randPosY, randPosZ) == Block.dirt.blockID))
+				if ((world.getBlock(randPosX, randPosY, randPosZ) == Blocks.grass || world.getBlock(randPosX, randPosY, randPosZ) == Blocks.dirt))
 				{
 					randPosY = j + 1;
 					break;
@@ -514,19 +537,32 @@ public class MoreFoodMod
 				}
 			}
 			
-			int bushType = getBushTypeForBiome(world.getBiomeGenForCoords(randPosX, randPosY), random);
+			Block bushType = getBushTypeForBiome(world.getBiomeGenForCoords(randPosX, randPosY), random);
 			(new WorldGenBushes(bushType, 3)).generate(world, random, randPosX, randPosY, randPosZ);
 		}
 	}
 	
-	public static int getBushTypeForBiome(BiomeGenBase biome, Random random)
+	public static Block getBushTypeForBiome(BiomeGenBase biome, Random random)
 	{
+		Block[] bushes = new Block[] {
+				raspberryBush,
+				blackberryBush,
+				redcurrantBush,
+				blueberryBush,
+				strawberryBush };
+		
 		if (biome instanceof BiomeGenForest)
-			return random.nextBoolean() ? raspberryBushID : blackberryBushID;
+		{
+			return random.nextBoolean() ? raspberryBush : blackberryBush;
+		}
 		else if (biome instanceof BiomeGenJungle)
-			return random.nextBoolean() ? redcurrantBushID : blueberryBushID;
+		{
+			return random.nextBoolean() ? redcurrantBush : blueberryBush;
+		}
 		else
-			return BUSHES[random.nextInt(BUSHES.length)];
+		{
+			return bushes[random.nextInt(bushes.length)];
+		}
 	}
 	
 	public class WorldGenHandler implements IWorldGenerator

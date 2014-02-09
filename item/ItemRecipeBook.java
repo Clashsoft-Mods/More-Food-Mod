@@ -9,16 +9,10 @@ import net.minecraft.world.World;
 
 public class ItemRecipeBook extends Item
 {
-	public ItemRecipeBook(int par1)
-	{
-		super(par1);
-		this.setTextureName("recipebook");
-	}
-	
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		par3EntityPlayer.openGui(MoreFoodMod.instance, 0, par2World, 0, 0, 0);
-		return super.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
+		player.openGui(MoreFoodMod.instance, 0, world, 0, 0, 0);
+		return super.onItemRightClick(stack, world, player);
 	}
 }

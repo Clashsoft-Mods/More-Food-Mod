@@ -11,108 +11,82 @@ import net.minecraft.world.World;
 public class ItemFoodMoreFood extends ItemFood
 {
 	/** Number of ticks to run while 'EnumAction'ing until result. */
-	public final int	itemUseDuration;
+	public final int		itemUseDuration;
 	
 	/** The amount this food item heals the player. */
-	private final int	healAmount;
-	private final float	saturationModifier;
+	protected final int		healAmount;
+	protected final float	saturationModifier;
 	
 	/**
 	 * If this field is true, the food can be consumed even if the player don't
 	 * need to eat.
 	 */
-	public boolean		alwaysEdible;
+	public boolean			alwaysEdible;
 	
 	/**
 	 * represents the potion effect that will occurr upon eating this food. Set
 	 * by setPotionEffect
 	 */
-	private int			potionId;
+	private int				potionId;
 	
 	/** set by setPotionEffect */
-	private int			potionDuration;
+	private int				potionDuration;
 	
 	/** set by setPotionEffect */
-	private int			potionAmplifier;
+	private int				potionAmplifier;
 	
 	/** probably of the set potion effect occurring */
-	private float		potionEffectProbability;
+	private float			potionEffectProbability;
 	
-	public ItemFoodMoreFood(int par1, int par2, float par3)
+	public ItemFoodMoreFood(int healAmount, float saturationModifier)
 	{
-		super(par1, par2, par3, false);
+		super(healAmount, saturationModifier, false);
 		this.itemUseDuration = 32;
-		this.healAmount = par2;
-		this.saturationModifier = par3;
+		this.healAmount = healAmount;
+		this.saturationModifier = saturationModifier;
 		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 	
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		--par1ItemStack.stackSize;
-		par3EntityPlayer.getFoodStats().addStats(this);
-		par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
-		this.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
-		return par1ItemStack;
+		--stack.stackSize;
+		player.getFoodStats().addStats(this.healAmount, this.saturationModifier);
+		world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+		this.onFoodEaten(stack, world, player);
+		return stack;
 	}
 	
 	@Override
-	protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	protected void onFoodEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (!par2World.isRemote && this.potionId > 0 && par2World.rand.nextFloat() < this.potionEffectProbability)
+		if (!world.isRemote && this.potionId > 0 && world.rand.nextFloat() < this.potionEffectProbability)
 		{
-			par3EntityPlayer.addPotionEffect(new PotionEffect(this.potionId, this.potionDuration * 20, this.potionAmplifier));
+			player.addPotionEffect(new PotionEffect(this.potionId, this.potionDuration * 20, this.potionAmplifier));
 		}
 	}
 	
-	/**
-	 * How long it takes to use or consume an item
-	 */
 	@Override
-	public int getMaxItemUseDuration(ItemStack par1ItemStack)
+	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 32;
 	}
 	
-	/**
-	 * returns the action that specifies what animation to play when the items
-	 * is being used
-	 */
 	@Override
-	public EnumAction getItemUseAction(ItemStack par1ItemStack)
+	public EnumAction getItemUseAction(ItemStack stack)
 	{
 		return EnumAction.eat;
 	}
 	
-	/**
-	 * Called whenever this item is equipped and the right mouse button is
-	 * pressed. Args: itemStack, world, entityPlayer
-	 */
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{
-		if (par3EntityPlayer.canEat(this.alwaysEdible))
+		if (player.canEat(this.alwaysEdible))
 		{
-			par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
+			player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 		}
 		
-		return par1ItemStack;
-	}
-	
-	@Override
-	public int getHealAmount()
-	{
-		return this.healAmount;
-	}
-	
-	/**
-	 * gets the saturationModifier of the ItemFood
-	 */
-	@Override
-	public float getSaturationModifier()
-	{
-		return this.saturationModifier;
+		return stack;
 	}
 	
 }

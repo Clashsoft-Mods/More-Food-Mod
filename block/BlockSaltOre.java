@@ -7,13 +7,13 @@ import clashsoft.mods.morefood.MoreFoodMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 
 public class BlockSaltOre extends Block
 {
-	
-	public BlockSaltOre(int par1)
+	public BlockSaltOre()
 	{
-		super(par1, Material.rock);
+		super(Material.rock);
 		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 	
@@ -23,13 +23,9 @@ public class BlockSaltOre extends Block
 		return 2 + random.nextInt(2);
 	}
 	
-	/**
-	 * Returns the ID of the items to drop on destruction.
-	 */
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
+	public Item getItemDropped(int metadata, Random random, int fortune)
 	{
-		return MoreFoodMod.salt.itemID;
+		return MoreFoodMod.salt;
 	}
-	
 }

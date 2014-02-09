@@ -1,7 +1,7 @@
 package clashsoft.mods.morefood.food;
 
-import clashsoft.cslib.minecraft.item.IMetaItemRecipe;
-import clashsoft.cslib.minecraft.util.CSCrafting;
+import clashsoft.cslib.minecraft.crafting.CSCrafting;
+import clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.item.Item;
@@ -19,12 +19,16 @@ public class FoodRecipe implements IMetaItemRecipe
 		this.craftingType = craftingType;
 		this.amount = amount;
 		this.data = data;
-		this.analysed = CSCrafting.analyseCrafting(this);
 	}
 	
 	public FoodRecipe(int amount, ItemStack... data)
 	{
 		this(CRAFTING_SHAPELESS, amount, (Object[]) data);
+	}
+	
+	public FoodRecipe(int amount, ItemStack input, float exp)
+	{
+		this(FURNACE, amount, new Object[] {input, exp});
 	}
 	
 	public void addRecipe(Item item, int foodID)
@@ -67,6 +71,6 @@ public class FoodRecipe implements IMetaItemRecipe
 	 */
 	public ItemStack[][] getAnalysedRecipe()
 	{
-		return analysed;
+		return this.analysed == null ? this.analysed = CSCrafting.analyseCrafting(this) : this.analysed;
 	}
 }

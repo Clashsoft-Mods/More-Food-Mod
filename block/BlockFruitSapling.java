@@ -2,19 +2,20 @@ package clashsoft.mods.morefood.block;
 
 import java.util.Random;
 
+import clashsoft.cslib.minecraft.block.BlockCustomSapling;
+import clashsoft.cslib.minecraft.world.gen.CustomTreeGenerator;
+import clashsoft.mods.morefood.MoreFoodMod;
+
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-import clashsoft.cslib.minecraft.block.BlockCustomSapling;
-import clashsoft.mods.morefood.MoreFoodMod;
-import clashsoft.mods.morefood.world.WorldGenFruitTree;
-
 public class BlockFruitSapling extends BlockCustomSapling
 {
-	public BlockFruitSapling(int blockID, String[] names, String[] icons)
+	public BlockFruitSapling(String[] names, String[] icons)
 	{
-		super(blockID, names, icons);
+		super(names, icons);
 	}
 	
 	@Override
@@ -22,12 +23,12 @@ public class BlockFruitSapling extends BlockCustomSapling
 	{
 		int metadata = world.getBlockMetadata(x, y, z);
 		boolean flag = this == MoreFoodMod.fruitSaplings2;
-		return new WorldGenFruitTree(true, random.nextInt(4), flag ? MoreFoodMod.fruitLogsID2 : MoreFoodMod.fruitLogsID, flag ? MoreFoodMod.fruitLeavesID2 : MoreFoodMod.fruitLeavesID, metadata, metadata);
+		return new CustomTreeGenerator(true, 4 + random.nextInt(4), flag ? MoreFoodMod.fruitLogs2 : MoreFoodMod.fruitLogs, flag ? MoreFoodMod.fruitLeaves2 : MoreFoodMod.fruitLeaves, metadata, metadata);
 	}
 	
 	@Override
-	public boolean isValidGround(int blockID, int blockMetadata)
+	public boolean isValidGround(int metadata, Block block, int blockMetadata)
 	{
-		return blockID == Block.grass.blockID || blockID == Block.dirt.blockID;
+		return block == Blocks.grass || block == Blocks.dirt;
 	}
 }

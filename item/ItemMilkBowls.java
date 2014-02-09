@@ -2,34 +2,53 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemMilkBowls extends ItemFoodMoreFood
 {
-	public static final String[]	bowls		= new String[] { "Bowl and Milk", "Milk and Cereals", "Milk and Cereals", "Milk and Cereals", "Rice Pudding", "Rice Pudding with Cinnamon", "Rice Pudding with Vanilla", "Pudding", "Pudding" };
-	public static final String[]	iconNames	= new String[] { "bowl_milk", "bowl_cereals_1", "bowl_cereals_2", "bowl_cereals_3", "bowl_rice", "bowl_rice_cinnamon", "bowl_rice_vanilla", "bowl_pudding_1", "bowl_pudding_2" };
+	public static final String[]	bowls		= new String[] {
+			"Bowl and Milk",
+			"Milk and Cereals",
+			"Milk and Cereals",
+			"Milk and Cereals",
+			"Rice Pudding",
+			"Rice Pudding with Cinnamon",
+			"Rice Pudding with Vanilla",
+			"Pudding",
+			"Pudding"							};
+	public static final String[]	iconNames	= new String[] {
+			"bowl_milk",
+			"bowl_cereals_1",
+			"bowl_cereals_2",
+			"bowl_cereals_3",
+			"bowl_rice",
+			"bowl_rice_cinnamon",
+			"bowl_rice_vanilla",
+			"bowl_pudding_1",
+			"bowl_pudding_2"					};
 	
-	public Icon[]					icons;
+	public IIcon[]					icons;
 	
-	public ItemMilkBowls(int par1, int par2)
+	public ItemMilkBowls(int healAmount)
 	{
-		super(par1, par2, 1.0F);
+		super(healAmount, 1.0F);
 		this.setMaxStackSize(1);
 		this.setHasSubtypes(true);
 	}
 	
 	@Override
-	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
-		super.onFoodEaten(par1ItemStack, par2World, par3EntityPlayer);
-		return new ItemStack(Item.bowlEmpty);
+		super.onFoodEaten(stack, world, player);
+		return new ItemStack(Items.bowl);
 	}
 	
 	@Override
@@ -39,39 +58,37 @@ public class ItemMilkBowls extends ItemFoodMoreFood
 	}
 	
 	@Override
-	public String getItemDisplayName(ItemStack par1ItemStack)
+	public String getItemStackDisplayName(ItemStack stack)
 	{
-		if (par1ItemStack.getItemDamage() < bowls.length)
-			return bowls[par1ItemStack.getItemDamage()];
+		if (stack.getItemDamage() < bowls.length)
+		{
+			return bowls[stack.getItemDamage()];
+		}
 		return "Bowl with unknown substance";
 	}
 	
 	@Override
-	public Icon getIconFromDamage(int par1)
+	public IIcon getIconFromDamage(int metadata)
 	{
-		return icons[par1 % icons.length];
+		return this.icons[metadata % this.icons.length];
 	}
 	
 	@Override
-	public void registerIcons(IconRegister par1IconRegister)
+	public void registerIcons(IIconRegister iconRegister)
 	{
-		icons = new Icon[iconNames.length];
+		this.icons = new IIcon[iconNames.length];
 		for (int i = 0; i < iconNames.length; i++)
 		{
-			icons[i] = par1IconRegister.registerIcon(iconNames[i]);
+			this.icons[i] = iconRegister.registerIcon(iconNames[i]);
 		}
 	}
 	
-	/**
-	 * returns a list of items with the same ID, but different meta (eg: dye
-	 * returns 16 items)
-	 */
 	@Override
-	public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+	public void getSubItems(Item item, CreativeTabs tab, List list)
 	{
 		for (int i = 0; i < bowls.length; i++)
 		{
-			par3List.add(new ItemStack(par1, 1, i));
+			list.add(new ItemStack(this, 1, i));
 		}
 	}
 }

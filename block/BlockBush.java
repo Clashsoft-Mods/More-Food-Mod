@@ -2,201 +2,135 @@ package clashsoft.mods.morefood.block;
 
 import java.util.Random;
 
-import clashsoft.mods.morefood.ClientProxy;
+import clashsoft.mods.morefood.client.MFMClientProxy;
 
-import net.minecraft.block.BlockFlower;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-/**
- * The Class BlockBush.
- */
-public class BlockBush extends BlockFlower
+public class BlockBush extends Block
 {
+	/** The metadata value this block has to reach to by fully grown. */
+	public int			fullGrownMetadata;
 	
-	/** The max meta. */
-	public int			maxMeta	= 3;
-	
-	/** The drop. */
 	public ItemStack	drop;
 	
-	/** The bush texture. */
-	public String		bushTexture;
+	public String		bushIconName;
+	public String		stemIconName;
 	
-	/** The stem texture. */
-	public String		stemTexture;
-	
-	/** The bush icon. */
-	public Icon			bushIcon;
-	
-	/** The stem icon. */
-	public Icon			stemIcon;
+	public IIcon		bushIcon;
 	
 	/**
-	 * Instantiates a new block bush.
+	 * Instantiates a new bush block.
 	 * 
-	 * @param par1
-	 *            the par1
 	 * @param drop
 	 *            the drop
-	 * @param bushtexture
+	 * @param bushIconName
 	 *            the bushtexture
-	 * @param stemtexture
+	 * @param stemIconName
 	 *            the stemtexture
 	 */
-	public BlockBush(int par1, ItemStack drop, String bushtexture, String stemtexture)
+	public BlockBush(ItemStack drop, String bushIconName, String stemIconName)
 	{
-		super(par1, Material.plants);
-		
+		super(Material.plants);
 		this.drop = drop;
-		this.bushTexture = bushtexture;
-		this.stemTexture = stemtexture;
+		this.bushIconName = bushIconName;
+		this.stemIconName = stemIconName;
+		this.fullGrownMetadata = 3;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * net.minecraft.block.Block#setBlockBoundsBasedOnState(net.minecraft.world
-	 * .IBlockAccess, int, int, int)
-	 */
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess par1World, int par2, int par3, int par4)
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
-		if (par1World.getBlockMetadata(par2, par3, par4) == maxMeta)
+		if (world.getBlockMetadata(x, y, z) == this.fullGrownMetadata)
+		{
 			this.setBlockBounds(0.1F, 0F, 0.1F, 0.9F, 0.9F, 0.9F);
+		}
 		else
+		{
 			this.setBlockBounds(0.3F, 0F, 0.3F, 0.7F, 0.9F, 0.7F);
+		}
 		this.setBlockBoundsForItemRender();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * net.minecraft.block.Block#getBlockHardness(net.minecraft.world.World,
-	 * int, int, int)
-	 */
 	@Override
-	public float getBlockHardness(World par1World, int par2, int par3, int par4)
+	public float getBlockHardness(World world, int x, int y, int z)
 	{
-		return par1World.getBlockMetadata(par2, par3, par4) == maxMeta ? 0.6F : 0.2F;
+		return world.getBlockMetadata(x, y, z) == this.fullGrownMetadata ? 0.6F : 0.2F;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * net.minecraft.block.BlockFlower#updateTick(net.minecraft.world.World,
-	 * int, int, int, java.util.Random)
-	 */
 	@Override
-	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	public void updateTick(World world, int x, int y, int z, Random random)
 	{
-		super.updateTick(par1World, par2, par3, par4, par5Random);
+		super.updateTick(world, x, y, z, random);
 		
-		int i = par1World.getBlockMetadata(par2, par3, par4);
-		if (i < maxMeta && par5Random.nextInt(100) == 0)
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, i + 1, 2);
+		int i = world.getBlockMetadata(x, y, z);
+		if (i < this.fullGrownMetadata && random.nextInt(100) == 0)
+		{
+			world.setBlockMetadataWithNotify(x, y, z, i + 1, 2);
+		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * net.minecraft.block.Block#onBlockDestroyedByPlayer(net.minecraft.world
-	 * .World, int, int, int, int)
-	 */
 	@Override
-	public void onBlockDestroyedByPlayer(World par1World, int par2, int par3, int par4, int par5)
+	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata)
 	{
-		if (par5 == maxMeta)
-			par1World.setBlock(par2, par3, par4, blockID, 0, 2);
+		if (metadata == this.fullGrownMetadata)
+		{
+			world.setBlock(x, y, z, this, 0, 2);
+		}
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.Block#idPicked(net.minecraft.world.World, int,
-	 * int, int)
-	 */
 	@Override
-	public int idPicked(World par1World, int par2, int par3, int par4)
+	public Item getItem(World world, int x, int y, int z)
 	{
-		return drop.itemID;
+		return this.drop.getItem();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.Block#idDropped(int, java.util.Random, int)
-	 */
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
+	public Item getItemDropped(int metadata, Random random, int fortune)
 	{
-		return drop.itemID;
+		return this.drop.getItem();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.Block#damageDropped(int)
-	 */
 	@Override
-	public int damageDropped(int par1)
+	public int damageDropped(int metadata)
 	{
-		return drop.getItemDamage();
+		return this.drop.getItemDamage();
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.Block#quantityDropped(int, int,
-	 * java.util.Random)
-	 */
 	@Override
 	public int quantityDropped(int meta, int fortune, Random random)
 	{
-		if (meta == maxMeta)
+		if (meta == this.fullGrownMetadata)
 			return random.nextInt(2) + 2;
 		else
 			return 0;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * net.minecraft.block.Block#registerIcons(net.minecraft.client.renderer
-	 * .texture.IconRegister)
-	 */
 	@Override
-	public void registerIcons(IconRegister par1IconRegister)
+	public void registerBlockIcons(IIconRegister iconRegister)
 	{
-		this.bushIcon = par1IconRegister.registerIcon(bushTexture);
-		this.blockIcon = this.stemIcon = par1IconRegister.registerIcon(stemTexture);
+		this.bushIcon = iconRegister.registerIcon(this.bushIconName);
+		this.blockIcon = iconRegister.registerIcon(this.stemIconName);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.BlockFlower#getRenderType()
-	 */
 	@Override
 	public int getRenderType()
 	{
-		return ClientProxy.BUSH_RENDER_ID;
+		return MFMClientProxy.BUSH_RENDER_ID;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.Block#shouldSideBeRendered(net.minecraft.world.
-	 * IBlockAccess, int, int, int, int)
-	 */
 	@Override
-	public boolean shouldSideBeRendered(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5)
+	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side)
 	{
 		return true;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see net.minecraft.block.BlockFlower#isOpaqueCube()
-	 */
 	@Override
 	public boolean isOpaqueCube()
 	{
@@ -218,6 +152,6 @@ public class BlockBush extends BlockFlower
 	 */
 	public boolean fertilize(World world, int x, int y, int z)
 	{
-		return world.setBlockMetadataWithNotify(x, y, z, maxMeta, 2);
+		return world.setBlockMetadataWithNotify(x, y, z, this.fullGrownMetadata, 2);
 	}
 }

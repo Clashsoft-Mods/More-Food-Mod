@@ -7,9 +7,9 @@ public class ContainerRecipeBook extends Container
 {
 	public InventoryRecipeBook	inventory;
 	
-	public ContainerRecipeBook(InventoryRecipeBook par1InventoryRecipeBook)
+	public ContainerRecipeBook(InventoryRecipeBook inventory)
 	{
-		this.inventory = par1InventoryRecipeBook;
+		this.inventory = inventory;
 		
 		for (int i = 0; i < 3; i++)
 		{
@@ -18,7 +18,7 @@ public class ContainerRecipeBook extends Container
 				int isposX = 23 + (j * 18);
 				int isposY = 116 + (i * 18);
 				
-				this.addSlotToContainer(new SlotRecipeDisplay(par1InventoryRecipeBook, j + (i * 3), isposX, isposY));
+				this.addSlotToContainer(new SlotRecipeDisplay(inventory, j + (i * 3), isposX, isposY));
 			}
 		}
 	}

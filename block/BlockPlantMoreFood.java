@@ -4,262 +4,210 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPlantMoreFood extends BlockFlower
+public class BlockPlantMoreFood extends BlockCrops
 {
-	public final ItemStack	seed;
-	public final ItemStack	crop;
-	public int				maxMeta;
-	public String			texture;
+	public ItemStack	seed;
+	public ItemStack	crop;
+	public int			fullGrownMetadata;
+	public String		texture;
 	
-	private Icon[]			icons;
+	public IIcon[]		icons;
 	
-	public BlockPlantMoreFood(int par1, int par2, ItemStack par3ItemStack, ItemStack par4ItemStack, String tex)
+	public BlockPlantMoreFood(int fullGrownMetadata, ItemStack seed, ItemStack crop, String iconName)
 	{
-		super(par1, Material.plants);
 		this.setTickRandomly(true);
-		float var3 = 0.5F;
-		this.setBlockBounds(0.5F - var3, 0.0F, 0.5F - var3, 0.5F + var3, 0.25F, 0.5F + var3);
+		this.setBlockBounds(0F, 0F, 0F, 1F, 0.25F, 1F);
 		this.setCreativeTab((CreativeTabs) null);
 		this.setHardness(0.0F);
-		this.setStepSound(soundGrassFootstep);
+		this.setStepSound(Block.soundTypeGrass);
 		this.disableStats();
 		
-		seed = par3ItemStack;
-		crop = par4ItemStack;
+		this.seed = seed;
+		this.crop = crop;
 		
-		maxMeta = par2;
-		texture = tex;
-	}
-	
-	/**
-	 * Gets passed in the blockID of the block below and supposed to return true
-	 * if its allowed to grow on the type of blockID passed in. Args: blockID
-	 */
-	@Override
-	protected boolean canThisPlantGrowOnThisBlockID(int par1)
-	{
-		return par1 == Block.tilledField.blockID;
+		this.fullGrownMetadata = fullGrownMetadata;
+		this.texture = iconName;
 	}
 	
 	@Override
-	public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4)
+	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		return super.canPlaceBlockAt(par1World, par2, par3, par4) && par1World.getBlockId(par2, par3, par4) == Block.tilledField.blockID;
+		return super.canPlaceBlockAt(world, x, y, z) && world.getBlock(x, y, z) == Blocks.farmland;
 	}
 	
-	/**
-	 * Ticks the block if it's been scheduled
-	 */
 	@Override
-	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
+	public void updateTick(World world, int x, int y, int z, Random random)
 	{
-		super.updateTick(par1World, par2, par3, par4, par5Random);
+		super.updateTick(world, x, y, z, random);
 		
-		if (par1World.getBlockLightValue(par2, par3 + 1, par4) >= 9)
+		if (world.getBlockLightValue(x, y + 1, z) >= 9)
 		{
-			int var6 = par1World.getBlockMetadata(par2, par3, par4);
+			int metadata = world.getBlockMetadata(x, y, z);
 			
-			if (var6 < maxMeta)
+			if (metadata < this.fullGrownMetadata)
 			{
-				float var7 = this.getGrowthRate(par1World, par2, par3, par4);
+				float growthRate = this.getGrowthRate(world, x, y, z);
 				
-				if (par5Random.nextInt((int) (25.0F / var7) + 1) == 0)
+				if (random.nextInt((int) (25.0F / growthRate) + 1) == 0)
 				{
-					++var6;
-					par1World.setBlockMetadataWithNotify(par2, par3, par4, var6, 2);
+					++metadata;
+					world.setBlockMetadataWithNotify(x, y, z, metadata, 2);
 				}
 			}
 		}
 	}
 	
-	/**
-	 * Apply bonemeal to the crops.
-	 */
-	public boolean fertilize(World par1World, int par2, int par3, int par4)
+	public boolean fertilize(World world, int x, int y, int z)
 	{
-		if (par1World.getBlockMetadata(par2, par3, par4) < maxMeta)
+		if (world.getBlockMetadata(x, y, z) < this.fullGrownMetadata)
 		{
-			par1World.setBlockMetadataWithNotify(par2, par3, par4, maxMeta, 2);
+			world.setBlockMetadataWithNotify(x, y, z, this.fullGrownMetadata, 2);
 			return true;
 		}
 		return false;
 	}
 	
-	/**
-	 * Gets the growth rate for the crop. Setup to encourage rows by halving
-	 * growth rate if there is diagonals, crops on different sides that aren't
-	 * opposing, and by adding growth for every crop next to this one (and for
-	 * crop below this one). Args: x, y, z
-	 */
-	private float getGrowthRate(World par1World, int par2, int par3, int par4)
+	private float getGrowthRate(World world, int x, int y, int z)
 	{
-		float var5 = 1.0F;
-		int var6 = par1World.getBlockId(par2, par3, par4 - 1);
-		int var7 = par1World.getBlockId(par2, par3, par4 + 1);
-		int var8 = par1World.getBlockId(par2 - 1, par3, par4);
-		int var9 = par1World.getBlockId(par2 + 1, par3, par4);
-		int var10 = par1World.getBlockId(par2 - 1, par3, par4 - 1);
-		int var11 = par1World.getBlockId(par2 + 1, par3, par4 - 1);
-		int var12 = par1World.getBlockId(par2 + 1, par3, par4 + 1);
-		int var13 = par1World.getBlockId(par2 - 1, par3, par4 + 1);
-		boolean var14 = var8 == this.blockID || var9 == this.blockID;
-		boolean var15 = var6 == this.blockID || var7 == this.blockID;
-		boolean var16 = var10 == this.blockID || var11 == this.blockID || var12 == this.blockID || var13 == this.blockID;
+		float f = 1.0F;
+		Block block1 = world.getBlock(x, y, z - 1);
+		Block block2 = world.getBlock(x, y, z + 1);
+		Block block3 = world.getBlock(x - 1, y, z);
+		Block block4 = world.getBlock(x + 1, y, z);
+		Block block5 = world.getBlock(x - 1, y, z - 1);
+		Block block6 = world.getBlock(x + 1, y, z - 1);
+		Block block7 = world.getBlock(x + 1, y, z + 1);
+		Block block8 = world.getBlock(x - 1, y, z + 1);
+		boolean neighbors1 = block1 == this || block2 == this || block3 == this || block4 == this;
+		boolean neighbors2 = block5 == this || block6 == this || block7 == this || block8 == this;
 		
-		for (int var17 = par2 - 1; var17 <= par2 + 1; ++var17)
+		for (int x1 = x - 1; x1 <= x + 1; ++x1)
 		{
-			for (int var18 = par4 - 1; var18 <= par4 + 1; ++var18)
+			for (int z1 = z - 1; z1 <= z + 1; ++z1)
 			{
-				int var19 = par1World.getBlockId(var17, par3 - 1, var18);
-				float var20 = 0.0F;
+				int y1 = y - 1;
+				Block block = world.getBlock(x1, y1, z1);
+				float growthRate = 0.0F;
 				
-				if (blocksList[var19] != null && blocksList[var19].canSustainPlant(par1World, var17, par3 - 1, var18, ForgeDirection.UP, this))
+				if (block != null && block.canSustainPlant(world, x1, y1, z1, ForgeDirection.UP, this))
 				{
-					var20 = 1.0F;
-					
-					if (blocksList[var19].isFertile(par1World, var17, par3 - 1, var18))
+					if (block.isFertile(world, x1, y1, z1))
 					{
-						var20 = 3.0F;
+						growthRate = 0.75F;
+					}
+					else
+					{
+						growthRate = 0.25F;
 					}
 				}
 				
-				if (var17 != par2 || var18 != par4)
+				if (x1 == x && z1 == z)
 				{
-					var20 /= 4.0F;
+					growthRate *= 4.0F;
 				}
 				
-				var5 += var20;
+				f += growthRate;
 			}
 		}
 		
-		if (var16 || var14 && var15)
+		if (neighbors1 && neighbors2)
 		{
-			var5 /= 2.0F;
+			f /= 2.0F;
 		}
 		
-		return var5;
-	}
-	
-	/**
-	 * From the specified side and block metadata retrieves the blocks texture.
-	 * Args: side, metadata
-	 */
-	@Override
-	public Icon getIcon(int par1, int par2)
-	{
-		return par2 < icons.length ? icons[par2] : null;
+		return f;
 	}
 	
 	@Override
-	public void registerIcons(IconRegister par1IconRegister)
+	public IIcon getIcon(int side, int metadata)
 	{
-		icons = new Icon[maxMeta + 1];
-		for (int i = 0; i <= maxMeta; i++)
+		return metadata < this.icons.length ? this.icons[metadata] : null;
+	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister)
+	{
+		this.icons = new IIcon[this.fullGrownMetadata + 1];
+		for (int i = 0; i <= this.fullGrownMetadata;)
 		{
-			icons[i] = par1IconRegister.registerIcon(texture + "_" + (i + 1));
+			int i0 = i + 1;
+			this.icons[i] = iconRegister.registerIcon(this.texture + "_" + i0);
+			i = i0;
 		}
 	}
 	
-	/**
-	 * The type of render function that is called for this block
-	 */
 	@Override
 	public int getRenderType()
 	{
 		return 6;
 	}
 	
-	/**
-	 * Generate a seed ItemStack for this crop.
-	 */
 	protected ItemStack getSeedItem()
 	{
-		seed.stackSize = 1;
-		return seed.copy();
+		return this.seed;
 	}
 	
-	/**
-	 * Generate a crop produce ItemStack for this crop.
-	 */
 	protected ItemStack getCropItem()
 	{
-		crop.stackSize = 1;
-		return crop.copy();
-	}
-	
-	/**
-	 * Drops the block items with a specified chance of dropping the specified
-	 * items
-	 */
-	@Override
-	public void dropBlockAsItemWithChance(World par1World, int par2, int par3, int par4, int par5, float par6, int par7)
-	{
-		super.dropBlockAsItemWithChance(par1World, par2, par3, par4, par5, par6, 0);
+		return this.crop;
 	}
 	
 	@Override
-	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
 	{
-		ArrayList<ItemStack> ret = super.getBlockDropped(world, x, y, z, metadata, fortune);
+		ArrayList<ItemStack> ret = super.getDrops(world, x, y, z, metadata, fortune);
 		
-		if (metadata >= maxMeta)
+		if (metadata >= this.fullGrownMetadata)
+		{
 			for (int n = 0; n < 3 + fortune; n++)
 			{
-				if (world.rand.nextInt(maxMeta + 2) <= metadata)
+				if (world.rand.nextInt(this.fullGrownMetadata + 2) <= metadata)
 				{
-					ret.add(getSeedItem());
+					ret.add(this.getSeedItem());
 				}
 			}
+		}
 		
 		return ret;
 	}
 	
-	/**
-	 * Returns the ID of the items to drop on destruction.
-	 */
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
+	public Item getItemDropped(int metadata, Random random, int fortune)
 	{
-		return par1 >= maxMeta ? this.getCropItem().itemID : this.getSeedItem().itemID;
+		return metadata >= this.fullGrownMetadata ? this.getCropItem().getItem() : this.getSeedItem().getItem();
 	}
 	
-	/**
-	 * Returns the ID of the items to drop on destruction.
-	 */
 	@Override
-	public int damageDropped(int par1)
+	public int damageDropped(int metadata)
 	{
-		return par1 >= maxMeta ? this.getCropItem().getItemDamage() : this.getSeedItem().getItemDamage();
+		return metadata >= this.fullGrownMetadata ? this.getCropItem().getItemDamage() : this.getSeedItem().getItemDamage();
 	}
 	
-	/**
-	 * Returns the quantity of items to drop on block destruction.
-	 */
 	@Override
-	public int quantityDropped(Random par1Random)
+	public int quantityDropped(Random random)
 	{
 		return 1;
 	}
 	
 	@Override
-	public int getDamageValue(World par1World, int par2, int par3, int par4)
+	public Item getItem(World world, int x, int y, int z)
 	{
-		return super.getDamageValue(par1World, par2, par3, par4);
+		return this.seed.getItem();
 	}
 	
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+	public int getDamageValue(World world, int x, int y, int z)
 	{
-		return seed;
+		return this.seed.getItemDamage();
 	}
 }

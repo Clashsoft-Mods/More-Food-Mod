@@ -11,7 +11,7 @@ public class Drink extends Food
 	
 	public Drink(int id, String name, String icon, int foodValue, FoodRecipe recipe)
 	{
-		super(512 + id, name, icon, foodValue, 0, recipe);
+		super(512 + id, name, icon, foodValue, recipe);
 	}
 	
 	@Override

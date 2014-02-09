@@ -125,7 +125,7 @@ public class GuiRecipeBook extends GuiContainer
 				this.mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + currentEntry.getCategory().name, guiLeft + 70, guiTop + 45, 0x404040);
 				
 				String s4 = CSString.cutString(desc, 26);
-				String[] lines = CSString.makeLineList(s4);
+				String[] lines = CSString.lineArray(s4);
 				for (int i = 0; i < lines.length; i++)
 					this.mc.fontRenderer.drawString(lines[i], guiLeft + 70, guiTop + 60 + (i * 10), 4210752);
 			}
@@ -139,7 +139,7 @@ public class GuiRecipeBook extends GuiContainer
 				if (currentEntry.getRecipe() != null && recipe != null)
 				{
 					String s = currentEntry.getRecipe().getAmount() + "x " + currentEntryName;
-					String[] split = CSString.makeLineList(CSString.cutString(s, 15));
+					String[] split = CSString.lineArray(CSString.cutString(s, 15));
 					
 					for (int i = 0; i < split.length; i++)
 						this.mc.fontRenderer.drawString(split[i], guiLeft + 22, guiTop + 175 + (i * 10), 4210752, false);

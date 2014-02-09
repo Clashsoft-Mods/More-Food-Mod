@@ -17,15 +17,18 @@ public class InventoryRecipeBook implements IInventory
 	@Override
 	public ItemStack getStackInSlot(int i)
 	{
-		return stacks[(i / 3) % 3][i % 3];
+		return stacks[i / 3][i % 3];
 	}
 	
 	@Override
 	public ItemStack decrStackSize(int i, int j)
 	{
-		if (stacks[(i / 3) % 3][i % 3] != null)
-			stacks[(i / 3) % 3][i % 3].stackSize -= j;
-		return stacks[(i / 3) % 3][i % 3];
+		ItemStack stack = this.getStackInSlot(i);
+		if (stack != null)
+		{
+			stack.stackSize -= j;
+		}
+		return stack;
 	}
 	
 	@Override
@@ -37,17 +40,17 @@ public class InventoryRecipeBook implements IInventory
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack)
 	{
-		stacks[(i / 3) % 3][i % 3] = itemstack;
+		stacks[i / 3][i % 3] = itemstack;
 	}
 	
 	@Override
-	public String getInvName()
+	public String getInventoryName()
 	{
 		return "";
 	}
 	
 	@Override
-	public boolean isInvNameLocalized()
+	public boolean hasCustomInventoryName()
 	{
 		return false;
 	}
@@ -59,24 +62,9 @@ public class InventoryRecipeBook implements IInventory
 	}
 	
 	@Override
-	public void onInventoryChanged()
-	{
-	}
-	
-	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer)
 	{
 		return true;
-	}
-	
-	@Override
-	public void openChest()
-	{
-	}
-	
-	@Override
-	public void closeChest()
-	{
 	}
 	
 	@Override
@@ -85,4 +73,18 @@ public class InventoryRecipeBook implements IInventory
 		return false;
 	}
 	
+	@Override
+	public void closeInventory()
+	{
+	}
+	
+	@Override
+	public void markDirty()
+	{
+	}
+	
+	@Override
+	public void openInventory()
+	{
+	}
 }
