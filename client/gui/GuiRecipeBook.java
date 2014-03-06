@@ -8,11 +8,14 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe;
+import clashsoft.cslib.minecraft.lang.I18n;
 import clashsoft.cslib.util.CSString;
 import clashsoft.mods.morefood.container.ContainerRecipeBook;
 import clashsoft.mods.morefood.food.Food;
+import clashsoft.mods.morefood.food.FoodCategory;
+import clashsoft.mods.morefood.food.FoodRecipe;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -20,16 +23,14 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 public class GuiRecipeBook extends GuiContainer
 {
-	public static final ResourceLocation	background			= new ResourceLocation("gui/recipebook.png");
+	public static final ResourceLocation	background			= new ResourceLocation("morefood:textures/gui/recipebook.png");
 	
 	public static RenderItem				itemRender			= new RenderItem();
 	
@@ -41,12 +42,13 @@ public class GuiRecipeBook extends GuiContainer
 	
 	public ContainerRecipeBook				container;
 	public int								currentEntryID		= 0;
-	public String							currentEntryName	= "";
 	public Food								currentEntry;
 	public List<Food>						currentDisplayList	= Food.getDisplayList();
 	public ItemStack[][]					recipe				= null;
 	
 	public EntityPlayer						player;
+	
+	private List<String>					temp				= new ArrayList<String>();
 	
 	public GuiRecipeBook(ContainerRecipeBook container, EntityPlayer player)
 	{
@@ -62,8 +64,6 @@ public class GuiRecipeBook extends GuiContainer
 		super.drawScreen(mouseX, mouseY, partialTickTime);
 	}
 	
-	List<String>	temp	= new ArrayList<String>();
-	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
@@ -75,25 +75,25 @@ public class GuiRecipeBook extends GuiContainer
 		this.foodListSlot.drawScreen(mouseX, mouseY, 1F);
 		GL11.glPopMatrix();
 		
-		if (this.next.enabled && this.isPointInRegion(this.next.xPosition - this.guiLeft, this.next.yPosition - this.guiTop, 20, 20, mouseX, mouseY))
+		if (this.next.enabled && this.func_146978_c(this.next.xPosition - this.guiLeft, this.next.yPosition - this.guiTop, 20, 20, mouseX, mouseY))
 		{
 			Food f = this.currentDisplayList.get(this.currentEntryID + 1);
 			
 			this.temp.add(f.asStack().getDisplayName());
-			this.drawHoveringText(this.temp, mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, f.getCategory().color);
+			this.drawHoveringText(this.temp, mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, f.getCategory().getColor());
 			this.temp.clear();
 		}
-		if (this.prev.enabled && this.isPointInRegion(this.prev.xPosition - this.guiLeft, this.prev.yPosition - this.guiTop, 20, 20, mouseX, mouseY))
+		if (this.prev.enabled && this.func_146978_c(this.prev.xPosition - this.guiLeft, this.prev.yPosition - this.guiTop, 20, 20, mouseX, mouseY))
 		{
 			Food f = this.currentDisplayList.get(this.currentEntryID - 1);
 			
 			this.temp.add(f.asStack().getDisplayName());
-			this.drawHoveringText(this.temp, mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, f.getCategory().color);
+			this.drawHoveringText(this.temp, mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, f.getCategory().getColor());
 			this.temp.clear();
 		}
-		if (this.isPointInRegion(20, 50, 40, 40, mouseX, mouseY))
+		if (this.func_146978_c(20, 50, 40, 40, mouseX, mouseY))
 		{
-			this.drawHoveringText(Arrays.asList(this.currentEntryName), mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, this.currentEntry.getCategory().color);
+			this.drawHoveringText(Arrays.asList(this.currentEntry.asStack().getDisplayName()), mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, this.currentEntry.getCategory().getColor());
 		}
 	}
 	
@@ -105,82 +105,89 @@ public class GuiRecipeBook extends GuiContainer
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 256, 256, 256, 256);
 		
 		int matchingEntrys = this.currentDisplayList.size();
-		String header = "Recipe Book (" + matchingEntrys + (matchingEntrys != Food.getDisplayList().size() ? " Matching" : "") + " Entry" + (matchingEntrys != 1 ? "s" : "") + ")";
+		String header = I18n.getString("recipebook.title", currentEntryID, matchingEntrys);
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, this.guiTop + 10, 0x404040, false);
 		
-		if (this.currentEntry != null)
+		Food food = this.currentEntry;
+		
+		if (food != null)
 		{
-			// Name + Description
+			String temp;
+			String[] atemp;
 			
-			ItemStack stack = this.currentEntry.asStack();
+			ItemStack stack = food.asStack();
+			String name = stack.getDisplayName();
+			FoodCategory category = food.getCategory();
+			FoodRecipe recipe = food.getRecipe();
+			PotionEffect[] effects = food.getEffects();
+			Block blockPlaced = food.getBlockPlaced();
+			int foodValue = food.getFoodValue();
 			
+			this.mc.fontRenderer.drawString(name, (this.width - this.mc.fontRenderer.getStringWidth(name)) / 2, this.guiTop + 27, 4210752, false);
+			this.mc.fontRenderer.drawString(category.getLocalizedName(), this.guiLeft + 70, this.guiTop + 45, 0x404040);
+			
+			temp = stack.getUnlocalizedName() + ".desc";
+			String desc = I18n.getString(temp);
+			if (desc.equals(temp))
 			{
-				String name2 = "food." + this.currentEntry.getName().toLowerCase().replace(" ", "") + ".desc";
-				String desc = StatCollector.translateToLocal(name2);
-				if (desc.equals(name2))
-					desc = "" + EnumChatFormatting.DARK_RED + EnumChatFormatting.ITALIC + "No description available. ";
-				
-				this.mc.fontRenderer.drawString(this.currentEntryName, (this.width - this.mc.fontRenderer.getStringWidth(this.currentEntryName)) / 2, this.guiTop + 27, 4210752, false);
-				
-				this.mc.fontRenderer.drawString(EnumChatFormatting.ITALIC + this.currentEntry.getCategory().name, this.guiLeft + 70, this.guiTop + 45, 0x404040);
-				
-				String s4 = CSString.cutString(desc, 26);
-				String[] lines = CSString.lineArray(s4);
-				for (int i = 0; i < lines.length; i++)
-					this.mc.fontRenderer.drawString(lines[i], this.guiLeft + 70, this.guiTop + 60 + (i * 10), 4210752);
+				desc = I18n.getString("recipebook.desc.none");
 			}
 			
-			// Crafting
-			
+			temp = CSString.cutString(desc, 26);
+			atemp = CSString.lineArray(temp);
+			for (int i = 0; i < atemp.length; i++)
 			{
-				String crafting = this.currentEntry.getRecipe() == null ? EnumChatFormatting.RED + "Not craftable" : (this.currentEntry.getRecipe().getCraftingType() == IMetaItemRecipe.CRAFTING ? "Crafting" : (this.currentEntry.getRecipe().getCraftingType() == IMetaItemRecipe.CRAFTING_SHAPELESS ? "Shapeless Crafting" : "Cooking"));
-				this.mc.fontRenderer.drawString(crafting, this.guiLeft + 22, this.guiTop + 103, 4210752, false);
+				this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 70, this.guiTop + 60 + (i * 10), 4210752);
+			}
+			
+			temp = recipe == null ? I18n.getString("recipe.none") : recipe.getLocalizedType();
+			this.mc.fontRenderer.drawString(temp, this.guiLeft + 22, this.guiTop + 103, 4210752, false);
+			
+			if (recipe != null)
+			{
+				temp = food.getRecipe().getAmount() + "x " + name;
+				atemp = CSString.lineArray(CSString.cutString(temp, 15));
 				
-				if (this.currentEntry.getRecipe() != null && this.recipe != null)
+				for (int i = 0; i < atemp.length; i++)
 				{
-					String s = this.currentEntry.getRecipe().getAmount() + "x " + this.currentEntryName;
-					String[] split = CSString.lineArray(CSString.cutString(s, 15));
-					
-					for (int i = 0; i < split.length; i++)
-						this.mc.fontRenderer.drawString(split[i], this.guiLeft + 22, this.guiTop + 175 + (i * 10), 4210752, false);
+					this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 22, this.guiTop + 175 + (i * 10), 4210752, false);
 				}
 			}
 			
 			// Stats
 			
+			int statsX = this.guiLeft + 140;
+			
+			this.mc.fontRenderer.drawString(I18n.getString("gui.stats"), statsX, this.guiTop + 103, 4210752);
+			
+			temp = I18n.getString(blockPlaced == null ? "recipebook.not_placeable" : "recipebook.placeable");
+			this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 120, 4210752, false);
+			
+			temp = foodValue == 0 ? I18n.getString("recipebook.not_edible") : I18n.getString("recipebook.foodvalue") + ": " + foodValue;
+			this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 130, 4210752, false);
+			
+			if (effects != null)
 			{
-				int statsX = 140;
+				temp = I18n.getString(effects.length > 0 ? "recipebook.effects" : "recipebook.no_effects");
+				this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 145, 4210752, false);
 				
-				this.mc.fontRenderer.drawString("Stats", this.guiLeft + statsX, this.guiTop + 103, 4210752);
-				
-				String foodValue = this.currentEntry.getFoodValue() == 0 ? EnumChatFormatting.RED + "Not eatable" : ((this.currentEntry.getAction() == EnumAction.eat ? "Food value: " : "Drink value: ") + EnumChatFormatting.DARK_GREEN + this.currentEntry.getFoodValue());
-				this.mc.fontRenderer.drawString(foodValue, this.guiLeft + statsX, this.guiTop + 120, 4210752, false);
-				
-				String plantable = this.currentEntry.getBlockPlaced() == null ? "Not plantable" : EnumChatFormatting.DARK_GREEN + "Plantable";
-				this.mc.fontRenderer.drawString(plantable, this.guiLeft + statsX, this.guiTop + 130, 4210752, false);
-				
-				boolean hasEffects = this.currentEntry.getEffects() != null && this.currentEntry.getEffects().length > 0;
-				String effects = hasEffects ? "Effects:" : "No effects";
-				this.mc.fontRenderer.drawString(effects, this.guiLeft + statsX, this.guiTop + 145, 4210752, false);
-				if (hasEffects)
-					for (int i = 0; i < this.currentEntry.getEffects().length && i < 3; i++)
-					{
-						PotionEffect effect = this.currentEntry.getEffects()[i];
-						String var = " " + StatCollector.translateToLocal(effect.getEffectName());
-						this.mc.fontRenderer.drawString(var, this.guiLeft + statsX, this.guiTop + 155 + (i * 10), 4210752, false);
-					}
+				for (int i = 0; i < effects.length && i < 3; i++)
+				{
+					PotionEffect effect = effects[i];
+					temp = " " + StatCollector.translateToLocal(effect.getEffectName());
+					this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 155 + (i * 10), 4210752, false);
+				}
 			}
 			
 			// Icon
 			
-			{
-				GL11.glScalef(2.5F, 2.5F, 1F);
-				itemRender.zLevel = 100F;
-				itemRender.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, stack, (int) ((this.guiLeft + 22) / 2.5F), (int) ((this.guiTop + 50) / 2.5F));
-				itemRender.zLevel = 0F;
-				GL11.glScalef(0.4F, 0.4F, 1F);
-				GL11.glColor4f(1F, 1F, 1F, 1F);
-			}
+			GL11.glScalef(2.5F, 2.5F, 1F);
+			itemRender.zLevel = 100F;
+			itemRender.renderItemAndEffectIntoGUI(this.mc.fontRenderer, this.mc.renderEngine, stack, (int) ((this.guiLeft + 22) / 2.5F), (int) ((this.guiTop + 50) / 2.5F));
+			itemRender.zLevel = 0F;
+			GL11.glScalef(0.4F, 0.4F, 1F);
+			GL11.glColor4f(1F, 1F, 1F, 1F);
+			
 		}
 	}
 	
@@ -188,11 +195,19 @@ public class GuiRecipeBook extends GuiContainer
 	protected void actionPerformed(GuiButton button)
 	{
 		if (button.id == 0)
+		{
 			if (this.currentEntryID > 0)
+			{
 				this.currentEntryID--;
+			}
+		}
 		if (button.id == 1)
+		{
 			if (this.currentEntryID < this.currentDisplayList.size() - 1)
+			{
 				this.currentEntryID++;
+			}
+		}
 		this.setRecipe(this.currentEntryID);
 	}
 	
@@ -238,28 +253,27 @@ public class GuiRecipeBook extends GuiContainer
 				for (int i = 0; i < Food.getDisplayList().size(); i++)
 				{
 					Food f = Food.getDisplayList().get(i);
-					String s = f.asStack().getDisplayName().toLowerCase().trim();
 					
 					if (searchText.startsWith("category:"))
 					{
-						String s1 = searchText.substring(searchText.indexOf(':') + 1);
-						String s2 = f.getCategory().name.toLowerCase().trim();
-						if (s2.startsWith(s1))
+						String search = searchText.substring(9);
+						String s = f.getCategory().getName().toLowerCase().trim();
+						if (s.startsWith(search))
 						{
 							this.currentDisplayList.add(f);
-							flag = false;
 						}
 					}
-					else if (s.startsWith(searchText))
+					else
 					{
-						this.currentDisplayList.add(f);
-						flag = false;
+						String s = f.asStack().getDisplayName().toLowerCase().trim();
+						if (s.startsWith(searchText))
+						{
+							this.currentDisplayList.add(f);
+						}
 					}
 				}
-				if (flag)
-					this.search.setTextColor(0xFF0000);
-				else
-					this.search.setTextColor(0xFFFFFF);
+				this.search.setTextColor(this.currentDisplayList.isEmpty() ? 0xFF0000 : 0xFFFFFF);
+				
 			}
 			this.setRecipe(0);
 		}
@@ -272,7 +286,7 @@ public class GuiRecipeBook extends GuiContainer
 		this.search.mouseClicked(x, y, which);
 		if (which == 0)
 		{
-			if (this.isPointInRegion(40, 20, this.search.getWidth(), 20, x, y))
+			if (this.func_146978_c(40, 20, this.search.getWidth(), 20, x, y))
 			{
 				this.search.setVisible(true);
 				this.search.setFocused(true);
@@ -298,29 +312,40 @@ public class GuiRecipeBook extends GuiContainer
 			this.recipe = this.analyseRecipe(this.currentEntry);
 			this.container.inventory.stacks = this.recipe;
 			this.currentEntryID = recipe;
-			this.currentEntryName = this.currentEntry.asStack().getDisplayName();
 			
 			if (this.currentEntryID == 0)
+			{
 				this.prev.enabled = false;
+			}
 			else
+			{
 				this.prev.enabled = true;
+			}
 			
 			if (this.currentEntryID == this.currentDisplayList.size() - 1)
+			{
 				this.next.enabled = false;
+			}
 			else
+			{
 				this.next.enabled = true;
+			}
 		}
 	}
 	
 	public ItemStack[][] analyseRecipe(Food f)
 	{
 		if (f == null || f.getRecipe() == null)
+		{
 			return new ItemStack[][] {
 					{ null, null, null },
 					{ null, null, null },
 					{ null, null, null } };
+		}
 		else
+		{
 			return f.getRecipe().getAnalysedRecipe();
+		}
 	}
 	
 	@Override
@@ -410,10 +435,5 @@ public class GuiRecipeBook extends GuiContainer
 	public int getGuiLeft()
 	{
 		return this.guiLeft;
-	}
-	
-	public boolean isPointInRegion(int x, int y, int width, int height, int px, int py)
-	{
-		return this.func_146978_c(x, y, width, height, px, py);
 	}
 }

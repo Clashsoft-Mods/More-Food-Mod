@@ -2,21 +2,16 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
-import clashsoft.cslib.minecraft.world.CSWorld;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemFoods extends ItemFoodMoreFood
 {
@@ -87,15 +82,15 @@ public class ItemFoods extends ItemFoodMoreFood
 	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
+	public String getUnlocalizedName(ItemStack stack)
 	{
-		return Food.fromItemStack(stack).getName();
+		return "item.food." + Food.fromItemStack(stack).getName();
 	}
 	
 	@Override
 	public IIcon getIconFromDamage(int metadata)
 	{
-		return this.icons != null ? this.icons[metadata % this.icons.length] : null;
+		return this.icons != null ? this.icons[metadata] : null;
 	}
 	
 	@Override
@@ -108,7 +103,7 @@ public class ItemFoods extends ItemFoodMoreFood
 			Food f = types[i];
 			if (f != null)
 			{
-				this.icons[i] = iconRegister.registerIcon(f.getIconName());
+				this.icons[i] = iconRegister.registerIcon("morefood:" + f.getIconName());
 			}
 		}
 	}
@@ -118,9 +113,10 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		for (Food f : Food.foodList)
 		{
-			if (f != null && f.isEnabled() && f.getID() != -1)
+			int id = f.getID();
+			if (f != null && f.isEnabled() && id != -1)
 			{
-				list.add(f.asStack());
+				list.add(new ItemStack(this, 1, id));
 			}
 		}
 	}
@@ -128,34 +124,18 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
-		Food food = Food.fromItemStack(stack);
-		Block block = food.getBlockPlaced();
-		int metaPlaced = food.getMetadataPlaced();
-		
-		if (block == null)
+		if (!world.isRemote)
 		{
-			return false;
-		}
-		else if (player.canPlayerEdit(x, y, z, side, stack) && player.canPlayerEdit(x, y + 1, z, side, stack))
-		{
-			Block soil = world.getBlock(x, y, z);
+			Food food = Food.fromItemStack(stack);
+			Block block = food.getBlockPlaced();
+			int metaPlaced = food.getMetadataPlaced();
 			
-			if (soil != null && block instanceof IPlantable && soil.canSustainPlant(world, x, y, z, ForgeDirection.UP, (IPlantable) block) && world.isAirBlock(x, y + 1, z))
+			if (block != null)
 			{
-				world.setBlock(x, y + 1, z, block, metaPlaced, 2);
-				--stack.stackSize;
-				return true;
-			}
-			else
-			{
-				if (block.canPlaceBlockAt(world, x + CSWorld.sideMap[side][0], y + CSWorld.sideMap[side][1], z + CSWorld.sideMap[side][2]))
-				{
-					CSWorld.setBlockAtSide(world, x, y, z, side, block, metaPlaced);
-					--stack.stackSize;
-					return true;
-				}
+				Item item = new ItemReed(block);
+				return item.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
 			}
 		}
-		return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+		return false;
 	}
 }

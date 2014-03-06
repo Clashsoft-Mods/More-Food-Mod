@@ -19,11 +19,10 @@ public class BlockPlantMoreFood extends BlockCrops
 	public ItemStack	seed;
 	public ItemStack	crop;
 	public int			fullGrownMetadata;
-	public String		texture;
 	
 	public IIcon[]		icons;
 	
-	public BlockPlantMoreFood(int fullGrownMetadata, ItemStack seed, ItemStack crop, String iconName)
+	public BlockPlantMoreFood(int fullGrownMetadata, ItemStack seed, ItemStack crop)
 	{
 		this.setTickRandomly(true);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.25F, 1F);
@@ -36,7 +35,6 @@ public class BlockPlantMoreFood extends BlockCrops
 		this.crop = crop;
 		
 		this.fullGrownMetadata = fullGrownMetadata;
-		this.texture = iconName;
 	}
 	
 	@Override
@@ -141,7 +139,7 @@ public class BlockPlantMoreFood extends BlockCrops
 		for (int i = 0; i <= this.fullGrownMetadata;)
 		{
 			int i0 = i + 1;
-			this.icons[i] = iconRegister.registerIcon(this.texture + "_" + i0);
+			this.icons[i] = iconRegister.registerIcon(this.getTextureName() + "_" + i0);
 			i = i0;
 		}
 	}

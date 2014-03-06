@@ -107,9 +107,13 @@ public class BlockBush extends Block
 	public int quantityDropped(int meta, int fortune, Random random)
 	{
 		if (meta == this.fullGrownMetadata)
+		{
 			return random.nextInt(2) + 2;
+		}
 		else
+		{
 			return 0;
+		}
 	}
 	
 	@Override
@@ -137,19 +141,6 @@ public class BlockBush extends Block
 		return false;
 	}
 	
-	/**
-	 * Fertilize.
-	 * 
-	 * @param world
-	 *            the world
-	 * @param x
-	 *            the x
-	 * @param y
-	 *            the y
-	 * @param z
-	 *            the z
-	 * @return true, if successful
-	 */
 	public boolean fertilize(World world, int x, int y, int z)
 	{
 		return world.setBlockMetadataWithNotify(x, y, z, this.fullGrownMetadata, 2);

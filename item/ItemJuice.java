@@ -14,9 +14,17 @@ import net.minecraft.world.World;
 
 public class ItemJuice extends Item
 {
-	private String[]	names	= new String[] { "apple", "orange", "tomato" };
+	public static final String[]	names		= new String[] {
+			"item.juice.apple",
+			"item.juice.orange",
+			"item.juice.tomato"				};
 	
-	private IIcon[]		icons;
+	public static final String[]	iconNames	= new String[] {
+			"morefood:juice_apple",
+			"morefood:juice_orange",
+			"morefood:juice_tomato"			};
+	
+	private IIcon[]					icons;
 	
 	public ItemJuice()
 	{
@@ -31,17 +39,9 @@ public class ItemJuice extends Item
 	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
+	public String getUnlocalizedName(ItemStack stack)
 	{
-		switch (stack.getItemDamage())
-		{
-			case 0:
-				return "Apple Juice";
-			case 1:
-				return "Orange Juice";
-			default:
-				return "Tomato Juice";
-		}
+		return names[stack.getItemDamage()];
 	}
 	
 	@Override
@@ -71,23 +71,24 @@ public class ItemJuice extends Item
 	@Override
 	public IIcon getIconFromDamage(int metadata)
 	{
-		return this.icons[metadata % this.icons.length];
+		return this.icons[metadata];
 	}
 	
 	@Override
 	public void registerIcons(IIconRegister iconRegister)
 	{
-		this.icons = new IIcon[this.names.length];
-		for (int i = 0; i < this.names.length; i++)
+		this.icons = new IIcon[names.length];
+		
+		for (int i = 0; i < names.length; i++)
 		{
-			this.icons[i] = iconRegister.registerIcon("juice_" + this.names[i]);
+			this.icons[i] = iconRegister.registerIcon(iconNames[i]);
 		}
 	}
 	
 	@Override
 	public void getSubItems(Item item, CreativeTabs tab, List list)
 	{
-		for (int i = 0; i <= 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			list.add(new ItemStack(this, 1, i));
 		}

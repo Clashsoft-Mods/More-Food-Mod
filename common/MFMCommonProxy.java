@@ -20,11 +20,13 @@ public class MFMCommonProxy implements IGuiHandler
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
 		if (ID == 0)
-			return new GuiRecipeBook((ContainerRecipeBook) this.getServerGuiElement(ID, player, world, x, y, z), player);
+		{
+			return new GuiRecipeBook(new ContainerRecipeBook(new InventoryRecipeBook()), player);
+		}
 		return null;
 	}
 	
 	public void registerRenderers()
 	{
-	};
+	}
 }

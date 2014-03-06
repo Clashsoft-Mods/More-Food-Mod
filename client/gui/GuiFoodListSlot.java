@@ -1,5 +1,6 @@
 package clashsoft.mods.morefood.client.gui;
 
+import clashsoft.cslib.minecraft.lang.I18n;
 import clashsoft.cslib.minecraft.util.CSString;
 import clashsoft.mods.morefood.food.Food;
 import cpw.mods.fml.client.GuiScrollingList;
@@ -48,25 +49,27 @@ public class GuiFoodListSlot extends GuiScrollingList
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		Food food = this.parentGui.currentDisplayList.get(id);
+		String name = food.asStack().getDisplayName();
+		String search = this.parentGui.search.getText();
 		IIcon icon = food.asStack().getIconIndex();
 		
 		int offsX = 0;
 		
-		String name = food.asStack().getDisplayName();
 		name = CSString.trimStringToRenderWidth(name, this.listWidth - offsX - 2);
 		
 		int offsY = 0;
-		if (!this.parentGui.search.getText().isEmpty())
+		if (!search.isEmpty())
 		{
 			offsY = 10;
-			mc.fontRenderer.drawString(this.parentGui.search.getText().startsWith("category:") ? "Category Match:" : "Match:", offsX + 2, y + 2, 0xFF8100, true);
+			String s = I18n.getString(search.startsWith("category:") ? "search.match.category" : "search.match");
+			mc.fontRenderer.drawString(s, offsX + 2, y + 2, 0xFF8100, true);
 		}
 		
 		mc.fontRenderer.drawString(name, offsX + 2, y + offsY + 2, 0xFFFFFF, true);
 		
-		String category = EnumChatFormatting.ITALIC + food.getCategory().name;
+		String category = EnumChatFormatting.ITALIC + food.getCategory().getLocalizedName();
 		category = CSString.trimStringToRenderWidth(category, this.listWidth);
 		
-		mc.fontRenderer.drawString(category, offsX + 2, y + offsY + 12, food.getCategory().color, true);
+		mc.fontRenderer.drawString(category, offsX + 2, y + offsY + 12, food.getCategory().getColor(), true);
 	}
 }

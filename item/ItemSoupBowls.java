@@ -2,36 +2,41 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import clashsoft.cslib.minecraft.lang.I18n;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class ItemSoupBowls extends ItemFoodMoreFood
 {
-	public static final String[]	soups		= new String[] {
-			"Water Bowl",
-			"Potato Soup",
-			"Carrot Soup",
-			"Vegetable Soup",
-			"Tomato Soup",
-			"Tomato Soup with Rice",
-			"Pasta Soup"						};
+	public static final String[]	names		= new String[] {
+			"item.soup.water",
+			"item.soup.potato",
+			"item.soup.carrot",
+			"item.soup.vegetable",
+			"item.soup.tomato",
+			"item.soup.tomato_rice",
+			"item.soup.pasta"					};
+	
 	public static final String[]	iconNames	= new String[] {
-			"bowl_water",
-			"bowl_potato",
-			"bowl_carrot",
-			"bowl_vegetables",
-			"bowl_tomato",
-			"bowl_tomato_rice",
-			"bowl_pasta"						};
+			"morefood:soup_water",
+			"morefood:soup_potato",
+			"morefood:soup_carrot",
+			"morefood:soup_vegetables",
+			"morefood:soup_tomato",
+			"morefood:soup_tomato_rice",
+			"morefood:soup_pasta"				};
 	
 	public IIcon[]					icons;
-	public IIcon[]					icons_hot;
 	
 	public ItemSoupBowls(int healAmount)
 	{
@@ -44,7 +49,22 @@ public class ItemSoupBowls extends ItemFoodMoreFood
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
 	{
 		stack.stackSize--;
-		player.getFoodStats().addStats(this.healAmount + (this.isSalted(stack) ? 1 : 0) + (this.isPeppered(stack) ? 1 : 0) + (this.isHot(stack.getItemDamage()) ? 1 : 0), 1.0F);
+		
+		int heal = this.healAmount;
+		if (this.isHot(stack.getItemDamage()))
+		{
+			heal++;
+		}
+		if (this.isSalted(stack))
+		{
+			heal++;
+		}
+		if (this.isPeppered(stack))
+		{
+			heal++;
+		}
+		
+		player.getFoodStats().addStats(heal, this.saturationModifier);
 		world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		
 		return stack;
@@ -57,33 +77,45 @@ public class ItemSoupBowls extends ItemFoodMoreFood
 	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
+	public String getUnlocalizedName(ItemStack stack)
 	{
-		String s = this.isHot(stack.getItemDamage()) ? "Hot " : "";
-		return s + soups[stack.getItemDamage() % soups.length];
+		return names[stack.getItemDamage() % names.length];
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int metadata)
 	{
-		return this.isHot(metadata) ? this.icons_hot[metadata % 7] : this.icons[metadata % 7];
+		return this.icons[metadata % this.icons.length];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass(int metadata, int pass)
+	{
+		if (pass == 1 && this.isHot(metadata))
+		{
+			return this.itemIcon;
+		}
+		return this.getIconFromDamage(metadata);
+	}
+	
+	@Override
+	public boolean requiresMultipleRenderPasses()
+	{
+		return true;
 	}
 	
 	@Override
 	public void registerIcons(IIconRegister iconRegister)
 	{
+		this.itemIcon = iconRegister.registerIcon("morefood:soup_hot");
+		
 		this.icons = new IIcon[iconNames.length];
-		this.icons_hot = new IIcon[iconNames.length];
 		for (int i = 0; i < iconNames.length; i++)
 		{
 			this.icons[i] = iconRegister.registerIcon(iconNames[i]);
-			this.icons_hot[i] = iconRegister.registerIcon(iconNames[i] + "_hot");
 		}
-	}
-	
-	private boolean isHot(int metadata)
-	{
-		return (metadata & 8) != 0;
 	}
 	
 	@Override
@@ -91,49 +123,55 @@ public class ItemSoupBowls extends ItemFoodMoreFood
 	{
 		if (this.isHot(stack.getItemDamage()))
 		{
-			list.add("Hot");
+			list.add(I18n.getString("soup.hot"));
 		}
 		if (this.isSalted(stack))
 		{
-			list.add("Salted");
+			list.add(I18n.getString("soup.salt"));
 		}
 		if (this.isPeppered(stack))
 		{
-			list.add("Peppered");
+			list.add(I18n.getString("soup.pepper"));
 		}
+	}
+	
+	public boolean isHot(int metadata)
+	{
+		return metadata > 6;
 	}
 	
 	public boolean isSalted(ItemStack stack)
 	{
-		if (stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("Salted"))
+		if (stack != null && stack.hasTagCompound())
 		{
-			return stack.getTagCompound().getBoolean("Salted");
+			return stack.getTagCompound().getBoolean("salt");
 		}
 		return false;
 	}
 	
 	public boolean isPeppered(ItemStack stack)
 	{
-		if (stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("Peppered"))
+		if (stack != null && stack.hasTagCompound())
 		{
-			return stack.getTagCompound().getBoolean("Peppered");
+			return stack.getTagCompound().getBoolean("pepper");
 		}
 		return false;
 	}
 	
-	public ItemStack addModifierToItemStack(ItemStack stack, boolean salted, boolean peppered)
+	public ItemStack setModifiers(ItemStack stack, boolean salted, boolean peppered)
 	{
-		this.setModifiers(stack, salted, peppered);
-		return stack;
-	}
-	
-	public void setModifiers(ItemStack stack, boolean salted, boolean peppered)
-	{
-		if (stack != null && stack.hasTagCompound())
+		if (stack != null)
 		{
-			stack.getTagCompound().setBoolean("Salted", salted);
-			stack.getTagCompound().setBoolean("Peppered", peppered);
+			NBTTagCompound nbt = stack.getTagCompound();
+			if (nbt == null)
+			{
+				nbt = new NBTTagCompound();
+				stack.setTagCompound(nbt);
+			}
+			nbt.setBoolean("salt", salted);
+			nbt.setBoolean("pepper", peppered);
 		}
+		return stack;
 	}
 	
 	@Override

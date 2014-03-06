@@ -3,7 +3,7 @@ package clashsoft.mods.morefood.block;
 import java.util.Random;
 
 import clashsoft.cslib.minecraft.block.BlockCustomSapling;
-import clashsoft.cslib.minecraft.world.gen.CustomTreeGenerator;
+import clashsoft.cslib.minecraft.world.gen.CustomTreeGen;
 import clashsoft.mods.morefood.MoreFoodMod;
 
 import net.minecraft.block.Block;
@@ -23,7 +23,7 @@ public class BlockFruitSapling extends BlockCustomSapling
 	{
 		int metadata = world.getBlockMetadata(x, y, z);
 		boolean flag = this == MoreFoodMod.fruitSaplings2;
-		return new CustomTreeGenerator(true, 4 + random.nextInt(4), flag ? MoreFoodMod.fruitLogs2 : MoreFoodMod.fruitLogs, flag ? MoreFoodMod.fruitLeaves2 : MoreFoodMod.fruitLeaves, metadata, metadata);
+		return new CustomTreeGen(true, 4 + random.nextInt(4), flag ? MoreFoodMod.fruitLogs2 : MoreFoodMod.fruitLogs, flag ? MoreFoodMod.fruitLeaves2 : MoreFoodMod.fruitLeaves, metadata, metadata);
 	}
 	
 	@Override

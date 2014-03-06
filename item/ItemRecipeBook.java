@@ -2,6 +2,7 @@ package clashsoft.mods.morefood.item;
 
 import clashsoft.mods.morefood.MoreFoodMod;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,6 +10,11 @@ import net.minecraft.world.World;
 
 public class ItemRecipeBook extends Item
 {
+	public ItemRecipeBook()
+	{
+		this.setCreativeTab(CreativeTabs.tabMisc);
+	}
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
 	{

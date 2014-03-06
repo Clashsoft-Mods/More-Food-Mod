@@ -9,7 +9,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
@@ -21,6 +20,8 @@ public class BlockPizza extends Block
 	public BlockPizza()
 	{
 		super(Material.cake);
+		this.setHardness(0.5F);
+		this.setStepSound(Block.soundTypeSnow);
 		this.setTickRandomly(true);
 	}
 	
@@ -28,7 +29,7 @@ public class BlockPizza extends Block
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
 	{
 		int l = world.getBlockMetadata(x, y, z);
-		float f1 = (l) / 8F;
+		float f1 = l / 8F;
 		this.setBlockBounds(f1, 0F, 0F, 1F, 0.0625F, 1F);
 	}
 	
@@ -57,13 +58,6 @@ public class BlockPizza extends Block
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
 	{
 		return this.getCollisionBoundingBoxFromPool(world, x, y, z);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister)
-	{
-		this.blockIcon = iconRegister.registerIcon("pizza");
 	}
 	
 	@Override

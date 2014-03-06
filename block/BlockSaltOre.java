@@ -15,6 +15,8 @@ public class BlockSaltOre extends Block
 	{
 		super(Material.rock);
 		this.setCreativeTab(CreativeTabs.tabBlock);
+		this.setHardness(3.0F);
+		this.setResistance(5.0F);
 	}
 	
 	@Override

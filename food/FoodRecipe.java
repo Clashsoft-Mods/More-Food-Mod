@@ -2,6 +2,7 @@ package clashsoft.mods.morefood.food;
 
 import clashsoft.cslib.minecraft.crafting.CSCrafting;
 import clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe;
+import clashsoft.cslib.minecraft.lang.I18n;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.item.Item;
@@ -14,11 +15,16 @@ public class FoodRecipe implements IMetaItemRecipe
 	private Object[]		data;
 	private ItemStack[][]	analysed;
 	
-	public FoodRecipe(int craftingType, int amount, Object... data)
+	protected FoodRecipe(int craftingType, int amount, Object... data)
 	{
 		this.craftingType = craftingType;
 		this.amount = amount;
 		this.data = data;
+	}
+	
+	public FoodRecipe(int amount, Object... data)
+	{
+		this(CRAFTING, amount, data);
 	}
 	
 	public FoodRecipe(int amount, ItemStack... data)
@@ -31,19 +37,24 @@ public class FoodRecipe implements IMetaItemRecipe
 		this(FURNACE, amount, new Object[] { input, exp });
 	}
 	
-	public String getTypeString()
+	public String getType()
 	{
 		switch (this.getCraftingType())
 		{
 			case CRAFTING:
-				return "Crafting";
+				return "recipe.crafting";
 			case CRAFTING_SHAPELESS:
-				return "Shapeless Crafting";
+				return "recipe.crafting.shapeless";
 			case FURNACE:
-				return "Smelting";
+				return "recipe.smelting";
 			default:
-				return "Crafting";
+				return "recipe.crafting";
 		}
+	}
+	
+	public String getLocalizedType()
+	{
+		return I18n.getString(getType());
 	}
 	
 	public void addRecipe(Item item, int foodID)
