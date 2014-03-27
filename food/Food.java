@@ -116,7 +116,7 @@ public class Food implements IMetaItem
 	
 	public static Food			plum					= new Food(56, "plum", "plum", 3, MoreFoodMod.fruitSaplings).setMetadataPlaced(3);
 	public static Food			banana					= new Food(57, "banana", "banana", 3, MoreFoodMod.fruitSaplings2).setMetadataPlaced(0);
-	public static Food			seagrass				= new Food(58, "seagrass", "seagrass", 2);
+	public static Food			seagrass				= new Food(58, "pineapple", "pineapple", 2);
 	
 	public static Food			icecube					= new Food(80, "icecube", "icecube", 0, new FoodRecipe(4, CSStacks.ice));
 	public static Food			icecream				= new Food(81, "icecream", "icecream", 0, new FoodRecipe(2, icecube.asStack(), CSStacks.snowball, CSStacks.milk_bucket));

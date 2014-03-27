@@ -1,5 +1,7 @@
 package clashsoft.mods.morefood.food;
 
+import java.util.Arrays;
+
 import clashsoft.cslib.minecraft.crafting.CSCrafting;
 import clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe;
 import clashsoft.cslib.minecraft.lang.I18n;
@@ -59,18 +61,27 @@ public class FoodRecipe implements IMetaItemRecipe
 	
 	public void addRecipe(Item item, int foodID)
 	{
-		switch (this.craftingType)
+		ItemStack result = null;
+		try
 		{
-			case CRAFTING:
-				GameRegistry.addRecipe(new ItemStack(item, this.amount, foodID), this.data);
-				break;
-			case CRAFTING_SHAPELESS:
-				GameRegistry.addShapelessRecipe(new ItemStack(item, this.amount, foodID), this.data);
-				break;
-			case FURNACE:
-				Float f = (Float) this.data[1];
-				CSCrafting.addSmelting((ItemStack) this.data[0], new ItemStack(item, this.amount, foodID), f);
-				break;
+			result = new ItemStack(item, this.amount, foodID);
+			switch (this.craftingType)
+			{
+				case CRAFTING:
+					GameRegistry.addRecipe(result, this.data);
+					break;
+				case CRAFTING_SHAPELESS:
+					GameRegistry.addShapelessRecipe(result, this.data);
+					break;
+				case FURNACE:
+					Float f = (Float) this.data[1];
+					CSCrafting.addFurnaceRecipe((ItemStack) this.data[0], result, f);
+					break;
+			}
+		}
+		catch (Exception ex)
+		{
+			System.out.println("Failed to add recipe: " + result + "; " + Arrays.toString(data));
 		}
 	}
 	

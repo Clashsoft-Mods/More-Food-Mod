@@ -5,6 +5,7 @@ import java.util.Random;
 import clashsoft.mods.morefood.client.MFMClientProxy;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
@@ -13,7 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockBush extends Block
+public class BlockBush extends Block implements IGrowable
 {
 	/** The metadata value this block has to reach to by fully grown. */
 	public int			fullGrownMetadata;
@@ -21,7 +22,6 @@ public class BlockBush extends Block
 	public ItemStack	drop;
 	
 	public String		bushIconName;
-	public String		stemIconName;
 	
 	public IIcon		bushIcon;
 	
@@ -35,13 +35,18 @@ public class BlockBush extends Block
 	 * @param stemIconName
 	 *            the stemtexture
 	 */
-	public BlockBush(ItemStack drop, String bushIconName, String stemIconName)
+	public BlockBush(String bushIconName, String stemIconName)
 	{
 		super(Material.plants);
-		this.drop = drop;
+		this.setBlockTextureName(stemIconName);
 		this.bushIconName = bushIconName;
-		this.stemIconName = stemIconName;
 		this.fullGrownMetadata = 3;
+	}
+	
+	public BlockBush setItem(ItemStack item)
+	{
+		this.drop = item;
+		return this;
 	}
 	
 	@Override
@@ -119,8 +124,8 @@ public class BlockBush extends Block
 	@Override
 	public void registerBlockIcons(IIconRegister iconRegister)
 	{
+		super.registerBlockIcons(iconRegister);
 		this.bushIcon = iconRegister.registerIcon(this.bushIconName);
-		this.blockIcon = iconRegister.registerIcon(this.stemIconName);
 	}
 	
 	@Override
@@ -140,9 +145,25 @@ public class BlockBush extends Block
 	{
 		return false;
 	}
-	
-	public boolean fertilize(World world, int x, int y, int z)
+
+	// canApplyBonemeal
+	@Override
+	public boolean func_149851_a(World world, int x, int y, int z, boolean flag)
 	{
-		return world.setBlockMetadataWithNotify(x, y, z, this.fullGrownMetadata, 2);
+		return world.getBlockMetadata(x, y, z) < this.fullGrownMetadata;
+	}
+
+	// ???
+	@Override
+	public boolean func_149852_a(World world, Random random, int x, int y, int z)
+	{
+		return true;
+	}
+
+	// fertilize
+	@Override
+	public void func_149853_b(World world, Random random, int x, int y, int z)
+	{
+		world.setBlockMetadataWithNotify(x, y, z, this.fullGrownMetadata, 2);
 	}
 }

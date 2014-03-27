@@ -8,11 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemMilkBowls extends ItemFoodMoreFood
+public class ItemMilkBowls extends ItemFood
 {
 	public static final String[]	names		= new String[] {
 			"item.bowl.milk.name",
@@ -39,7 +40,7 @@ public class ItemMilkBowls extends ItemFoodMoreFood
 	
 	public ItemMilkBowls(int healAmount)
 	{
-		super(healAmount, 1.0F);
+		super(healAmount, 1.0F, true);
 		this.setMaxStackSize(1);
 		this.setHasSubtypes(true);
 	}
@@ -58,7 +59,7 @@ public class ItemMilkBowls extends ItemFoodMoreFood
 	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack stack)
+	public String getUnlocalizedName(ItemStack stack)
 	{
 		if (stack.getItemDamage() < names.length)
 		{

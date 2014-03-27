@@ -46,8 +46,7 @@ public class MoreFoodMod
 	public static final String			MODID			= "morefood";
 	public static final String			NAME			= "More Food Mod";
 	public static final String			ACRONYM			= "mfm";
-	public static final int				REVISION		= 0;
-	public static final String			VERSION			= CSUpdate.CURRENT_VERSION + "-" + REVISION;
+	public static final String			VERSION			= CSUpdate.CURRENT_VERSION + "-1.0.0";
 	
 	@Instance(MODID)
 	public static MoreFoodMod			instance;
@@ -65,41 +64,44 @@ public class MoreFoodMod
 	public static ItemFoods				foods			= (ItemFoods) new ItemFoods(3, 1.0F).setUnlocalizedName("food_items");
 	public static ItemRecipeBook		recipeBook		= (ItemRecipeBook) new ItemRecipeBook().setUnlocalizedName("recipe_book").setTextureName("morefood:recipe_book");
 	
-	public static BlockPlantMoreFood	cucumberPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(3, Food.cucumber.asStack(), Food.cucumber.asStack()).setBlockName("cucumber_plant").setBlockTextureName("morefood:cucumber");
-	public static BlockPlantMoreFood	tomatoPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3, Food.tomato.asStack(), Food.tomato.asStack()).setBlockName("tomato_plant").setBlockTextureName("morefood:tomato");
-	public static BlockPlantMoreFood	pepperPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3, Food.pepperSeeds.asStack(), new ItemStack(pepper)).setBlockName("pepper_plant").setBlockTextureName("morefood:pepper");
-	public static BlockPlantMoreFood	saladPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3, Food.salad.asStack(), Food.salad.asStack()).setBlockName("salad_plant").setBlockTextureName("morefood:salad");
-	public static BlockPlantMoreFood	onionPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(4, Food.onion.asStack(), Food.onion.asStack()).setBlockName("onion_plant").setBlockTextureName("morefood:onion");
-	public static BlockPlantMoreFood	chiliPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6, Food.chili.asStack(), Food.chili.asStack()).setBlockName("chili_plant").setBlockTextureName("morefood:chili");
-	public static BlockPlantMoreFood	paprikaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(6, Food.paprika.asStack(), Food.paprika.asStack()).setBlockName("paprika_plant").setBlockTextureName("morefood:paprika");
-	public static BlockPlantMoreFood	ricePlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6, Food.rice.asStack(), Food.rice.asStack()).setBlockName("rice_plant").setBlockTextureName("morefood:rice");
-	public static BlockPlantMoreFood	cornPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6, Food.corn.asStack(), Food.corn.asStack()).setBlockName("corn_plant").setBlockTextureName("morefood:corn");
-	public static BlockPlantMoreFood	vanillaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(4, Food.vanillaSeeds.asStack(), new ItemStack(vanilla)).setBlockName("vanilla_plant").setBlockTextureName("morefood:vanilla");
+	public static BlockPlantMoreFood	cucumberPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("cucumber_plant").setBlockTextureName("morefood:cucumber");
+	public static BlockPlantMoreFood	tomatoPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("tomato_plant").setBlockTextureName("morefood:tomato");
+	public static BlockPlantMoreFood	pepperPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("pepper_plant").setBlockTextureName("morefood:pepper");
+	public static BlockPlantMoreFood	saladPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("salad_plant").setBlockTextureName("morefood:salad");
+	public static BlockPlantMoreFood	onionPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("onion_plant").setBlockTextureName("morefood:onion");
+	public static BlockPlantMoreFood	chiliPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("chili_plant").setBlockTextureName("morefood:chili");
+	public static BlockPlantMoreFood	paprikaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("paprika_plant").setBlockTextureName("morefood:paprika");
+	public static BlockPlantMoreFood	ricePlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("rice_plant").setBlockTextureName("morefood:rice");
+	public static BlockPlantMoreFood	cornPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("corn_plant").setBlockTextureName("morefood:corn");
+	public static BlockPlantMoreFood	vanillaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("vanilla_plant").setBlockTextureName("morefood:vanilla");
 	
 	public static BlockSaltOre			saltOre			= (BlockSaltOre) new BlockSaltOre().setBlockName("salt_ore").setBlockTextureName("morefood:salt_ore");
 	public static BlockPizza			pizza			= (BlockPizza) new BlockPizza().setBlockName("pizza").setBlockTextureName("morefood:pizza");
 	
-	public static BlockBush				strawberryBush	= (BlockBush) new BlockBush(Food.strawberry.asStack(), "morefood:strawberry_bush", "morefood:strawberry_bush_stem").setBlockName("strawberry_bush");
-	public static BlockBush				raspberryBush	= (BlockBush) new BlockBush(Food.raspberry.asStack(), "morefood:raspberry_bush", "morefood:raspberry_bush_stem").setBlockName("raspberry_bush");
-	public static BlockBush				blueberryBush	= (BlockBush) new BlockBush(Food.blueberry.asStack(), "morefood:blueberry_bush", "morefood:blueberry_bush_stem").setBlockName("blueberry_bush");
-	public static BlockBush				blackberryBush	= (BlockBush) new BlockBush(Food.blackberry.asStack(), "morefood:blackberry_bush", "morefood:blackberry_bush_stem").setBlockName("blackberry_bush");
-	public static BlockBush				redcurrantBush	= (BlockBush) new BlockBush(Food.redcurrant.asStack(), "morefood:redcurrant_bush", "morefood:redcurrant_bush_stem").setBlockName("redcurrant_bush");
+	public static BlockBush				strawberryBush	= (BlockBush) new BlockBush( "morefood:strawberry_bush", "morefood:strawberry_bush_stem").setBlockName("strawberry_bush");
+	public static BlockBush				raspberryBush	= (BlockBush) new BlockBush("morefood:raspberry_bush", "morefood:raspberry_bush_stem").setBlockName("raspberry_bush");
+	public static BlockBush				blueberryBush	= (BlockBush) new BlockBush("morefood:blueberry_bush", "morefood:blueberry_bush_stem").setBlockName("blueberry_bush");
+	public static BlockBush				blackberryBush	= (BlockBush) new BlockBush( "morefood:blackberry_bush", "morefood:blackberry_bush_stem").setBlockName("blackberry_bush");
+	public static BlockBush				redcurrantBush	= (BlockBush) new BlockBush( "morefood:redcurrant_bush", "morefood:redcurrant_bush_stem").setBlockName("redcurrant_bush");
 	
-	public static BlockCustomSapling	fruitSaplings	= new BlockFruitSapling(new String[] {
-			"orange_sapling",
-			"pear_sapling",
-			"cherry_sapling",
-			"plum_sapling"								}, new String[] {
+	public static String[]				fruitTypes1		= new String[] {
+			"orange",
+			"pear",
+			"cherry",
+			"plum"										};
+	public static String[]				fruitTypes2		= new String[] {
+			"banana",
+			"pineapple"								};
+	
+	public static BlockCustomSapling	fruitSaplings	= new BlockFruitSapling(fruitTypes1, new String[] {
 			"morefood:orange_sapling",
 			"morefood:pear_sapling",
 			"morefood:cherry_sapling",
 			"morefood:plum_sapling"					});
-	public static BlockCustomSapling	fruitSaplings2	= new BlockFruitSapling(new String[] { "banana_sapling" }, new String[] { "morefood:banana_sapling" });
-	public static BlockCustomLog		fruitLogs		= new BlockCustomLog(new String[] {
-			"orange_log",
-			"pear_log",
-			"cherry_log",
-			"plum_log"									}, new String[] {
+	public static BlockCustomSapling	fruitSaplings2	= new BlockFruitSapling(fruitTypes2, new String[] {
+			"morefood:banana_sapling",
+			"morefood:pineapple_sapling"				});
+	public static BlockCustomLog		fruitLogs		= new BlockCustomLog(fruitTypes1, new String[] {
 			"morefood:orange_log_top",
 			"morefood:pear_log_top",
 			"morefood:cherry_log_top",
@@ -108,18 +110,20 @@ public class MoreFoodMod
 			"morefood:pear_log",
 			"morefood:cherry_log",
 			"morefood:plum_log"						});
-	public static BlockCustomLog		fruitLogs2		= new BlockCustomLog(new String[] { "banana_log" }, new String[] { "morefood:banana_log_top" }, new String[] { "morefood:banana_log" });
+	public static BlockCustomLog		fruitLogs2		= new BlockCustomLog(fruitTypes2, new String[] {
+			"morefood:banana_log_top",
+			"morefood:pineapple_log_top"				}, new String[] {
+			"morefood:banana_log",
+			"morefood:pineapple_log"					});
 	
-	public static BlockCustomLeaves		fruitLeaves		= new BlockCustomLeaves(new String[] {
-			"orange_leaves",
-			"pear_leaves",
-			"cherry_leaves",
-			"plum_leaves"								}, new String[] {
+	public static BlockCustomLeaves		fruitLeaves		= new BlockCustomLeaves(fruitTypes1, new String[] {
 			"morefood:orange_leaves",
 			"morefood:pear_leaves",
 			"morefood:cherry_leaves",
 			"morefood:plum_leaves"						});
-	public static BlockCustomLeaves		fruitLeaves2	= new BlockCustomLeaves(new String[] { "banana_leaves", }, new String[] { "morefood:banana_leaves", });
+	public static BlockCustomLeaves		fruitLeaves2	= new BlockCustomLeaves(fruitTypes2, new String[] {
+			"morefood:banana_leaves",
+			"morefood:pineapple_leaves"				});
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -145,6 +149,24 @@ public class MoreFoodMod
 		fruitLeaves.setSaplingStacks(Food.orange.asStack(), Food.pear.asStack(), Food.cherry.asStack(), Food.plum.asStack());
 		fruitLeaves2.setBlockName("fruit").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitLeaves2.setSaplingStacks(Food.banana.asStack());
+		
+		cucumberPlant.setItem(Food.cucumber.asStack());
+		tomatoPlant.setItem(Food.tomato.asStack());
+		pepperPlant.setSeed(Food.pepperSeeds.asStack()).setCrop(new ItemStack(pepper));
+		saladPlant.setItem(Food.salad.asStack());
+		onionPlant.setItem(Food.onion.asStack());
+		chiliPlant.setItem(Food.chili.asStack());
+		paprikaPlant.setItem(Food.paprika.asStack());
+		ricePlant.setItem(Food.rice.asStack());
+		cornPlant.setItem(Food.corn.asStack());
+		vanillaPlant.setSeed(Food.vanillaSeeds.asStack()).setCrop(new ItemStack(vanilla));
+		
+		strawberryBush.setItem(Food.strawberry.asStack());
+		strawberryBush.setItem(Food.strawberry.asStack());
+		raspberryBush.setItem(Food.raspberry.asStack());
+		blueberryBush.setItem(Food.blueberry.asStack());
+		blackberryBush.setItem(Food.blackberry.asStack());
+		redcurrantBush.setItem(Food.redcurrant.asStack());
 		
 		CSBlocks.addBlock(cucumberPlant);
 		CSBlocks.addBlock(tomatoPlant);
@@ -195,38 +217,38 @@ public class MoreFoodMod
 		for (int i = 0; i < 7; i++)
 		{
 			ItemStack theSoup = new ItemStack(soupBowls, 1, i);
-			CSCrafting.addShapelessCrafting(soupBowls.setModifiers(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), theSoup, salt);
-			CSCrafting.addShapelessCrafting(soupBowls.setModifiers(theSoup.copy(), soupBowls.isSalted(theSoup), true), theSoup, pepper);
-			CSCrafting.addShapelessCrafting(soupBowls.setModifiers(theSoup.copy(), true, true), theSoup, pepper, salt);
-			CSCrafting.addShapelessCrafting(soupBowls.setModifiers(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), theSoup, salt);
-			CSCrafting.addShapelessCrafting(soupBowls.setModifiers(theSoup.copy(), soupBowls.isSalted(theSoup), true), theSoup, pepper);
-			CSCrafting.addShapelessCrafting(soupBowls.setModifiers(theSoup.copy(), true, true), theSoup, pepper, salt);
+			CSCrafting.addShapelessRecipe(soupBowls.setModifiers(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), theSoup, salt);
+			CSCrafting.addShapelessRecipe(soupBowls.setModifiers(theSoup.copy(), soupBowls.isSalted(theSoup), true), theSoup, pepper);
+			CSCrafting.addShapelessRecipe(soupBowls.setModifiers(theSoup.copy(), true, true), theSoup, pepper, salt);
+			CSCrafting.addShapelessRecipe(soupBowls.setModifiers(theSoup.copy(), true, soupBowls.isPeppered(theSoup)), theSoup, salt);
+			CSCrafting.addShapelessRecipe(soupBowls.setModifiers(theSoup.copy(), soupBowls.isSalted(theSoup), true), theSoup, pepper);
+			CSCrafting.addShapelessRecipe(soupBowls.setModifiers(theSoup.copy(), true, true), theSoup, pepper, salt);
 		}
 		
-		CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 0), CSStacks.bowl, CSStacks.water_bucket);
+		CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 0), CSStacks.bowl, CSStacks.water_bucket);
 		for (int i = 0; i < 14; i += 7)
 		{
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 1 + i), new ItemStack(soupBowls, 1, i), Items.baked_potato);
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 2 + i), new ItemStack(soupBowls, 1, i), Food.carrotCooked.asStack());
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 3 + i), new ItemStack(soupBowls, 1, i), Food.carrotCooked.asStack(), Items.baked_potato);
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 4 + i), new ItemStack(soupBowls, 1, i), Food.tomato.asStack());
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 5 + i), new ItemStack(soupBowls, 1, i + 4), Food.rice.asStack());
-			CSCrafting.addShapelessCrafting(new ItemStack(soupBowls, 1, 6 + i), new ItemStack(soupBowls, 1, i), Food.pasta.asStack());
+			CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 1 + i), new ItemStack(soupBowls, 1, i), Items.baked_potato);
+			CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 2 + i), new ItemStack(soupBowls, 1, i), Food.carrotCooked.asStack());
+			CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 3 + i), new ItemStack(soupBowls, 1, i), Food.carrotCooked.asStack(), Items.baked_potato);
+			CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 4 + i), new ItemStack(soupBowls, 1, i), Food.tomato.asStack());
+			CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 5 + i), new ItemStack(soupBowls, 1, i + 4), Food.rice.asStack());
+			CSCrafting.addShapelessRecipe(new ItemStack(soupBowls, 1, 6 + i), new ItemStack(soupBowls, 1, i), Food.pasta.asStack());
 		}
 		
 		ItemStack milkBowl = new ItemStack(milkBowls, 1, 0);
 		
-		CSCrafting.addShapelessCrafting(milkBowl, CSStacks.bowl, CSStacks.milk_bucket);
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 1), milkBowl, Food.cereals1.asStack());
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 2), milkBowl, Food.cereals2.asStack());
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 3), milkBowl, Food.cereals1.asStack(), Food.cereals2.asStack());
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 4), milkBowl, Food.rice.asStack());
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 5), milkBowl, Food.rice.asStack(), cinnamon);
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 5), milkBowl, cinnamon);
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 6), milkBowl, Food.rice.asStack(), vanilla);
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 6), milkBowl, vanilla);
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 7), milkBowl, CSStacks.dye_red);
-		CSCrafting.addShapelessCrafting(new ItemStack(milkBowls, 1, 8), milkBowl, CSStacks.dye_light_green);
+		CSCrafting.addShapelessRecipe(milkBowl, CSStacks.bowl, CSStacks.milk_bucket);
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 1), milkBowl, Food.cereals1.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 2), milkBowl, Food.cereals2.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 3), milkBowl, Food.cereals1.asStack(), Food.cereals2.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 4), milkBowl, Food.rice.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 5), milkBowl, Food.rice.asStack(), cinnamon);
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 5), milkBowl, cinnamon);
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 6), milkBowl, Food.rice.asStack(), vanilla);
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 6), milkBowl, vanilla);
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 7), milkBowl, CSStacks.dye_red);
+		CSCrafting.addShapelessRecipe(new ItemStack(milkBowls, 1, 8), milkBowl, CSStacks.dye_light_green);
 		
 		for (Food f : Food.foodList)
 		{
@@ -236,14 +258,14 @@ public class MoreFoodMod
 			}
 		}
 		
-		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 0), Items.glass_bottle, Food.appleStomped.asStack());
-		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 1), Items.glass_bottle, Food.orange.asStack());
-		CSCrafting.addShapelessCrafting(new ItemStack(juice, 1, 2), Items.glass_bottle, Food.tomato.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(juice, 1, 0), Items.glass_bottle, Food.appleStomped.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(juice, 1, 1), Items.glass_bottle, Food.orange.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(juice, 1, 2), Items.glass_bottle, Food.tomato.asStack());
 	}
 	
 	private void addSmeltingRecipes()
 	{
-		CSCrafting.addSmelting(new ItemStack(soupBowls, 1, 0), new ItemStack(soupBowls, 1, 7), 0F);
+		CSCrafting.addFurnaceRecipe(new ItemStack(soupBowls, 1, 0), new ItemStack(soupBowls, 1, 7), 0F);
 	}
 	
 	private void addLocalizations()

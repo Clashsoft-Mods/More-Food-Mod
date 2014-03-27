@@ -22,7 +22,7 @@ public class BlockPlantMoreFood extends BlockCrops
 	
 	public IIcon[]		icons;
 	
-	public BlockPlantMoreFood(int fullGrownMetadata, ItemStack seed, ItemStack crop)
+	public BlockPlantMoreFood(int fullGrownMetadata)
 	{
 		this.setTickRandomly(true);
 		this.setBlockBounds(0F, 0F, 0F, 1F, 0.25F, 1F);
@@ -31,10 +31,26 @@ public class BlockPlantMoreFood extends BlockCrops
 		this.setStepSound(Block.soundTypeGrass);
 		this.disableStats();
 		
-		this.seed = seed;
-		this.crop = crop;
-		
 		this.fullGrownMetadata = fullGrownMetadata;
+	}
+	
+	public BlockPlantMoreFood setItem(ItemStack item)
+	{
+		this.seed = item;
+		this.crop = item;
+		return this;
+	}
+	
+	public BlockPlantMoreFood setSeed(ItemStack seed)
+	{
+		this.seed = seed;
+		return this;
+	}
+	
+	public BlockPlantMoreFood setCrop(ItemStack crop)
+	{
+		this.crop = crop;
+		return this;
 	}
 	
 	@Override
@@ -65,14 +81,14 @@ public class BlockPlantMoreFood extends BlockCrops
 		}
 	}
 	
-	public boolean fertilize(World world, int x, int y, int z)
+	// fertilize
+	@Override
+	public void func_149863_m(World world, int x, int y, int z)
 	{
 		if (world.getBlockMetadata(x, y, z) < this.fullGrownMetadata)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, this.fullGrownMetadata, 2);
-			return true;
 		}
-		return false;
 	}
 	
 	private float getGrowthRate(World world, int x, int y, int z)

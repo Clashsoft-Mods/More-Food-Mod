@@ -2,6 +2,7 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
+import clashsoft.cslib.minecraft.item.block.ItemCustomBlock;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.block.Block;
@@ -13,13 +14,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemFoods extends ItemFoodMoreFood
+public class ItemFoods extends ItemFood
 {
 	public IIcon[]	icons;
 	
 	public ItemFoods(int healAmount, float saturationModifier)
 	{
-		super(healAmount, saturationModifier);
+		super(healAmount, saturationModifier, false);
 		this.setHasSubtypes(true);
 		this.setCreativeTab(CreativeTabs.tabFood);
 	}
@@ -28,19 +29,6 @@ public class ItemFoods extends ItemFoodMoreFood
 	{
 		Food food = Food.fromItemStack(stack);
 		return food != null && food.isEnabled() && food.getFoodValue() != 0;
-	}
-	
-	@Override
-	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player)
-	{
-		if (this.isEdible(stack))
-		{
-			--stack.stackSize;
-			player.getFoodStats().addStats(Food.fromItemStack(stack).getFoodValue(), 1.0F);
-			world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-			this.onFoodEaten(stack, world, player);
-		}
-		return stack;
 	}
 	
 	@Override
@@ -78,7 +66,8 @@ public class ItemFoods extends ItemFoodMoreFood
 	@Override
 	public EnumAction getItemUseAction(ItemStack stack)
 	{
-		return this.isEdible(stack) ? Food.fromItemStack(stack).getAction() : EnumAction.none;
+		Food food = Food.fromItemStack(stack);
+		return food == null ? EnumAction.none : food.getAction();
 	}
 	
 	@Override
@@ -127,13 +116,14 @@ public class ItemFoods extends ItemFoodMoreFood
 		if (!world.isRemote)
 		{
 			Food food = Food.fromItemStack(stack);
-			Block block = food.getBlockPlaced();
-			int metaPlaced = food.getMetadataPlaced();
-			
-			if (block != null)
+			if (food != null)
 			{
-				Item item = new ItemReed(block);
-				return item.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
+				Block block = food.getBlockPlaced();
+				int metadata = food.getMetadataPlaced();
+				ItemStack stack1 = new ItemStack(block, stack.stackSize, metadata);
+				boolean b = new ItemCustomBlock(block).onItemUse(stack1, player, world, x, y, z, side, hitX, hitY, hitZ);
+				stack.stackSize = stack1.stackSize;
+				return b;
 			}
 		}
 		return false;

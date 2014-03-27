@@ -2,21 +2,22 @@ package clashsoft.mods.morefood.item;
 
 import java.util.List;
 
+import clashsoft.cslib.minecraft.lang.I18n;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import clashsoft.cslib.minecraft.lang.I18n;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class ItemSoupBowls extends ItemFoodMoreFood
+public class ItemSoupBowls extends ItemFood
 {
 	public static final String[]	names		= new String[] {
 			"item.soup.water",
@@ -40,7 +41,7 @@ public class ItemSoupBowls extends ItemFoodMoreFood
 	
 	public ItemSoupBowls(int healAmount)
 	{
-		super(healAmount, 1.0F);
+		super(healAmount, 1.0F, true);
 		this.setMaxStackSize(1);
 		this.setHasSubtypes(true);
 	}
@@ -50,7 +51,7 @@ public class ItemSoupBowls extends ItemFoodMoreFood
 	{
 		stack.stackSize--;
 		
-		int heal = this.healAmount;
+		int heal = this.func_150905_g(stack);
 		if (this.isHot(stack.getItemDamage()))
 		{
 			heal++;
@@ -64,7 +65,7 @@ public class ItemSoupBowls extends ItemFoodMoreFood
 			heal++;
 		}
 		
-		player.getFoodStats().addStats(heal, this.saturationModifier);
+		player.getFoodStats().addStats(heal, this.func_150906_h(stack));
 		world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		
 		return stack;
