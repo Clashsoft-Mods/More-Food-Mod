@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -82,6 +83,13 @@ public class BlockBush extends Block implements IGrowable
 	}
 	
 	@Override
+	public boolean canPlaceBlockAt(World world, int x, int y, int z)
+	{
+		Block block = world.getBlock(x, y - 1, z);
+		return block == Blocks.grass || block == Blocks.dirt && super.canPlaceBlockAt(world, x, y, z);
+	}
+	
+	@Override
 	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int metadata)
 	{
 		if (metadata == this.fullGrownMetadata)
@@ -145,21 +153,21 @@ public class BlockBush extends Block implements IGrowable
 	{
 		return false;
 	}
-
+	
 	// canApplyBonemeal
 	@Override
 	public boolean func_149851_a(World world, int x, int y, int z, boolean flag)
 	{
 		return world.getBlockMetadata(x, y, z) < this.fullGrownMetadata;
 	}
-
+	
 	// ???
 	@Override
 	public boolean func_149852_a(World world, Random random, int x, int y, int z)
 	{
 		return true;
 	}
-
+	
 	// fertilize
 	@Override
 	public void func_149853_b(World world, Random random, int x, int y, int z)

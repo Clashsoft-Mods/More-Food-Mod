@@ -18,7 +18,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class WorldGenGardener extends WorldGenerator
 {
 	public static final ItemStack[]	possiblestacks	= new ItemStack[] {
-			Food.salad.asStack(9),
+			Food.lettuce.asStack(9),
 			Food.cucumber.asStack(9),
 			Food.rice.asStack(9),
 			Food.chili.asStack(9),

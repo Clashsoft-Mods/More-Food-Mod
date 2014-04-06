@@ -39,9 +39,13 @@ public class ItemFoods extends ItemFood
 		Food f = Food.fromItemStack(stack);
 		if (f != null)
 		{
-			for (PotionEffect effect : f.getEffects())
+			PotionEffect[] effects = f.getEffects();
+			if (effects != null)
 			{
-				player.addPotionEffect(effect);
+				for (PotionEffect effect : effects)
+				{
+					player.addPotionEffect(effect);
+				}
 			}
 		}
 	}
@@ -103,7 +107,7 @@ public class ItemFoods extends ItemFood
 		for (Food f : Food.foodList)
 		{
 			int id = f.getID();
-			if (f != null && f.isEnabled() && id != -1)
+			if (f != null && f.isEnabled())
 			{
 				list.add(new ItemStack(this, 1, id));
 			}
@@ -119,11 +123,14 @@ public class ItemFoods extends ItemFood
 			if (food != null)
 			{
 				Block block = food.getBlockPlaced();
-				int metadata = food.getMetadataPlaced();
-				ItemStack stack1 = new ItemStack(block, stack.stackSize, metadata);
-				boolean b = new ItemCustomBlock(block).onItemUse(stack1, player, world, x, y, z, side, hitX, hitY, hitZ);
-				stack.stackSize = stack1.stackSize;
-				return b;
+				if (block != null)
+				{
+					int metadata = food.getMetadataPlaced();
+					ItemStack stack1 = new ItemStack(block, stack.stackSize, metadata);
+					boolean b = new ItemCustomBlock(block).onItemUse(stack1, player, world, x, y, z, side, hitX, hitY, hitZ);
+					stack.stackSize = stack1.stackSize;
+					return b;
+				}
 			}
 		}
 		return false;

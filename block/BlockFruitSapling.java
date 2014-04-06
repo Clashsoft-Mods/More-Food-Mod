@@ -21,7 +21,7 @@ public class BlockFruitSapling extends BlockCustomSapling
 	@Override
 	public WorldGenerator getWorldGen(World world, int x, int y, int z, Random random)
 	{
-		int metadata = world.getBlockMetadata(x, y, z);
+		int metadata = world.getBlockMetadata(x, y, z) & 3;
 		boolean flag = this == MoreFoodMod.fruitSaplings2;
 		return new CustomTreeGen(true, 4 + random.nextInt(4), flag ? MoreFoodMod.fruitLogs2 : MoreFoodMod.fruitLogs, flag ? MoreFoodMod.fruitLeaves2 : MoreFoodMod.fruitLeaves, metadata, metadata);
 	}

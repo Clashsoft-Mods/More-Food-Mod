@@ -56,7 +56,7 @@ public class BlockPlantMoreFood extends BlockCrops
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z)
 	{
-		return super.canPlaceBlockAt(world, x, y, z) && world.getBlock(x, y, z) == Blocks.farmland;
+		return super.canPlaceBlockAt(world, x, y, z) && world.getBlock(x, y - 1, z) == Blocks.farmland;
 	}
 	
 	@Override
@@ -168,12 +168,12 @@ public class BlockPlantMoreFood extends BlockCrops
 	
 	protected ItemStack getSeedItem()
 	{
-		return this.seed;
+		return this.seed.copy();
 	}
 	
 	protected ItemStack getCropItem()
 	{
-		return this.crop;
+		return this.crop.copy();
 	}
 	
 	@Override

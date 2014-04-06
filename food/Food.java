@@ -24,6 +24,11 @@ public class Food implements IMetaItem
 	
 	// Vanilla Food Items
 	
+	static
+	{
+		System.out.println(MoreFoodMod.chiliPlant);
+	}
+	
 	public static Food			apple					= new Food((ItemFood) Items.apple, 0, null);
 	public static Food			appleStomped			= new Food(36, "stomped_apple", "stomped_apple", 4, new FoodRecipe(1, CSStacks.apple));
 	public static Food			appleGold1				= new Food((ItemFood) Items.golden_apple, 0, new FoodRecipe(1, "ggg", "gag", "ggg", 'g', CSStacks.gold_ingot, 'a', CSStacks.apple));
@@ -64,16 +69,17 @@ public class Food implements IMetaItem
 	
 	public static Food			pumpkinPie				= new Food((ItemFood) Items.pumpkin_pie, 0, new FoodRecipe(1, CSStacks.egg, CSStacks.sugar, CSStacks.pumpkin));
 	
-	public static Food			salad					= new Food(0, "salad", "salad", 2, MoreFoodMod.saladPlant);
-	public static Food			cucumber				= new Food(1, "cucumber", "cucumber", 2, MoreFoodMod.cucumberPlant);
-	public static Food			rice					= new Food(2, "rice", "rice", 2, MoreFoodMod.ricePlant);
-	public static Food			chili					= new Food(3, "chili", "chili", 2, MoreFoodMod.chiliPlant);
-	public static Food			tomato					= new Food(4, "tomato", "tomato", 2, MoreFoodMod.tomatoPlant);
-	public static Food			paprika					= new Food(5, "paprika", "paprika", 3, MoreFoodMod.paprikaPlant);
-	public static Food			onion					= new Food(6, "onion", "onion", 3, MoreFoodMod.onionPlant);
-	public static Food			pepperSeeds				= new Food(7, "pepper_seeds", "pepper_seeds", 0, MoreFoodMod.pepperPlant);
-	public static Food			vanillaSeeds			= new Food(8, "vanilla_seeds", "vanilla_seeds", 0, MoreFoodMod.vanillaPlant);
-	public static Food			corn					= new Food(9, "corn", "corn", 4, MoreFoodMod.cornPlant);
+	public static Food			lettuce					= new Food(0, "lettuce", "lettuce", 2);
+	public static Food			cucumber				= new Food(1, "cucumber", "cucumber", 2);
+	public static Food			rice					= new Food(2, "rice", "rice", 2);
+	public static Food			chili					= new Food(3, "chili", "chili", 2);
+	public static Food			tomato					= new Food(4, "tomato", "tomato", 2);
+	public static Food			paprika					= new Food(5, "paprika", "paprika", 3);
+	public static Food			onion					= new Food(6, "onion", "onion", 3);
+	public static Food			pepperSeeds				= new Food(7, "pepper_seeds", "pepper_seeds", 0);
+	public static Food			vanillaSeeds			= new Food(8, "vanilla_seeds", "vanilla_seeds", 0);
+	public static Food			corn					= new Food(9, "corn", "corn", 4);
+	
 	public static Food			breadSlice				= new Food(10, "bread_slice", "bread_slice", 3, new FoodRecipe(2, CSStacks.bread));
 	public static Food			toast					= new Food(11, "toast", "toast", 5, new FoodRecipe(3, breadSlice.asStack()));
 	public static Food			toast_toasted			= new Food(12, "toast_toasted", "toast_toasted", 2, new FoodRecipe(1, toast.asStack(), 0.1F));
@@ -87,14 +93,14 @@ public class Food implements IMetaItem
 	public static Food			bacon					= new Food(20, "bacon", "bacon", 6, new FoodRecipe(1, bacon_raw.asStack(), 0.1F));
 	public static Food			pasta					= new Food(21, "pasta", "pasta", 2, new FoodRecipe(4, "wsw", 'w', CSStacks.wheat, 's', MoreFoodMod.salt));
 	public static Food			meatball				= new Food(22, "ham", "ham", 2, new FoodRecipe(4, "bb", "bb", 'b', CSStacks.beef));
-	public static Food			hamburger				= new Food(23, "hamburger", "hamburger", 5, new FoodRecipe(1, " b ", "smt", " b ", 'b', breadSlice.asStack(), 's', salad.asStack(), 'm', meatball.asStack(), 't', tomato.asStack()));
+	public static Food			hamburger				= new Food(23, "hamburger", "hamburger", 5, new FoodRecipe(1, " b ", "smt", " b ", 'b', breadSlice.asStack(), 's', lettuce.asStack(), 'm', meatball.asStack(), 't', tomato.asStack()));
 	
-	public static Food			pizza					= new Food(24, "pizza", "pizza", 0, MoreFoodMod.pizza, new FoodRecipe(1, " S ", "sts", "www", 'S', salad.asStack(), 's', salami.asStack(), 't', tomato.asStack(), 'w', CSStacks.wheat));
+	public static Food			pizza					= new Food(24, "pizza", "pizza", 0, new FoodRecipe(1, " S ", "sts", "www", 'S', lettuce.asStack(), 's', salami.asStack(), 't', tomato.asStack(), 'w', CSStacks.wheat));
 	public static Food			fried_egg				= new Food(25, "fried_egg", "fried_egg", 4, new FoodRecipe(1, CSStacks.egg, 0.2F));
 	public static Food			omelette				= new Food(26, "omelette", "omelette", 7, new FoodRecipe(1, "eee", 'e', CSStacks.egg));
 	public static Food			popcorn					= new Food(27, "popcorn", "popcorn", 4, new FoodRecipe(4, corn.asStack(), 0.25F));
 	public static Food			popcorn_sweet			= new Food(28, "popcorn_sweet", "popcorn_sweet", 5, new FoodRecipe(1, popcorn.asStack(), CSStacks.sugar));
-	public static Food			popcorn_salty			= new Food(29, "popcorn_salty", "popcorn_salty", 5, new FoodRecipe(1, popcorn.asStack(), new ItemStack(MoreFoodMod.salt)));
+	public static Food			popcorn_salty			= new Food(29, "popcorn_salty", "popcorn_salty", 5, new FoodRecipe(1, popcorn.asStack(), MoreFoodMod.salt));
 	public static Food			candycane				= new Food(30, "candy_cane", "candy_cane", 3, new FoodRecipe(2, "s  ", " s ", "  s", 's', CSStacks.sugar));
 	public static Food			chocolate				= new Food(31, "chocolate_bar", "chocolate_bar", 4, new FoodRecipe(4, CSStacks.cocoa, CSStacks.cocoa, CSStacks.milk_bucket, CSStacks.sugar));
 	public static Food			chocolateCookie			= new Food(32, "cookie_chocolate", "cookie_chocolate", 2, new FoodRecipe(4, "wcw", 'w', CSStacks.wheat, 'c', chocolate.asStack()));
@@ -105,23 +111,23 @@ public class Food implements IMetaItem
 	public static Food			chocolateCow			= new Food(46, "chocolate_bar_cow", "chocolate_bar_cow", 4, new FoodRecipe(4, CSStacks.cocoa, CSStacks.cocoa, CSStacks.milk_bucket, butter.asStack(), CSStacks.sugar));
 	public static Food			frenchfries				= new Food(47, "french_fries", "french_fries", 5, new FoodRecipe(1, potatoCooked.asStack(), potatoCooked.asStack(), butter.asStack(), CSStacks.paper, CSStacks.dye_red));
 	
-	public static Food			orange					= new Food(48, "orange", "orange", 3, MoreFoodMod.fruitSaplings).setMetadataPlaced(0);
-	public static Food			pear					= new Food(49, "pear", "pear", 3, MoreFoodMod.fruitSaplings).setMetadataPlaced(1);
-	public static Food			cherry					= new Food(50, "cherry", "cherry", 3, MoreFoodMod.fruitSaplings).setMetadataPlaced(2);
-	public static Food			strawberry				= new Food(51, "strawberry", "strawberry", 3, MoreFoodMod.strawberryBush);
-	public static Food			raspberry				= new Food(52, "raspberry", "raspberry", 3, MoreFoodMod.raspberryBush);
-	public static Food			blackberry				= new Food(53, "blackberry", "blackberry", 3, MoreFoodMod.blackberryBush);
-	public static Food			blueberry				= new Food(54, "blueberry", "blueberry", 2, MoreFoodMod.blueberryBush);
-	public static Food			redcurrant				= new Food(55, "redcurrant", "redcurrant", 2, MoreFoodMod.redcurrantBush);
+	public static Food			orange					= new Food(48, "orange", "orange", 3);
+	public static Food			pear					= new Food(49, "pear", "pear", 3);
+	public static Food			cherry					= new Food(50, "cherry", "cherry", 3);
+	public static Food			strawberry				= new Food(51, "strawberry", "strawberry", 3);
+	public static Food			raspberry				= new Food(52, "raspberry", "raspberry", 3);
+	public static Food			blackberry				= new Food(53, "blackberry", "blackberry", 3);
+	public static Food			blueberry				= new Food(54, "blueberry", "blueberry", 2);
+	public static Food			redcurrant				= new Food(55, "redcurrant", "redcurrant", 2);
 	
-	public static Food			plum					= new Food(56, "plum", "plum", 3, MoreFoodMod.fruitSaplings).setMetadataPlaced(3);
-	public static Food			banana					= new Food(57, "banana", "banana", 3, MoreFoodMod.fruitSaplings2).setMetadataPlaced(0);
-	public static Food			seagrass				= new Food(58, "pineapple", "pineapple", 2);
+	public static Food			plum					= new Food(56, "plum", "plum", 3);
+	public static Food			banana					= new Food(57, "banana", "banana", 3);
+	public static Food			pineapple				= new Food(58, "pineapple", "pineapple", 4);
 	
 	public static Food			icecube					= new Food(80, "icecube", "icecube", 0, new FoodRecipe(4, CSStacks.ice));
 	public static Food			icecream				= new Food(81, "icecream", "icecream", 0, new FoodRecipe(2, icecube.asStack(), CSStacks.snowball, CSStacks.milk_bucket));
 	public static Food			icecreamChocolate		= new Food(82, "icecream_chocolate", "icecream_chocolate", 1, new FoodRecipe(1, chocolate.asStack(), icecream.asStack()));
-	public static Food			icecreamVanilla			= new Food(83, "icecream_vanilla", "icecream_vanilla", 1, new FoodRecipe(1, new ItemStack(MoreFoodMod.vanilla), icecream.asStack()));
+	public static Food			icecreamVanilla			= new Food(83, "icecream_vanilla", "icecream_vanilla", 1, new FoodRecipe(1, new ItemStack(MoreFoodMod.spices, 1, 3), icecream.asStack()));
 	public static Food			icecreamStrawberry		= new Food(84, "icecream_strawberry", "icecream_strawberry", 1, new FoodRecipe(1, strawberry.asStack(), icecream.asStack()));
 	public static Food			icecreamCone			= new Food(85, "icecream_cone", "icecream_cone", 2, new FoodRecipe(6, "w w", " w ", " w ", 'w', CSStacks.wheat));
 	public static Food			icecreamConeChocolate	= new Food(86, "icecream_cone_chocolate", "icecream_cone_chocolate", 3, new FoodRecipe(1, "i", "c", 'i', icecreamChocolate.asStack(), 'c', icecreamCone.asStack()));
@@ -182,7 +188,7 @@ public class Food implements IMetaItem
 			carrotDiamond });
 		
 		setCategory("food.category.vegetables", 0x008100, new Food[] {
-			salad,
+			lettuce,
 			cucumber,
 			rice,
 			chili,
@@ -192,7 +198,7 @@ public class Food implements IMetaItem
 			pepperSeeds,
 			vanillaSeeds,
 			corn,
-			seagrass });
+			pineapple });
 		
 		setCategory("food.category.wheat", 0x906C22, new Food[] {
 			bread,
@@ -258,7 +264,7 @@ public class Food implements IMetaItem
 	private int					foodValue;
 	private Block				blockPlaced;
 	private int					metadataPlaced;
-	private boolean				isEnabled				= true;
+	private boolean				isEnabled;
 	private FoodCategory		category				= FoodCategory.generic;
 	
 	private FoodRecipe			recipe;
@@ -273,40 +279,31 @@ public class Food implements IMetaItem
 	
 	public Food(int id, String name, String icon, int foodValue, FoodRecipe recipe)
 	{
-		this(id, name, icon, foodValue, null, recipe);
-	}
-	
-	public Food(int id, String name, String icon, int foodValue, Block blockPlaced)
-	{
-		this(id, name, icon, foodValue, blockPlaced, null);
-	}
-	
-	public Food(int id, String name, String icon, int foodValue, Block blockPlaced, FoodRecipe recipe)
-	{
-		this.setID(id);
+		this.foodID = id;
 		this.name = name;
 		this.icon = icon;
 		this.foodValue = foodValue;
 		this.recipe = recipe;
-		this.blockPlaced = blockPlaced;
 		
 		this.stack = new ItemStack(MoreFoodMod.foods, 1, this.getID());
 		
 		if (id >= 0)
 		{
 			foodTypes[id] = this;
+			this.isEnabled = true;
 		}
 	}
 	
 	public Food(Item item, int damage, FoodRecipe recipe)
 	{
-		this(-1, item.getUnlocalizedName(), getIconName(item, damage), 0, null, recipe);
+		this(-1, item.getUnlocalizedName(), getIconName(item, damage), 0, recipe);
 		this.stack = new ItemStack(item, 1, damage);
 	}
 	
 	public Food(ItemFood foodItem, int damage, FoodRecipe recipe)
 	{
-		this(-1, foodItem.getUnlocalizedName(), getIconName(foodItem, damage), 0, getPlacedBlock(foodItem, damage), recipe);
+		this(-1, foodItem.getUnlocalizedName(), getIconName(foodItem, damage), 0, recipe);
+		this.blockPlaced = getPlacedBlock(foodItem, damage);
 		this.stack = new ItemStack(foodItem, 1, damage);
 		this.foodValue = foodItem.func_150905_g(this.stack);
 	}
@@ -405,9 +402,10 @@ public class Food implements IMetaItem
 	}
 	
 	@Override
-	public void setFoodValue(int foodValue)
+	public Food setFoodValue(int foodValue)
 	{
 		this.foodValue = foodValue;
+		return this;
 	}
 	
 	@Override
@@ -417,15 +415,23 @@ public class Food implements IMetaItem
 	}
 	
 	@Override
-	public void setBlockPlaced(Block block)
+	public int getMetadataPlaced()
+	{
+		return this.metadataPlaced;
+	}
+	
+	@Override
+	public Food setBlockPlaced(Block block, int metadata)
 	{
 		this.blockPlaced = block;
+		this.metadataPlaced = metadata;
+		return this;
 	}
 	
 	@Override
 	public boolean isEnabled()
 	{
-		return this.isEnabled;
+		return this.isEnabled && this.getID() != -1;
 	}
 	
 	@Override
@@ -435,9 +441,10 @@ public class Food implements IMetaItem
 	}
 	
 	@Override
-	public void setName(String name)
+	public Food setName(String name)
 	{
 		this.name = name;
+		return this;
 	}
 	
 	@Override
@@ -447,21 +454,16 @@ public class Food implements IMetaItem
 	}
 	
 	@Override
-	public void setIconName(String icon)
+	public Food setIconName(String icon)
 	{
 		this.icon = icon;
+		return this;
 	}
 	
 	@Override
 	public int getID()
 	{
 		return this.foodID;
-	}
-	
-	@Override
-	public void setID(int foodID)
-	{
-		this.foodID = foodID;
 	}
 	
 	@Override
@@ -479,18 +481,6 @@ public class Food implements IMetaItem
 	public Collection<String> getDescription()
 	{
 		return Collections.EMPTY_LIST;
-	}
-	
-	@Override
-	public int getMetadataPlaced()
-	{
-		return this.metadataPlaced;
-	}
-	
-	public Food setMetadataPlaced(int i)
-	{
-		this.metadataPlaced = i;
-		return this;
 	}
 	
 	public Food setCategory(FoodCategory category)

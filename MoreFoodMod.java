@@ -2,6 +2,8 @@ package clashsoft.mods.morefood;
 
 import java.util.Random;
 
+import clashsoft.cslib.minecraft.CSLib;
+import clashsoft.cslib.minecraft.ClashsoftMod;
 import clashsoft.cslib.minecraft.block.BlockCustomLeaves;
 import clashsoft.cslib.minecraft.block.BlockCustomLog;
 import clashsoft.cslib.minecraft.block.BlockCustomSapling;
@@ -9,6 +11,7 @@ import clashsoft.cslib.minecraft.block.CSBlocks;
 import clashsoft.cslib.minecraft.crafting.CSCrafting;
 import clashsoft.cslib.minecraft.item.CSItems;
 import clashsoft.cslib.minecraft.item.CSStacks;
+import clashsoft.cslib.minecraft.item.CustomItem;
 import clashsoft.cslib.minecraft.update.CSUpdate;
 import clashsoft.cslib.minecraft.world.gen.CustomTreeGen;
 import clashsoft.cslib.minecraft.world.gen.WorldGenRanged;
@@ -21,6 +24,7 @@ import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -29,7 +33,6 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -39,14 +42,16 @@ import net.minecraft.world.biome.BiomeGenOcean;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.ForgeDirection;
 
-@Mod(modid = MoreFoodMod.MODID, name = MoreFoodMod.NAME, version = MoreFoodMod.VERSION)
-public class MoreFoodMod
+@Mod(modid = MoreFoodMod.MODID, name = MoreFoodMod.NAME, version = MoreFoodMod.VERSION, dependencies = MoreFoodMod.DEPENDENCIES)
+public class MoreFoodMod extends ClashsoftMod
 {
 	public static final String			MODID			= "morefood";
 	public static final String			NAME			= "More Food Mod";
 	public static final String			ACRONYM			= "mfm";
 	public static final String			VERSION			= CSUpdate.CURRENT_VERSION + "-1.0.0";
+	public static final String			DEPENDENCIES	= CSLib.DEPENDENCY;
 	
 	@Instance(MODID)
 	public static MoreFoodMod			instance;
@@ -54,35 +59,36 @@ public class MoreFoodMod
 	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMCommonProxy")
 	public static MFMCommonProxy		proxy;
 	
-	public static Item					salt			= new Item().setUnlocalizedName("salt").setTextureName("morefood:salt");
-	public static Item					pepper			= new Item().setUnlocalizedName("pepper").setTextureName("morefood:pepper");
-	public static Item					cinnamon		= new Item().setUnlocalizedName("cinnamon").setTextureName("morefood:cinnamon");
-	public static Item					vanilla			= new Item().setUnlocalizedName("vanilla").setTextureName("vanilla");
+	public static CustomItem			spices			= new CustomItem(new String[] {
+			"salt",
+			"pepper",
+			"cinnamon",
+			"vanilla"									}, "morefood");
 	public static ItemJuice				juice			= (ItemJuice) new ItemJuice().setUnlocalizedName("juice_bottles");
 	public static ItemMilkBowls			milkBowls		= (ItemMilkBowls) new ItemMilkBowls(4).setUnlocalizedName("milk_bowls");
 	public static ItemSoupBowls			soupBowls		= (ItemSoupBowls) new ItemSoupBowls(6).setUnlocalizedName("soup_bowls");
 	public static ItemFoods				foods			= (ItemFoods) new ItemFoods(3, 1.0F).setUnlocalizedName("food_items");
 	public static ItemRecipeBook		recipeBook		= (ItemRecipeBook) new ItemRecipeBook().setUnlocalizedName("recipe_book").setTextureName("morefood:recipe_book");
 	
+	public static BlockPlantMoreFood	lettucePlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("lettuce_plant").setBlockTextureName("morefood:lettuce");
 	public static BlockPlantMoreFood	cucumberPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("cucumber_plant").setBlockTextureName("morefood:cucumber");
-	public static BlockPlantMoreFood	tomatoPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("tomato_plant").setBlockTextureName("morefood:tomato");
-	public static BlockPlantMoreFood	pepperPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("pepper_plant").setBlockTextureName("morefood:pepper");
-	public static BlockPlantMoreFood	saladPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("salad_plant").setBlockTextureName("morefood:salad");
-	public static BlockPlantMoreFood	onionPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("onion_plant").setBlockTextureName("morefood:onion");
-	public static BlockPlantMoreFood	chiliPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("chili_plant").setBlockTextureName("morefood:chili");
-	public static BlockPlantMoreFood	paprikaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("paprika_plant").setBlockTextureName("morefood:paprika");
 	public static BlockPlantMoreFood	ricePlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("rice_plant").setBlockTextureName("morefood:rice");
-	public static BlockPlantMoreFood	cornPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("corn_plant").setBlockTextureName("morefood:corn");
+	public static BlockPlantMoreFood	chiliPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("chili_plant").setBlockTextureName("morefood:chili");
+	public static BlockPlantMoreFood	tomatoPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("tomato_plant").setBlockTextureName("morefood:tomato");
+	public static BlockPlantMoreFood	paprikaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("paprika_plant").setBlockTextureName("morefood:paprika");
+	public static BlockPlantMoreFood	onionPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("onion_plant").setBlockTextureName("morefood:onion");
+	public static BlockPlantMoreFood	pepperPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("pepper_plant").setBlockTextureName("morefood:pepper");
 	public static BlockPlantMoreFood	vanillaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("vanilla_plant").setBlockTextureName("morefood:vanilla");
+	public static BlockPlantMoreFood	cornPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("corn_plant").setBlockTextureName("morefood:corn");
 	
 	public static BlockSaltOre			saltOre			= (BlockSaltOre) new BlockSaltOre().setBlockName("salt_ore").setBlockTextureName("morefood:salt_ore");
 	public static BlockPizza			pizza			= (BlockPizza) new BlockPizza().setBlockName("pizza").setBlockTextureName("morefood:pizza");
 	
-	public static BlockBush				strawberryBush	= (BlockBush) new BlockBush( "morefood:strawberry_bush", "morefood:strawberry_bush_stem").setBlockName("strawberry_bush");
+	public static BlockBush				strawberryBush	= (BlockBush) new BlockBush("morefood:strawberry_bush", "morefood:strawberry_bush_stem").setBlockName("strawberry_bush");
 	public static BlockBush				raspberryBush	= (BlockBush) new BlockBush("morefood:raspberry_bush", "morefood:raspberry_bush_stem").setBlockName("raspberry_bush");
 	public static BlockBush				blueberryBush	= (BlockBush) new BlockBush("morefood:blueberry_bush", "morefood:blueberry_bush_stem").setBlockName("blueberry_bush");
-	public static BlockBush				blackberryBush	= (BlockBush) new BlockBush( "morefood:blackberry_bush", "morefood:blackberry_bush_stem").setBlockName("blackberry_bush");
-	public static BlockBush				redcurrantBush	= (BlockBush) new BlockBush( "morefood:redcurrant_bush", "morefood:redcurrant_bush_stem").setBlockName("redcurrant_bush");
+	public static BlockBush				blackberryBush	= (BlockBush) new BlockBush("morefood:blackberry_bush", "morefood:blackberry_bush_stem").setBlockName("blackberry_bush");
+	public static BlockBush				redcurrantBush	= (BlockBush) new BlockBush("morefood:redcurrant_bush", "morefood:redcurrant_bush_stem").setBlockName("redcurrant_bush");
 	
 	public static String[]				fruitTypes1		= new String[] {
 			"orange",
@@ -125,41 +131,53 @@ public class MoreFoodMod
 			"morefood:banana_leaves",
 			"morefood:pineapple_leaves"				});
 	
+	public static ItemStack				salt			= new ItemStack(spices, 1, 0);
+	public static ItemStack				pepper			= new ItemStack(spices, 1, 1);
+	public static ItemStack				cinnamon		= new ItemStack(spices, 1, 2);
+	public static ItemStack				vanilla			= new ItemStack(spices, 1, 3);
+	
+	public MoreFoodMod()
+	{
+		super(MODID, NAME, ACRONYM, VERSION);
+		this.url = "https://github.com/Clashsoft/More-Food-Mod/wiki";
+	}
+	
+	@Override
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		CSUpdate.updateCheckCS(NAME, ACRONYM, VERSION);
+		super.preInit(event);
 		
 		CSItems.addItem(foods, "food_items");
-		CSItems.addItem(salt, "salt");
-		CSItems.addItemWithShapelessRecipe(pepper, "pepper", 4, Food.pepperSeeds.asStack());
-		CSItems.addItemWithShapelessRecipe(cinnamon, "cinnamon", 3, CSStacks.cocoa, CSStacks.sugar, CSStacks.sugar);
-		CSItems.addItemWithShapelessRecipe(vanilla, "vanilla", 4, Food.vanillaSeeds.asStack());
+		CSItems.addItem(spices, "spices");
 		CSItems.addItem(juice, "juice_bottles");
 		CSItems.addItem(milkBowls, "milk_bowls");
 		CSItems.addItem(soupBowls, "soup_bowls");
 		
-		CSItems.addItemWithRecipe(recipeBook, "recipe_book", 1, " s ", "bBp", " t ", 's', Food.salad.asStack(), 'b', Items.beef, 'B', Items.book, 'p', Items.cooked_porkchop, 't', Food.tomato.asStack());
+		CSItems.addItemWithRecipe(recipeBook, "recipe_book", 1, " s ", "bBp", " t ", 's', Food.lettuce.asStack(), 'b', Items.beef, 'B', Items.book, 'p', Items.cooked_porkchop, 't', Food.tomato.asStack());
 		
 		fruitSaplings.setBlockName("fruit").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitSaplings2.setBlockName("fruit").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
+		
 		fruitLogs.setBlockName("fruit").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
 		fruitLogs2.setBlockName("fruit").setHardness(2.0F).setCreativeTab(CreativeTabs.tabBlock);
+		
 		fruitLeaves.setBlockName("fruit").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitLeaves.setSaplingStacks(Food.orange.asStack(), Food.pear.asStack(), Food.cherry.asStack(), Food.plum.asStack());
-		fruitLeaves2.setBlockName("fruit").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
-		fruitLeaves2.setSaplingStacks(Food.banana.asStack());
 		
+		fruitLeaves2.setBlockName("fruit").setHardness(0.2F).setCreativeTab(CreativeTabs.tabDecorations);
+		fruitLeaves2.setSaplingStacks(Food.banana.asStack(), Food.pineapple.asStack());
+		
+		lettucePlant.setItem(Food.lettuce.asStack());
 		cucumberPlant.setItem(Food.cucumber.asStack());
-		tomatoPlant.setItem(Food.tomato.asStack());
-		pepperPlant.setSeed(Food.pepperSeeds.asStack()).setCrop(new ItemStack(pepper));
-		saladPlant.setItem(Food.salad.asStack());
-		onionPlant.setItem(Food.onion.asStack());
-		chiliPlant.setItem(Food.chili.asStack());
-		paprikaPlant.setItem(Food.paprika.asStack());
 		ricePlant.setItem(Food.rice.asStack());
+		chiliPlant.setItem(Food.chili.asStack());
+		tomatoPlant.setItem(Food.tomato.asStack());
+		paprikaPlant.setItem(Food.paprika.asStack());
+		onionPlant.setItem(Food.onion.asStack());
+		pepperPlant.setSeed(Food.pepperSeeds.asStack()).setCrop(new ItemStack(spices, 1, 1));
+		vanillaPlant.setSeed(Food.vanillaSeeds.asStack()).setCrop(new ItemStack(spices, 1, 3));
 		cornPlant.setItem(Food.corn.asStack());
-		vanillaPlant.setSeed(Food.vanillaSeeds.asStack()).setCrop(new ItemStack(vanilla));
 		
 		strawberryBush.setItem(Food.strawberry.asStack());
 		strawberryBush.setItem(Food.strawberry.asStack());
@@ -168,16 +186,42 @@ public class MoreFoodMod
 		blackberryBush.setItem(Food.blackberry.asStack());
 		redcurrantBush.setItem(Food.redcurrant.asStack());
 		
+		Food.lettuce.setBlockPlaced(lettucePlant, 0);
+		Food.cucumber.setBlockPlaced(cucumberPlant, 0);
+		Food.rice.setBlockPlaced(ricePlant, 0);
+		Food.chili.setBlockPlaced(chiliPlant, 0);
+		Food.tomato.setBlockPlaced(tomatoPlant, 0);
+		Food.paprika.setBlockPlaced(paprikaPlant, 0);
+		Food.onion.setBlockPlaced(onionPlant, 0);
+		Food.pepperSeeds.setBlockPlaced(pepperPlant, 0);
+		Food.vanillaSeeds.setBlockPlaced(vanillaPlant, 0);
+		Food.corn.setBlockPlaced(cornPlant, 0);
+		
+		Food.strawberry.setBlockPlaced(strawberryBush, 0);
+		Food.raspberry.setBlockPlaced(raspberryBush, 0);
+		Food.blackberry.setBlockPlaced(blackberryBush, 0);
+		Food.blueberry.setBlockPlaced(blueberryBush, 0);
+		Food.redcurrant.setBlockPlaced(redcurrantBush, 0);
+		
+		Food.orange.setBlockPlaced(fruitSaplings, 0);
+		Food.pear.setBlockPlaced(fruitSaplings, 1);
+		Food.cherry.setBlockPlaced(fruitSaplings, 2);
+		Food.plum.setBlockPlaced(fruitSaplings, 3);
+		Food.banana.setBlockPlaced(fruitSaplings2, 0);
+		Food.pineapple.setBlockPlaced(fruitSaplings2, 1);
+		
+		Food.pizza.setBlockPlaced(pizza, 0);
+		
+		CSBlocks.addBlock(lettucePlant);
 		CSBlocks.addBlock(cucumberPlant);
-		CSBlocks.addBlock(tomatoPlant);
-		CSBlocks.addBlock(pepperPlant);
-		CSBlocks.addBlock(saladPlant);
-		CSBlocks.addBlock(onionPlant);
-		CSBlocks.addBlock(chiliPlant);
-		CSBlocks.addBlock(paprikaPlant);
 		CSBlocks.addBlock(ricePlant);
-		CSBlocks.addBlock(cornPlant);
+		CSBlocks.addBlock(chiliPlant);
+		CSBlocks.addBlock(tomatoPlant);
+		CSBlocks.addBlock(paprikaPlant);
+		CSBlocks.addBlock(onionPlant);
+		CSBlocks.addBlock(pepperPlant);
 		CSBlocks.addBlock(vanillaPlant);
+		CSBlocks.addBlock(cornPlant);
 		
 		CSBlocks.addBlock(strawberryBush);
 		CSBlocks.addBlock(raspberryBush);
@@ -196,9 +240,12 @@ public class MoreFoodMod
 		CSBlocks.addBlock(pizza);
 	}
 	
+	@Override
 	@EventHandler
-	public void init(FMLInitializationEvent e)
+	public void init(FMLInitializationEvent event)
 	{
+		super.init(event);
+		
 		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 8);
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
 		
@@ -212,8 +259,19 @@ public class MoreFoodMod
 		proxy.registerRenderers();
 	}
 	
+	@Override
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		super.postInit(event);
+	}
+	
 	private void addCraftingRecipes()
 	{
+		CSCrafting.addShapelessRecipe(new ItemStack(spices, 4, 1), Food.pepperSeeds.asStack());
+		CSCrafting.addShapelessRecipe(new ItemStack(spices, 3, 2), CSStacks.cocoa, CSStacks.sugar, CSStacks.sugar);
+		CSCrafting.addShapelessRecipe(new ItemStack(spices, 4, 3), Food.vanillaSeeds.asStack());
+		
 		for (int i = 0; i < 7; i++)
 		{
 			ItemStack theSoup = new ItemStack(soupBowls, 1, i);
@@ -372,81 +430,75 @@ public class MoreFoodMod
 	{
 		for (int i = 0; i < 10; i++)
 		{
-			int randPosX = chunkX * 16 + random.nextInt(16);
-			int randPosY = random.nextInt(48);
-			int randPosZ = chunkZ * 16 + random.nextInt(16);
-			if (world.getBiomeGenForCoords(randPosX, randPosZ) instanceof BiomeGenOcean)
-				(new WorldGenMinable(saltOre, 6)).generate(world, random, randPosX, randPosY, randPosZ);
+			int x = chunkX * 16 + random.nextInt(16);
+			int y = random.nextInt(48);
+			int z = chunkZ * 16 + random.nextInt(16);
+			if (world.getBiomeGenForCoords(x, z) instanceof BiomeGenOcean)
+				(new WorldGenMinable(saltOre, 6)).generate(world, random, x, y, z);
 		}
 		if (random.nextInt(200) == 0)
 		{
-			int randPosX = chunkX * 16 + random.nextInt(16);
-			int randPosY = 128;
-			int randPosZ = chunkZ * 16 + random.nextInt(16);
-			for (int j = randPosY; j > 0; j--)
+			int x = chunkX * 16 + random.nextInt(16);
+			int y = 128;
+			int z = chunkZ * 16 + random.nextInt(16);
+			
+			while (y > 0)
 			{
-				if ((world.getBlock(randPosX, randPosY, randPosZ) == Blocks.grass || world.getBlock(randPosX, randPosY, randPosZ) == Blocks.dirt))
+				if (world.getBlock(x, y, z).isSideSolid(world, x, y, z, ForgeDirection.UP))
 				{
-					randPosY = j;
 					break;
 				}
-				else
-				{
-					randPosY--;
-				}
+				y--;
 			}
-			if (randPosY >= 0)
-			{
-				(new WorldGenGardener()).generate(world, random, randPosX, randPosY, randPosZ);
-			}
+			
+			(new WorldGenGardener()).generate(world, random, x, y, z);
 		}
 		
 		if (random.nextInt(5) == 0)
 		{
-			int randPosX = chunkX * 16 + random.nextInt(16);
-			int randPosY = 128;
-			int randPosZ = chunkZ * 16 + random.nextInt(16);
+			int x = chunkX * 16 + random.nextInt(16);
+			int y = 128;
+			int z = chunkZ * 16 + random.nextInt(16);
 			
-			if ((world.getBiomeGenForCoords(randPosX, randPosZ) instanceof BiomeGenForest))
+			if ((world.getBiomeGenForCoords(x, z) instanceof BiomeGenForest))
 			{
-				for (int j = randPosY; j > 0; j--)
+				while (y > 0)
 				{
-					if ((world.getBlock(randPosX, randPosY, randPosZ) == Blocks.grass || world.getBlock(randPosX, randPosY, randPosZ) == Blocks.dirt))
+					Block block = world.getBlock(x, y, z);
+					if (block == Blocks.grass || block == Blocks.dirt)
 					{
-						randPosY = j;
 						break;
 					}
-					else
-					{
-						randPosY--;
-					}
+					y--;
 				}
 				
 				int treeType = random.nextInt(5);
-				(new CustomTreeGen(false, 4 + random.nextInt(4), treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3)).generate(world, random, randPosX, randPosY, randPosZ);
+				int height = 4 + random.nextInt(4);
+				if (treeType == 4)
+				{
+					height += 3;
+				}
+				(new CustomTreeGen(false, height, treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3)).generate(world, random, x, y, z);
 			}
 		}
 		if (random.nextInt(10) == 0)
 		{
-			int randPosX = chunkX * 16 + random.nextInt(16);
-			int randPosY = 128;
-			int randPosZ = chunkZ * 16 + random.nextInt(16);
+			int x = chunkX * 16 + random.nextInt(16);
+			int y = 128;
+			int z = chunkZ * 16 + random.nextInt(16);
 			
-			for (int j = randPosY; j > 0; j--)
+			while (y > 0)
 			{
-				if ((world.getBlock(randPosX, randPosY, randPosZ) == Blocks.grass || world.getBlock(randPosX, randPosY, randPosZ) == Blocks.dirt))
+				Block block = world.getBlock(x, y, z);
+				if (block == Blocks.grass || block == Blocks.dirt)
 				{
-					randPosY = j + 1;
 					break;
 				}
-				else
-				{
-					randPosY--;
-				}
+				y--;
 			}
 			
-			Block bushType = getBushTypeForBiome(world.getBiomeGenForCoords(randPosX, randPosY), random);
-			(new WorldGenRanged(bushType, 3)).generate(world, random, randPosX, randPosY, randPosZ);
+			Block bushType = getBushTypeForBiome(world.getBiomeGenForCoords(x, y), random);
+			(new WorldGenRanged(bushType, 3)).generate(world, random, x, y, z);
 		}
 	}
 	
