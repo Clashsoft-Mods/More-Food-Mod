@@ -56,7 +56,7 @@ public class FoodRecipe implements IMetaItemRecipe
 	
 	public String getLocalizedType()
 	{
-		return I18n.getString(getType());
+		return I18n.getString(this.getType());
 	}
 	
 	public void addRecipe(Item item, int foodID)
@@ -81,7 +81,7 @@ public class FoodRecipe implements IMetaItemRecipe
 		}
 		catch (Exception ex)
 		{
-			System.out.println("Failed to add recipe: " + result + "; " + Arrays.toString(data));
+			System.out.println("Failed to add recipe: " + result + "; " + Arrays.toString(this.data));
 		}
 	}
 	

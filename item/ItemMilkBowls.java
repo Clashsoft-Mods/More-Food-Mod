@@ -24,7 +24,7 @@ public class ItemMilkBowls extends ItemFood
 			"item.bowl.rice.cinnamon",
 			"item.bowl.rice.vanilla",
 			"item.bowl.pudding.red",
-			"item.bowl.pudding.green"		};
+			"item.bowl.pudding.green"			};
 	public static final String[]	iconNames	= new String[] {
 			"morefood:bowl_milk",
 			"morefood:bowl_cereals_wheat",

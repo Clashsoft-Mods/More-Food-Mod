@@ -105,7 +105,7 @@ public class GuiRecipeBook extends GuiContainer
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 256, 256, 256, 256);
 		
 		int matchingEntrys = this.currentDisplayList.size();
-		String header = I18n.getString("recipebook.title", currentEntryID, matchingEntrys);
+		String header = I18n.getString("recipebook.title", this.currentEntryID, matchingEntrys);
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, this.guiTop + 10, 0x404040, false);
 		
 		Food food = this.currentEntry;

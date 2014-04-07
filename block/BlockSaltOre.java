@@ -13,7 +13,7 @@ import net.minecraft.world.IBlockAccess;
 
 public class BlockSaltOre extends Block
 {
-	private Random rand = new Random();
+	private Random	rand	= new Random();
 	
 	public BlockSaltOre()
 	{
