@@ -16,7 +16,7 @@ import clashsoft.cslib.minecraft.update.CSUpdate;
 import clashsoft.cslib.minecraft.world.gen.CustomTreeGen;
 import clashsoft.cslib.minecraft.world.gen.WorldGenRanged;
 import clashsoft.mods.morefood.block.*;
-import clashsoft.mods.morefood.common.MFMCommonProxy;
+import clashsoft.mods.morefood.common.MFMProxy;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.item.*;
 import clashsoft.mods.morefood.world.WorldGenGardener;
@@ -26,7 +26,6 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.block.Block;
@@ -56,8 +55,8 @@ public class MoreFoodMod extends ClashsoftMod
 	@Instance(MODID)
 	public static MoreFoodMod			instance;
 	
-	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMCommonProxy")
-	public static MFMCommonProxy		proxy;
+	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMProxy")
+	public static MFMProxy				proxy;
 	
 	public static CustomItem			spices			= new CustomItem(new String[] {
 			"salt",
@@ -138,7 +137,7 @@ public class MoreFoodMod extends ClashsoftMod
 	
 	public MoreFoodMod()
 	{
-		super(MODID, NAME, ACRONYM, VERSION);
+		super(proxy, MODID, NAME, ACRONYM, VERSION);
 		this.url = "https://github.com/Clashsoft/More-Food-Mod/wiki";
 	}
 	
@@ -247,7 +246,6 @@ public class MoreFoodMod extends ClashsoftMod
 		super.init(event);
 		
 		GameRegistry.registerWorldGenerator(new WorldGenHandler(), 8);
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
 		
 		this.addCraftingRecipes();
 		this.addSmeltingRecipes();
@@ -255,8 +253,6 @@ public class MoreFoodMod extends ClashsoftMod
 		
 		MinecraftForge.addGrassSeed(Food.pepperSeeds.asStack(), 8);
 		MinecraftForge.addGrassSeed(Food.vanillaSeeds.asStack(), 6);
-		
-		proxy.registerRenderers();
 	}
 	
 	@Override
