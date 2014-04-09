@@ -1,6 +1,6 @@
 package clashsoft.mods.morefood.food;
 
-import com.sun.imageio.plugins.common.I18N;
+import clashsoft.cslib.minecraft.lang.I18n;
 
 public class FoodCategory
 {
@@ -17,7 +17,7 @@ public class FoodCategory
 	
 	public String getLocalizedName()
 	{
-		return I18N.getString(this.getName());
+		return I18n.getString(this.getName());
 	}
 	
 	public String getName()
