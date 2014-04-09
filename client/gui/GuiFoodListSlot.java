@@ -50,26 +50,24 @@ public class GuiFoodListSlot extends GuiScrollingList
 		
 		Food food = this.parentGui.currentDisplayList.get(id);
 		String name = food.asStack().getDisplayName();
-		String search = this.parentGui.search.getText();
 		IIcon icon = food.asStack().getIconIndex();
 		
 		int offsX = 0;
 		
 		name = CSString.trimStringToRenderWidth(name, this.listWidth - offsX - 2);
 		
-		int offsY = 0;
-		if (!search.isEmpty())
+		if (this.parentGui.filtered)
 		{
-			offsY = 10;
-			String s = I18n.getString(search.startsWith("category:") ? "search.match.category" : "search.match");
+			String s = I18n.getString(this.parentGui.categorySearch ? "search.match.category" : "search.match");
 			mc.fontRenderer.drawString(s, offsX + 2, y + 2, 0xFF8100, true);
+			y += 10;
 		}
 		
-		mc.fontRenderer.drawString(name, offsX + 2, y + offsY + 2, 0xFFFFFF, true);
+		mc.fontRenderer.drawString(name, offsX + 2, y + 2, 0xFFFFFF, true);
 		
 		String category = EnumChatFormatting.ITALIC + food.getCategory().getLocalizedName();
 		category = CSString.trimStringToRenderWidth(category, this.listWidth);
 		
-		mc.fontRenderer.drawString(category, offsX + 2, y + offsY + 12, food.getCategory().getColor(), true);
+		mc.fontRenderer.drawString(category, offsX + 2, y + 12, food.getCategory().getColor(), true);
 	}
 }

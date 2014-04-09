@@ -1,7 +1,6 @@
 package clashsoft.mods.morefood.client.gui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,6 +47,8 @@ public class GuiRecipeBook extends GuiContainer
 	
 	public EntityPlayer						player;
 	
+	public boolean filtered;
+	public boolean							categorySearch;
 	private List<String>					temp				= new ArrayList<String>();
 	
 	public GuiRecipeBook(ContainerRecipeBook container, EntityPlayer player)
@@ -93,7 +94,8 @@ public class GuiRecipeBook extends GuiContainer
 		}
 		if (this.func_146978_c(20, 50, 40, 40, mouseX, mouseY))
 		{
-			this.drawHoveringText(Arrays.asList(this.currentEntry.asStack().getDisplayName()), mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, this.currentEntry.getCategory().getColor());
+			List tooltip = this.currentEntry.asStack().getTooltip(this.mc.thePlayer, false);
+			this.drawHoveringText(tooltip, mouseX - this.guiLeft, mouseY - this.guiTop, this.mc.fontRenderer, this.currentEntry.getCategory().getColor());
 		}
 	}
 	
@@ -105,7 +107,7 @@ public class GuiRecipeBook extends GuiContainer
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 256, 256, 256, 256);
 		
 		int matchingEntrys = this.currentDisplayList.size();
-		String header = I18n.getString("recipebook.title", this.currentEntryID, matchingEntrys);
+		String header = I18n.getString("recipebook.title", this.currentEntryID + 1, matchingEntrys);
 		this.mc.fontRenderer.drawString(header, (this.width - this.mc.fontRenderer.getStringWidth(header)) / 2, this.guiTop + 10, 0x404040, false);
 		
 		Food food = this.currentEntry;
@@ -244,17 +246,19 @@ public class GuiRecipeBook extends GuiContainer
 			boolean flag = true;
 			if (this.search.getText().isEmpty())
 			{
+				this.filtered = false;
 				this.currentDisplayList = Food.getDisplayList();
 			}
 			else
 			{
+				this.filtered = true;
 				this.currentDisplayList = new ArrayList();
 				String searchText = this.search.getText().toLowerCase().trim();
-				for (int i = 0; i < Food.getDisplayList().size(); i++)
+				
+				if (searchText.startsWith("category:"))
 				{
-					Food f = Food.getDisplayList().get(i);
-					
-					if (searchText.startsWith("category:"))
+					this.categorySearch = true;
+					for (Food f : Food.foodList)
 					{
 						String search = searchText.substring(9);
 						String s = f.getCategory().getName().toLowerCase().trim();
@@ -263,7 +267,11 @@ public class GuiRecipeBook extends GuiContainer
 							this.currentDisplayList.add(f);
 						}
 					}
-					else
+				}
+				else
+				{
+					this.categorySearch = false;
+					for (Food f : Food.foodList)
 					{
 						String s = f.asStack().getDisplayName().toLowerCase().trim();
 						if (s.startsWith(searchText))
@@ -272,8 +280,8 @@ public class GuiRecipeBook extends GuiContainer
 						}
 					}
 				}
-				this.search.setTextColor(this.currentDisplayList.isEmpty() ? 0xFF0000 : 0xFFFFFF);
 				
+				this.search.setTextColor(this.currentDisplayList.isEmpty() ? 0xFF0000 : 0xFFFFFF);
 			}
 			this.setRecipe(0);
 		}
@@ -337,10 +345,7 @@ public class GuiRecipeBook extends GuiContainer
 	{
 		if (f == null || f.getRecipe() == null)
 		{
-			return new ItemStack[][] {
-					{ null, null, null },
-					{ null, null, null },
-					{ null, null, null } };
+			return new ItemStack[][] { { null, null, null }, { null, null, null }, { null, null, null } };
 		}
 		else
 		{
