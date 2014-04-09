@@ -106,9 +106,9 @@ public class ItemFoods extends ItemFood
 	{
 		for (Food f : Food.foodList)
 		{
-			int id = f.getID();
 			if (f != null && f.isEnabled())
 			{
+				int id = f.getID();
 				list.add(new ItemStack(this, 1, id));
 			}
 		}
