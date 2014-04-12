@@ -8,7 +8,6 @@ import java.util.List;
 import clashsoft.cslib.minecraft.item.CSStacks;
 import clashsoft.cslib.minecraft.item.meta.IMetaItem;
 import clashsoft.mods.morefood.MoreFoodMod;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
@@ -302,9 +301,8 @@ public class Food implements IMetaItem
 	
 	public Food(ItemFood foodItem, int damage, FoodRecipe recipe)
 	{
-		this(-1, foodItem.getUnlocalizedName(), getIconName(foodItem, damage), 0, recipe);
+		this((Item) foodItem, damage, recipe);
 		this.blockPlaced = getPlacedBlock(foodItem, damage);
-		this.stack = new ItemStack(foodItem, 1, damage);
 		this.foodValue = foodItem.func_150905_g(this.stack);
 	}
 	
@@ -317,7 +315,8 @@ public class Food implements IMetaItem
 		}
 		catch (Throwable ex)
 		{
-			return ObfuscationReflectionHelper.<String, Item> getPrivateValue(Item.class, item, "iconString");
+			// Server-side, we don't need any icons
+			return "";
 		}
 	}
 	
