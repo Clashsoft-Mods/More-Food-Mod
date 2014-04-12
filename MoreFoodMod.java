@@ -49,7 +49,7 @@ public class MoreFoodMod extends ClashsoftMod
 	public static final String			MODID			= "morefood";
 	public static final String			NAME			= "More Food Mod";
 	public static final String			ACRONYM			= "mfm";
-	public static final String			VERSION			= CSUpdate.CURRENT_VERSION + "-1.0.0";
+	public static final String			VERSION			= CSUpdate.CURRENT_VERSION + "-1.0.0-pre";
 	public static final String			DEPENDENCIES	= CSLib.DEPENDENCY;
 	
 	@Instance(MODID)
