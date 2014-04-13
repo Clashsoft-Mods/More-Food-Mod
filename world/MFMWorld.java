@@ -33,7 +33,7 @@ public class MFMWorld implements IWorldGenerator
 				int z = chunkZ * 16 + random.nextInt(16);
 				if (world.getBiomeGenForCoords(x, z) instanceof BiomeGenOcean)
 				{
-					(new WorldGenMinable(saltOre, 8)).generate(world, random, x, y, z);
+					new WorldGenMinable(saltOre, 8).generate(world, random, x, y, z);
 				}
 				else
 				{
@@ -55,7 +55,7 @@ public class MFMWorld implements IWorldGenerator
 					y--;
 				}
 				
-				(new WorldGenGardener()).generate(world, random, x, y, z);
+				new WorldGenGardener().generate(world, random, x, y, z);
 			}
 			
 			if (random.nextInt(5) == 0)
@@ -64,7 +64,7 @@ public class MFMWorld implements IWorldGenerator
 				int y = 128;
 				int z = chunkZ * 16 + random.nextInt(16);
 				
-				if ((world.getBiomeGenForCoords(x, z) instanceof BiomeGenForest))
+				if (world.getBiomeGenForCoords(x, z) instanceof BiomeGenForest)
 				{
 					while (y > 0)
 					{
@@ -82,7 +82,7 @@ public class MFMWorld implements IWorldGenerator
 					{
 						height += 3;
 					}
-					(new CustomTreeGen(false, height, treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3)).generate(world, random, x, y, z);
+					new CustomTreeGen(false, height, treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3).generate(world, random, x, y, z);
 				}
 			}
 			if (random.nextInt(10) == 0)
@@ -102,7 +102,7 @@ public class MFMWorld implements IWorldGenerator
 				}
 				
 				Block bushType = getBushTypeForBiome(world.getBiomeGenForCoords(x, y), random);
-				(new WorldGenRanged(bushType, 3)).generate(world, random, x, y, z);
+				new WorldGenRanged(bushType, 3).generate(world, random, x, y, z);
 			}
 		}
 	}

@@ -134,117 +134,23 @@ public class Food implements IMetaItem
 	
 	static
 	{
-		setCategory("food.category.vanilla.meat", 0x442319, new Food[] {
-			porkRaw,
-			porkCooked,
-			beefRaw,
-			beefCooked,
-			chickenRaw,
-			chickenCooked,
-			fishRaw,
-			fishCooked,
-			rottenFlesh,
-			spiderEye });
+		setCategory("food.category.vanilla.meat", 0x442319, new Food[] { porkRaw, porkCooked, beefRaw, beefCooked, chickenRaw, chickenCooked, fishRaw, fishCooked, rottenFlesh, spiderEye });
 		
-		setCategory("food.category.vanilla.fruit", 0x00FF00, new Food[] {
-			apple,
-			appleStomped,
-			appleGold1,
-			appleGold2,
-			appleDiamond,
-			melon,
-			melonGold1 });
+		setCategory("food.category.vanilla.fruit", 0x00FF00, new Food[] { apple, appleStomped, appleGold1, appleGold2, appleDiamond, melon, melonGold1 });
 		
-		setCategory("food.category.fruit", 0xFF0000, new Food[] {
-			orange,
-			pear,
-			cherry,
-			plum,
-			banana,
-			strawberry,
-			raspberry,
-			blackberry,
-			blueberry,
-			redcurrant });
+		setCategory("food.category.fruit", 0xFF0000, new Food[] { orange, pear, cherry, plum, banana, strawberry, raspberry, blackberry, blueberry, redcurrant });
 		
-		setCategory("food.category.vanilla.vegetables", 0xFFDB92, new Food[] {
-			potato,
-			potatoCooked,
-			potatoStomped,
-			potatoGold1,
-			potatoGold2,
-			potatoDiamond,
-			poisonousPotato,
-			carrot,
-			carrotCooked,
-			carrotStomped,
-			carrotGold1,
-			carrotDiamond });
+		setCategory("food.category.vanilla.vegetables", 0xFFDB92, new Food[] { potato, potatoCooked, potatoStomped, potatoGold1, potatoGold2, potatoDiamond, poisonousPotato, carrot, carrotCooked, carrotStomped, carrotGold1, carrotDiamond });
 		
-		setCategory("food.category.vegetables", 0x008100, new Food[] {
-			lettuce,
-			cucumber,
-			rice,
-			chili,
-			tomato,
-			paprika,
-			onion,
-			pepperSeeds,
-			vanillaSeeds,
-			corn,
-			pineapple });
+		setCategory("food.category.vegetables", 0x008100, new Food[] { lettuce, cucumber, rice, chili, tomato, paprika, onion, pepperSeeds, vanillaSeeds, corn, pineapple });
 		
-		setCategory("food.category.wheat", 0x906C22, new Food[] {
-			bread,
-			breadSlice,
-			toast,
-			toast_toasted,
-			toast_cheese,
-			toast_salami });
+		setCategory("food.category.wheat", 0x906C22, new Food[] { bread, breadSlice, toast, toast_toasted, toast_cheese, toast_salami });
 		
-		setCategory("food.category.products", 0xFFFF00, new Food[] {
-			cheese,
-			cheese_slice,
-			bacon_raw,
-			bacon,
-			pasta,
-			meatball,
-			salami,
-			hamburger,
-			frenchfries,
-			pizza,
-			omelette,
-			pumpkinPie,
-			fried_egg });
+		setCategory("food.category.products", 0xFFFF00, new Food[] { cheese, cheese_slice, bacon_raw, bacon, pasta, meatball, salami, hamburger, frenchfries, pizza, omelette, pumpkinPie, fried_egg });
 		
-		setCategory("food.category.sweet", 0xEFEFEF, new Food[] {
-			popcorn,
-			popcorn_sweet,
-			popcorn_salty,
-			candycane,
-			butter,
-			chocolate,
-			chocolateWhite,
-			chocolateCow,
-			cookie,
-			chocolateCookie,
-			cereals1,
-			cereals2 });
+		setCategory("food.category.sweet", 0xEFEFEF, new Food[] { popcorn, popcorn_sweet, popcorn_salty, candycane, butter, chocolate, chocolateWhite, chocolateCow, cookie, chocolateCookie, cereals1, cereals2 });
 		
-		setCategory("food.category.cold", 0xD5FEFF, new Food[] {
-			icecube,
-			icecream,
-			icecreamChocolate,
-			icecreamVanilla,
-			icecreamStrawberry,
-			icecreamCone,
-			icecreamConeChocolate,
-			icecreamConeVanilla,
-			icecreamConeStrawberry,
-			icecreamConeCV,
-			icecreamConeCS,
-			icecreamConeVS,
-			icecreamConeCVS });
+		setCategory("food.category.cold", 0xD5FEFF, new Food[] { icecube, icecream, icecreamChocolate, icecreamVanilla, icecreamStrawberry, icecreamCone, icecreamConeChocolate, icecreamConeVanilla, icecreamConeStrawberry, icecreamConeCV, icecreamConeCS, icecreamConeVS, icecreamConeCVS });
 		
 		Drink.init();
 	}

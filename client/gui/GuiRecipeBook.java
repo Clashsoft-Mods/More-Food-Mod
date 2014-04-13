@@ -47,7 +47,7 @@ public class GuiRecipeBook extends GuiContainer
 	
 	public EntityPlayer						player;
 	
-	public boolean filtered;
+	public boolean							filtered;
 	public boolean							categorySearch;
 	private List<String>					temp				= new ArrayList<String>();
 	
@@ -139,7 +139,7 @@ public class GuiRecipeBook extends GuiContainer
 			atemp = CSString.lineArray(temp);
 			for (int i = 0; i < atemp.length; i++)
 			{
-				this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 70, this.guiTop + 60 + (i * 10), 4210752);
+				this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 70, this.guiTop + 60 + i * 10, 4210752);
 			}
 			
 			temp = recipe == null ? I18n.getString("recipe.none") : recipe.getLocalizedType();
@@ -152,7 +152,7 @@ public class GuiRecipeBook extends GuiContainer
 				
 				for (int i = 0; i < atemp.length; i++)
 				{
-					this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 22, this.guiTop + 175 + (i * 10), 4210752, false);
+					this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 22, this.guiTop + 175 + i * 10, 4210752, false);
 				}
 			}
 			
@@ -177,7 +177,7 @@ public class GuiRecipeBook extends GuiContainer
 				{
 					PotionEffect effect = effects[i];
 					temp = " " + StatCollector.translateToLocal(effect.getEffectName());
-					this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 155 + (i * 10), 4210752, false);
+					this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 155 + i * 10, 4210752, false);
 				}
 			}
 			
@@ -310,9 +310,13 @@ public class GuiRecipeBook extends GuiContainer
 	public void setRecipe(int recipe)
 	{
 		if (recipe >= this.currentDisplayList.size())
+		{
 			recipe = this.currentDisplayList.size() - 1;
+		}
 		if (recipe < 0)
+		{
 			recipe = 0;
+		}
 		
 		if (recipe >= 0 && recipe < this.currentDisplayList.size())
 		{

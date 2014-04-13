@@ -17,21 +17,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenGardener extends WorldGenerator
 {
-	public static final ItemStack[]	possiblestacks	= new ItemStack[] {
-			Food.lettuce.asStack(9),
-			Food.cucumber.asStack(9),
-			Food.rice.asStack(9),
-			Food.chili.asStack(9),
-			Food.tomato.asStack(9),
-			Food.paprika.asStack(9),
-			Food.onion.asStack(9),
-			Food.pepperSeeds.asStack(9),
-			Food.corn.asStack(9),
-			Food.vanillaSeeds.asStack(),
-			new ItemStack(Items.wheat_seeds, 14),
-			new ItemStack(Items.potato, 9),
-			new ItemStack(Items.carrot, 9),
-			new ItemStack(Items.wheat, 14),		};
+	public static final ItemStack[]	possiblestacks	= new ItemStack[] { Food.lettuce.asStack(9), Food.cucumber.asStack(9), Food.rice.asStack(9), Food.chili.asStack(9), Food.tomato.asStack(9), Food.paprika.asStack(9), Food.onion.asStack(9), Food.pepperSeeds.asStack(9), Food.corn.asStack(9), Food.vanillaSeeds.asStack(), new ItemStack(Items.wheat_seeds, 14), new ItemStack(Items.potato, 9), new ItemStack(Items.carrot, 9), new ItemStack(Items.wheat, 14), };
 	
 	@Override
 	public boolean generate(World world, Random random, int x, int y, int z)

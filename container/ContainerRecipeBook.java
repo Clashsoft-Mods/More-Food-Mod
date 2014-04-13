@@ -15,10 +15,10 @@ public class ContainerRecipeBook extends Container
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				int isposX = 23 + (j * 18);
-				int isposY = 116 + (i * 18);
+				int isposX = 23 + j * 18;
+				int isposY = 116 + i * 18;
 				
-				this.addSlotToContainer(new SlotRecipeDisplay(inventory, j + (i * 3), isposX, isposY));
+				this.addSlotToContainer(new SlotRecipeDisplay(inventory, j + i * 3, isposX, isposY));
 			}
 		}
 	}

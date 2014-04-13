@@ -14,15 +14,9 @@ import net.minecraft.world.World;
 
 public class ItemJuice extends Item
 {
-	public static final String[]	names		= new String[] {
-			"item.juice.apple",
-			"item.juice.orange",
-			"item.juice.tomato"				};
+	public static final String[]	names		= new String[] { "item.juice.apple", "item.juice.orange", "item.juice.tomato" };
 	
-	public static final String[]	iconNames	= new String[] {
-			"morefood:juice_apple",
-			"morefood:juice_orange",
-			"morefood:juice_tomato"			};
+	public static final String[]	iconNames	= new String[] { "morefood:juice_apple", "morefood:juice_orange", "morefood:juice_tomato" };
 	
 	private IIcon[]					icons;
 	

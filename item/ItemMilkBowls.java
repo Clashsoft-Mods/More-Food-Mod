@@ -15,26 +15,8 @@ import net.minecraft.world.World;
 
 public class ItemMilkBowls extends ItemFood
 {
-	public static final String[]	names		= new String[] {
-			"item.bowl.milk",
-			"item.bowl.cereals_wheat",
-			"item.bowl.cereals_cocoa",
-			"item.bowl.cereals_mixed",
-			"item.bowl.rice",
-			"item.bowl.rice.cinnamon",
-			"item.bowl.rice.vanilla",
-			"item.bowl.pudding.red",
-			"item.bowl.pudding.green"			};
-	public static final String[]	iconNames	= new String[] {
-			"morefood:bowl_milk",
-			"morefood:bowl_cereals_wheat",
-			"morefood:bowl_cereals_cocoa",
-			"morefood:bowl_cereals_mixed",
-			"morefood:bowl_rice",
-			"morefood:bowl_rice_cinnamon",
-			"morefood:bowl_rice_vanilla",
-			"morefood:bowl_pudding_red",
-			"morefood:bowl_pudding_green"		};
+	public static final String[]	names		= new String[] { "item.bowl.milk", "item.bowl.cereals_wheat", "item.bowl.cereals_cocoa", "item.bowl.cereals_mixed", "item.bowl.rice", "item.bowl.rice.cinnamon", "item.bowl.rice.vanilla", "item.bowl.pudding.red", "item.bowl.pudding.green" };
+	public static final String[]	iconNames	= new String[] { "morefood:bowl_milk", "morefood:bowl_cereals_wheat", "morefood:bowl_cereals_cocoa", "morefood:bowl_cereals_mixed", "morefood:bowl_rice", "morefood:bowl_rice_cinnamon", "morefood:bowl_rice_vanilla", "morefood:bowl_pudding_red", "morefood:bowl_pudding_green" };
 	
 	public IIcon[]					icons;
 	

@@ -20,23 +20,9 @@ import net.minecraft.world.World;
 
 public class ItemSoupBowls extends ItemFood
 {
-	public static final String[]	names		= new String[] {
-			"item.soup.water",
-			"item.soup.potato",
-			"item.soup.carrot",
-			"item.soup.vegetable",
-			"item.soup.tomato",
-			"item.soup.tomato_rice",
-			"item.soup.pasta"					};
+	public static final String[]	names		= new String[] { "item.soup.water", "item.soup.potato", "item.soup.carrot", "item.soup.vegetable", "item.soup.tomato", "item.soup.tomato_rice", "item.soup.pasta" };
 	
-	public static final String[]	iconNames	= new String[] {
-			"morefood:soup_water",
-			"morefood:soup_potato",
-			"morefood:soup_carrot",
-			"morefood:soup_vegetables",
-			"morefood:soup_tomato",
-			"morefood:soup_tomato_rice",
-			"morefood:soup_pasta"				};
+	public static final String[]	iconNames	= new String[] { "morefood:soup_water", "morefood:soup_potato", "morefood:soup_carrot", "morefood:soup_vegetables", "morefood:soup_tomato", "morefood:soup_tomato_rice", "morefood:soup_pasta" };
 	
 	public IIcon[]					icons;
 	
