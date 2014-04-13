@@ -23,11 +23,6 @@ public class Food implements IMetaItem
 	
 	// Vanilla Food Items
 	
-	static
-	{
-		System.out.println(MoreFoodMod.chiliPlant);
-	}
-	
 	public static Food			apple					= new Food((ItemFood) Items.apple, 0, null);
 	public static Food			appleStomped			= new Food(36, "stomped_apple", "stomped_apple", 4, new FoodRecipe(1, CSStacks.apple));
 	public static Food			appleGold1				= new Food((ItemFood) Items.golden_apple, 0, new FoodRecipe(1, "ggg", "gag", "ggg", 'g', CSStacks.gold_ingot, 'a', CSStacks.apple));
