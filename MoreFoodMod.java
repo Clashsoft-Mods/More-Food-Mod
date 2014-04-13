@@ -45,7 +45,7 @@ public class MoreFoodMod extends ClashsoftMod
 	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMProxy")
 	public static MFMProxy				proxy;
 	
-	public static CustomItem			spices			= new CustomItem(new String[] { "salt", "pepper", "cinnamon", "vanilla" }, "morefood");
+	public static CustomItem			spices			= (CustomItem) new CustomItem(new String[] { "salt", "pepper", "cinnamon", "vanilla" }, "morefood").setCreativeTab(CreativeTabs.tabFood);
 	public static ItemJuice				juice			= (ItemJuice) new ItemJuice().setUnlocalizedName("juice_bottles");
 	public static ItemMilkBowls			milkBowls		= (ItemMilkBowls) new ItemMilkBowls(4).setUnlocalizedName("milk_bowls");
 	public static ItemSoupBowls			soupBowls		= (ItemSoupBowls) new ItemSoupBowls(6).setUnlocalizedName("soup_bowls");
