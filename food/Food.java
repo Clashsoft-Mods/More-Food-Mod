@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import clashsoft.cslib.minecraft.item.CSStacks;
-import clashsoft.cslib.minecraft.item.meta.IMetaItem;
+import clashsoft.cslib.minecraft.item.meta.ISubItem;
 import clashsoft.mods.morefood.MoreFoodMod;
 
 import net.minecraft.block.Block;
@@ -16,7 +16,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 
-public class Food implements IMetaItem
+public class Food implements ISubItem
 {
 	public static Food[]		foodTypes				= new Food[1024];
 	public static List<Food>	foodList				= new ArrayList<Food>(1024);
@@ -262,7 +262,7 @@ public class Food implements IMetaItem
 	}
 	
 	@Override
-	public IMetaItem setEnabled(boolean enabled)
+	public ISubItem setEnabled(boolean enabled)
 	{
 		this.isEnabled = enabled;
 		return this;

@@ -1,14 +1,13 @@
 package clashsoft.mods.morefood.client.gui;
 
 import clashsoft.cslib.minecraft.lang.I18n;
-import clashsoft.cslib.minecraft.util.CSString;
+import clashsoft.cslib.minecraft.util.CSStringMC;
 import clashsoft.mods.morefood.food.Food;
 import cpw.mods.fml.client.GuiScrollingList;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 
 public class GuiFoodListSlot extends GuiScrollingList
 {
@@ -50,11 +49,10 @@ public class GuiFoodListSlot extends GuiScrollingList
 		
 		Food food = this.parentGui.currentDisplayList.get(id);
 		String name = food.asStack().getDisplayName();
-		IIcon icon = food.asStack().getIconIndex();
 		
 		int offsX = 0;
 		
-		name = CSString.trimStringToRenderWidth(name, this.listWidth - offsX - 2);
+		name = CSStringMC.trimStringToRenderWidth(name, this.listWidth - offsX - 2);
 		
 		if (this.parentGui.filtered)
 		{
@@ -66,7 +64,7 @@ public class GuiFoodListSlot extends GuiScrollingList
 		mc.fontRenderer.drawString(name, offsX + 2, y + 2, 0xFFFFFF, true);
 		
 		String category = EnumChatFormatting.ITALIC + food.getCategory().getLocalizedName();
-		category = CSString.trimStringToRenderWidth(category, this.listWidth);
+		category = CSStringMC.trimStringToRenderWidth(category, this.listWidth);
 		
 		mc.fontRenderer.drawString(category, offsX + 2, y + 12, food.getCategory().getColor(), true);
 	}

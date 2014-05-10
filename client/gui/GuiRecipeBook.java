@@ -243,7 +243,6 @@ public class GuiRecipeBook extends GuiContainer
 		}
 		if (this.search.isFocused() && this.search.getVisible())
 		{
-			boolean flag = true;
 			if (this.search.getText().isEmpty())
 			{
 				this.filtered = false;

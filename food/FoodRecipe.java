@@ -3,14 +3,14 @@ package clashsoft.mods.morefood.food;
 import java.util.Arrays;
 
 import clashsoft.cslib.minecraft.crafting.CSCrafting;
-import clashsoft.cslib.minecraft.item.meta.IMetaItemRecipe;
+import clashsoft.cslib.minecraft.item.meta.ISubItemRecipe;
 import clashsoft.cslib.minecraft.lang.I18n;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class FoodRecipe implements IMetaItemRecipe
+public class FoodRecipe implements ISubItemRecipe
 {
 	private int				amount;
 	private int				craftingType;
