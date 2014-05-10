@@ -185,7 +185,7 @@ public class BlockPlantMoreFood extends BlockCrops
 		{
 			for (int n = 0; n < 3 + fortune; n++)
 			{
-				if (world.rand.nextInt(this.fullGrownMetadata + 2) <= metadata)
+				if (world.rand.nextInt(this.fullGrownMetadata * 2) <= metadata)
 				{
 					ret.add(this.getSeedItem());
 				}
