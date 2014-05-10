@@ -26,11 +26,13 @@ public class MFMWorld implements IWorldGenerator
 	{
 		if (world.provider.isSurfaceWorld())
 		{
+			int x, y, z;
+			
 			for (int i = 0; i < 10; i++)
 			{
-				int x = chunkX * 16 + random.nextInt(16);
-				int y = random.nextInt(48);
-				int z = chunkZ * 16 + random.nextInt(16);
+				x = chunkX * 16 + random.nextInt(16);
+				y = random.nextInt(48);
+				z = chunkZ * 16 + random.nextInt(16);
 				if (world.getBiomeGenForCoords(x, z) instanceof BiomeGenOcean)
 				{
 					new WorldGenMinable(saltOre, 8).generate(world, random, x, y, z);
@@ -40,11 +42,12 @@ public class MFMWorld implements IWorldGenerator
 					new WorldGenMinable(saltOre, 4).generate(world, random, x, y, z);
 				}
 			}
-			if (random.nextInt(200) == 0)
+			
+			if (random.nextInt(512) == 0)
 			{
-				int x = chunkX * 16 + random.nextInt(16);
-				int y = 128;
-				int z = chunkZ * 16 + random.nextInt(16);
+				x = chunkX * 16 + random.nextInt(16);
+				y = 128;
+				z = chunkZ * 16 + random.nextInt(16);
 				
 				while (y > 0)
 				{
@@ -58,38 +61,35 @@ public class MFMWorld implements IWorldGenerator
 				new WorldGenGardener().generate(world, random, x, y, z);
 			}
 			
-			if (random.nextInt(5) == 0)
+			x = chunkX * 16 + random.nextInt(16);
+			y = 128;
+			z = chunkZ * 16 + random.nextInt(16);
+			if (world.getBiomeGenForCoords(x, z) instanceof BiomeGenForest)
 			{
-				int x = chunkX * 16 + random.nextInt(16);
-				int y = 128;
-				int z = chunkZ * 16 + random.nextInt(16);
-				
-				if (world.getBiomeGenForCoords(x, z) instanceof BiomeGenForest)
+				while (y > 0)
 				{
-					while (y > 0)
+					Block block = world.getBlock(x, y, z);
+					if (block == Blocks.grass || block == Blocks.dirt)
 					{
-						Block block = world.getBlock(x, y, z);
-						if (block == Blocks.grass || block == Blocks.dirt)
-						{
-							break;
-						}
-						y--;
+						break;
 					}
-					
-					int treeType = random.nextInt(6);
-					int height = 4 + random.nextInt(4);
-					if (treeType == 4)
-					{
-						height += 3;
-					}
-					new CustomTreeGen(false, height, treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3).generate(world, random, x, y, z);
+					y--;
 				}
+				
+				int treeType = random.nextInt(6);
+				int height = 4 + random.nextInt(4);
+				if (treeType == 4)
+				{
+					height += 3;
+				}
+				new CustomTreeGen(false, height, treeType > 3 ? fruitLogs2 : fruitLogs, treeType > 3 ? fruitLeaves2 : fruitLeaves, treeType & 3, treeType & 3).generate(world, random, x, y, z);
 			}
+			
 			if (random.nextInt(10) == 0)
 			{
-				int x = chunkX * 16 + random.nextInt(16);
-				int y = 128;
-				int z = chunkZ * 16 + random.nextInt(16);
+				x = chunkX * 16 + random.nextInt(16);
+				y = 128;
+				z = chunkZ * 16 + random.nextInt(16);
 				
 				while (y > 0)
 				{
