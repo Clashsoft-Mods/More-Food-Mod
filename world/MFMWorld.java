@@ -69,7 +69,7 @@ public class MFMWorld implements IWorldGenerator
 				while (y > 0)
 				{
 					Block block = world.getBlock(x, y, z);
-					if (block == Blocks.grass || block == Blocks.dirt)
+					if ((block == Blocks.grass || block == Blocks.dirt) && world.isAirBlock(x, y + 1, z))
 					{
 						break;
 					}
