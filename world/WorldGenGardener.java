@@ -3,7 +3,7 @@ package clashsoft.mods.morefood.world;
 import java.util.Random;
 
 import clashsoft.cslib.minecraft.world.CSWorld;
-import clashsoft.cslib.util.CSRandom;
+import clashsoft.cslib.random.CSRandom;
 import clashsoft.mods.morefood.food.Food;
 
 import net.minecraft.init.Blocks;
