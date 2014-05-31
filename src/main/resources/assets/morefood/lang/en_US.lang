@@ -1,0 +1,285 @@
+item.juice.apple.name=Apple Juice
+item.juice.orange.name=Orange Juice
+item.juice.tomato.name=Tomato Juice
+
+item.bowl.milk.name=Bowl with Milk
+item.bowl.cereals_wheat.name=Bowl with Cereals
+item.bowl.cereals_cocoa.name=Bowl with Cereals
+item.bowl.cereals_mixed.name=Bowl with Cereals
+item.bowl.rice.name=Bowl with Rice
+item.bowl.rice.cinnamon.name=Bowl with Rice and Cinnamon
+item.bowl.rice.vanilla.name=Bowl with Rice and Vanilla
+item.bowl.pudding.red.name=Bowl with Red Pudding
+item.bowl.pudding.green.name=Bowl with Green Pudding
+
+soup.hot=Hot
+
+item.soup.water.name=Water Bowl
+item.soup.potato.name=Potato Soup
+item.soup.carrot.name=Carrot Soup
+item.soup.vegetable.name=Vegetable Soup
+item.soup.tomato.name=Tomato Soup
+item.soup.tomato_rice.name=Tomato Soup with Rice
+item.soup.pasta.name=Pasta Soup
+
+item.spices.salt.name=Salt
+item.spices.pepper.name=Pepper
+item.spices.cinnamon.name=Cinnamon
+item.spices.vanilla.name=Vanilla
+
+item.recipe_book.name=Recipe Book
+
+tile.cucumber_plant.name=Cucumber Plant
+tile.tomato_plant.name=Tomato Plant
+tile.pepper_plant.name=Pepper Plant
+tile.lettuce_plant.name=Lettuce Plant
+tile.onion_plant.name=Onion Plant
+tile.chili_plant.name=Chili Plant
+tile.paprika_plant.name=Paprika Plant
+tile.rice_plant.name=Rice Plant
+tile.corn_plant.name=Corn Plant
+tile.vanilla_plant.name=Vanilla Plant
+
+tile.strawberry_bush.name=Strawberry Bush
+tile.raspberry_bush.name=Raspberry Bush
+tile.blueberry_bush.name=Blueberry Bush
+tile.blackberry_bush.name=Blackberry Bush
+tile.redcurrant_bush.name=Red Currant Bush
+tile.blackcurrant_bush.name=Black Currant Bush
+
+tile.fruit_saplings_1.orange.name=Orange Sapling
+tile.fruit_saplings_1.pear.name=Pear Sapling
+tile.fruit_saplings_1.cherry.name=Cherry Sapling
+tile.fruit_saplings_1.plum.name=Plum Sapling
+tile.fruit_saplings_2.banana.name=Banana Sapling
+tile.fruit_saplings_2.pineapple.name=Pineapple Sapling
+
+tile.fruit_logs_1.orange.name=Orange Log
+tile.fruit_logs_1.pear.name=Pear Log
+tile.fruit_logs_1.cherry.name=Cherry Log
+tile.fruit_logs_1.plum.name=Plum Log
+tile.fruit_logs_2.banana.name=Banana Log
+tile.fruit_logs_2.pineapple.name=Pineapple Log
+
+tile.fruit_leaves_1.orange.name=Orange Leaves
+tile.fruit_leaves_1.pear.name=Pear Leaves
+tile.fruit_leaves_1.cherry.name=Cherry Leaves
+tile.fruit_leaves_1.plum.name=Plum Leaves
+tile.fruit_leaves_2.banana.name=Banana Leaves
+tile.fruit_leaves_2.pineapple.name=Pineapple Leaves
+
+tile.salt_ore.name=Salt Ore
+tile.pizza.name=Pizza
+
+item.food.stomped_apple.name=Stomped Apple
+item.food.diamond_apple.name=Diamond Apple
+item.food.golden_potato.name=Golden Potato
+item.food.golden_potato_2.name=Golden Potato
+item.food.diamond_potato.name=Diamond Potato
+item.food.stomped_potato.name=Stomped Potato
+item.food.cooked_carrot.name=Cooked Carrot
+item.food.diamond_carrot.name=Diamond Carrot
+item.food.stomped_carrot.name=Stomped Carrot
+
+item.food.lettuce.name=Lettuce
+item.food.cucumber.name=Cucumber
+item.food.rice.name=Rice
+item.food.chili.name=Chili
+item.food.tomato.name=Tomato
+item.food.paprika.name=Paprika
+item.food.onion.name=Onion
+item.food.pepper_seeds.name=Pepper Seeds
+item.food.vanilla_seeds.name=Vanilla Seeds
+item.food.corn.name=Corn
+
+item.food.butter.name=Butter
+item.food.salami.name=Salami
+item.food.cheese.name=Cheese
+item.food.cheese_slice.name=Cheese Slice
+item.food.raw_bacon.name=Raw Bacon
+item.food.bacon.name=Bacon
+
+item.food.bread_slice.name=Bread Slice
+item.food.toast.name=Toast
+item.food.toast_toasted.name=Toasted Toast
+item.food.toast_salami.name=Salami Toast
+item.food.toast_cheese.name=Cheese Toast
+
+item.food.pasta.name=Pasta
+item.food.ham.name=Meat Ball
+item.food.hamburger.name=Hamburger
+item.food.french_fries.name=French Fries
+item.food.pizza.name=Pizza
+item.food.fried_egg.name=Fried Egg
+item.food.omelette.name=Omelette
+
+item.food.popcorn.name=Popcorn
+item.food.popcorn_sweet.name=Sweet Popcorn
+item.food.popcorn_salty.name=Salty Popcorn
+item.food.candy_cane.name=Candy Cane
+item.food.chocolate_bar.name=Chocolate Bar
+item.food.chocolate_bar_white.name=White Chocolate Bar
+item.food.chocolate_bar_dark.name=Dark Chocolate Bar
+item.food.chocolate_bar_cow.name=Cow Chocolate Bar
+item.food.cereals_wheat.name=Wheat Cereals
+item.food.cereals_cocoa.name=Cocoa Cereals
+item.food.honey_drop.name=Honey Drop
+
+item.food.orange.name=Orange
+item.food.pear.name=Pear
+item.food.cherry.name=Cherry
+item.food.plum.name=Plum
+item.food.banana.name=Banana
+item.food.pineapple.name=Pineapple
+item.food.seagrass.name=Sea Grass
+
+item.food.strawberry.name=Strawberry
+item.food.raspberry.name=Raspberry
+item.food.blueberry.name=Blueberry
+item.food.blackberry.name=Blackberry
+item.food.redcurrant.name=Red Currant
+item.food.blackcurrant.name=Black Currant
+
+item.food.icecube.name=Ice Cube
+item.food.icecream.name=Ice Cream
+item.food.icecream_chocolate.name=Chocolate Ice Cream
+item.food.icecream_vanilla.name=Vanilla Ice Cream
+item.food.icecream_strawberry.name=Strawberry Ice Cream
+item.food.icecream_cone.name=Ice Cream Cone
+item.food.icecream_cone_chocolate.name=Chocolate Ice Cream
+item.food.icecream_cone_vanilla.name=Vanilla Ice Cream
+item.food.icecream_cone_strawberry.name=Strawberry Ice Cream
+item.food.icecream_cone_cv.name=Chocolate and Vanilla Ice Cream
+item.food.icecream_cone_cs.name=Chocolate and Strawberry Ice Cream
+item.food.icecream_cone_vs.name=Vanilla and Strawberry Ice Cream
+item.food.icecream_cone_cvs.name=Chocolate, Vanilla and Strawberry Ice Cream
+
+item.food.cookie_chocolate.name=Chocolate Cookie
+
+item.food.apple.desc=An apple, dropped by an oak tree.
+item.food.appleGold1.desc=A golden apple
+item.food.appleGold2.desc=A golden apple
+item.food.melon.desc=A green melon
+item.food.speckledMelon.desc=A melon with some gold dust
+item.food.potato.desc=A dirty potato. Don't eat it.
+item.food.potatoCooked.desc=A cooked potato
+item.food.poisonousPotato.desc=Doesn't look healthy
+item.food.carrot.desc=A carrot
+item.food.carrotGold1.desc=A golden carrot
+item.food.bread.desc=Baked from wheat
+item.food.cookie.desc=A tiny cookie
+item.food.porkRaw.desc=Dropped by a pig.
+item.food.porkCooked.desc=Cooked pig
+item.food.beefRaw.desc=Dropped by a cow.
+item.food.beefCooked.desc=Cooked cow
+item.food.chickenRaw=Dropped by a chicken, may make you hungry
+item.food.chickenCooked.desc=Cooked chicken
+item.food.fishRaw.desc=Came out of the water
+item.food.fishCooked.desc=Cooked fish
+item.food.rottenFlesh.desc=Unhealthy zombie flesh
+item.food.spiderEye.desc=You shouldn't eat that.
+item.food.pumpkinPie.desc=With whole fruits
+
+item.food.stomped_apple.desc=Stomped
+item.food.diamond_apple.desc=Shiny
+item.food.golden_potato.desc=Expensive as hell
+item.food.golden_potato_2.desc=Even more expensive
+item.food.diamond_potato.desc=Shiny
+item.food.stomped_potato.desc=Flat
+item.food.cooked_carrot.desc=A carrot, but cooked
+item.food.diamond_carrot.desc=Shiny
+item.food.stomped_carrot.desc=Stomped and flat
+
+item.food.lettuce.desc=Just normal green lettuce
+item.food.cucumber.desc=Long and green
+item.food.rice.desc=Chinese
+item.food.chili.desc=Hot and spicy!
+item.food.tomato.desc=A vegetable or a fruit?
+item.food.paprika.desc=Another plantable vegetable
+item.food.onion.desc=An onion
+item.food.pepper_seeds.desc=You shouldn't eat those
+item.food.vanilla_seeds.desc=Do not eat! Plant!
+item.food.corn.desc=Pop to make popcorn
+
+item.food.butter.desc=Makes you fat. Some people use 'butter' as a name for gold in Minecraft.
+item.food.salami.desc=Made from cows!
+item.food.cheese.desc=A big, cheesy cheese wheel
+item.food.cheese_slice.desc=A tiny slice of a big, cheesy cheese wheel
+item.food.raw_bacon.desc=Raw bacon, go ahead and cook it!
+item.food.bacon.desc=Delicious bacon
+
+item.food.bread_slice.desc=The half of a bread
+item.food.toast.desc=Not toasted yet
+item.food.toast_toasted.desc=Toasted toasty Toast
+item.food.toast_salami.desc=Toasted toasty Toast with cheesy Cheese
+item.food.toast_cheese.desc=Toasted toasty Toast with Salami
+
+item.food.pasta.desc=Pretty long and salty
+item.food.ham.desc=Many cows had to die for this
+item.food.hamburger.desc=Directly from McDerp
+item.food.french_fries.desc=Golden French Fries. Actually not French, these are from McDerp
+item.food.pizza.desc=Everybody loves pizza.
+item.food.fried_egg.desc=An egg, but fried
+item.food.omelette.desc=Many eggs thrown together in a frying pan
+
+item.food.popcorn.desc=Popped corn, without sugar or salt
+item.food.popcorn_sweet.desc=Popped corn with sugar
+item.food.popcorn_salty.desc=Popped corn with salt
+item.food.candy_cane.desc=Pure sugar
+item.food.chocolate_bar.desc=Pretty sweet
+item.food.chocolate_bar_white.desc=SWEET!
+item.food.chocolate_bar_dark.desc=You may like its taste
+item.food.chocolate_bar_cow.desc=§nNOT§r made out of cows!
+item.food.cereals_wheat.desc=Cereals to have for breakfast. Made out of wheat.
+item.food.cereals_cocoa.desc=Cereals to have for breakfast. Made out of wheat and cocoa.
+item.food.honey_drop.desc=Made by bees
+
+item.food.orange.desc=Its color is orange
+item.food.pear.desc=Pearous
+item.food.cherry.desc=Actually two cherries.
+item.food.plum.desc=A Plum
+item.food.banana.desc=A fresh yellow banana
+item.food.pineapple.desc=There is a story of a pineapple that is inhabited by a sponge.
+item.food.seagrass.desc=Lives under the sea.
+
+item.food.strawberry.desc=Plant a strawberry bush
+item.food.raspberry.desc=Plant a raspberry bush
+item.food.blueberry.desc=Plant a blueberry bush
+item.food.blackberry.desc=Plant a blackberry bush
+item.food.redcurrant.desc=Plant a red currant bush
+item.food.blackcurrant.desc=Plant a black currant bush
+
+item.food.icecube.desc=An icy cube
+item.food.icecream.desc=Tasteless, cold ice cream
+item.food.icecream_chocolate.desc=Chocolate ice cream, made out of ice cream and chocolate
+item.food.icecream_vanila.desc=Vanilla ice cream, made out of ice cream and vanilla
+item.food.icecream_strawberry.desc=Strawberry ice cream, made out of ice cream and strawberries
+item.food.icecream_cone.desc=A cone to be filled with ice cream
+item.food.icecream_cone_chocolate.desc=An ice cream cone with chocolate ice cream.
+item.food.icecream_cone_vanilla.desc=An ice cream cone with vanilla ice cream.
+item.food.icecream_cone_strawberry.desc=An ice cream cone with strawberry ice cream.
+item.food.icecream_cone_cv.desc=An ice cream cone with chocolate and vanilla ice cream.
+item.food.icecream_cone_cs.desc=An ice cream cone with chocolate and strawberry ice cream.
+item.food.icecream_cone_vs.desc=An ice cream cone with vanilla and strawberry ice cream.
+item.food.icecream_cone_cvs.desc=An ice cream cone with chocolate, vanilla and strawberry ice cream.
+
+item.food.cookie_chocolate.desc=A chocolate cookie
+
+recipebook.title=Recipe Book (%1$d / %2$d)
+recipebook.desc.none=§4§oNo Description available
+recipebook.placeable=Placeable
+recipebook.not_placeable=Not placeable
+recipebook.not_edible=Not edible
+recipebook.foodvalue=Food Value
+recipebook.effects=Effects
+recipebook.no_effects=No Effects
+
+food.category.vanilla.meat=Meat (Vanilla)
+food.category.vanilla.fruit=Fruits (Vanilla)
+food.category.vanilla.vegetables=Vegetables (Vanilla)
+food.category.fruit=Fruits
+food.category.vegetables=Vegetables
+food.category.wheat=Wheat Food
+food.category.products=Food Products
+food.category.sweet=Sweet Food
+food.category.cold=Cold Food
