@@ -19,7 +19,6 @@ import clashsoft.mods.morefood.world.MFMWorld;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -42,8 +41,7 @@ public class MoreFoodMod extends ClashsoftMod
 	@Instance(MODID)
 	public static MoreFoodMod			instance;
 	
-	@SidedProxy(clientSide = "clashsoft.mods.morefood.client.MFMClientProxy", serverSide = "clashsoft.mods.morefood.common.MFMProxy")
-	public static MFMProxy				proxy;
+	public static MFMProxy				proxy			= createProxy("clashsoft.mods.morefood.client.MFMClientProxy", "clashsoft.mods.morefood.common.MFMProxy");
 	
 	public static CustomItem			spices			= (CustomItem) new CustomItem(new String[] { "salt", "pepper", "cinnamon", "vanilla" }, "morefood").setCreativeTab(CreativeTabs.tabFood);
 	public static ItemJuice				juice			= (ItemJuice) new ItemJuice().setUnlocalizedName("juice_bottles");
