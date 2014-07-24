@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import clashsoft.cslib.minecraft.item.CSStacks;
 import clashsoft.cslib.minecraft.item.meta.ISubItem;
+import clashsoft.cslib.minecraft.stack.CSStacks;
 import clashsoft.mods.morefood.MoreFoodMod;
 
 import net.minecraft.block.Block;
