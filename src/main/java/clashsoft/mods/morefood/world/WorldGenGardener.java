@@ -33,13 +33,13 @@ public class WorldGenGardener extends CustomWorldGen
 	public boolean generate(World world, Random random, int x, int y, int z)
 	{
 		int direction = 2 + random.nextInt(3);
-		this.drawHollowBox(world, x, y, z, 8, 5, 8, Blocks.cobblestone, 0);
+		this.drawHollowBox(world, x, y, z, 9, 6, 9, Blocks.cobblestone, 0);
 		this.drawSolidBox(world, x + 1, y + 1, z + 1, 7, 4, 7, Blocks.air, 0);
 		// Walls
-		this.drawPlaneX(world, x, y + 1, z + 1, 4, 7, Blocks.planks, 0);
-		this.drawPlaneZ(world, x + 1, y + 1, z, 7, 4, Blocks.planks, 0);
-		this.drawPlaneX(world, x + 8, y + 1, z + 1, 8, 4, Blocks.planks, 0);
-		this.drawPlaneZ(world, x + 1, y + 1, z + 8, 4, 8, Blocks.planks, 0);
+		this.drawPlaneX(world, x + 0, y + 1, z + 1, 4, 7, Blocks.planks, 0);
+		this.drawPlaneZ(world, x + 1, y + 1, z + 0, 7, 4, Blocks.planks, 0);
+		this.drawPlaneX(world, x + 8, y + 1, z + 1, 4, 7, Blocks.planks, 0);
+		this.drawPlaneZ(world, x + 1, y + 1, z + 8, 7, 4, Blocks.planks, 0);
 		// Floor
 		this.drawPlaneY(world, x + 1, y, z + 1, 7, 7, Blocks.log, 0);
 		// Ceiling
