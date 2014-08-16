@@ -11,6 +11,8 @@ import clashsoft.cslib.minecraft.item.CSItems;
 import clashsoft.cslib.minecraft.item.CustomItem;
 import clashsoft.cslib.minecraft.stack.CSStacks;
 import clashsoft.cslib.minecraft.update.CSUpdate;
+import clashsoft.cslib.minecraft.update.reader.SimpleUpdateReader;
+import clashsoft.cslib.minecraft.update.updater.ModUpdater;
 import clashsoft.mods.morefood.block.*;
 import clashsoft.mods.morefood.common.MFMProxy;
 import clashsoft.mods.morefood.food.Food;
@@ -90,6 +92,14 @@ public class MoreFoodMod extends ClashsoftMod
 	{
 		super(proxy, MODID, NAME, ACRONYM, VERSION);
 		this.url = "https://github.com/Clashsoft/More-Food-Mod/wiki";
+		this.description = "A mod that adds a bunch of new food items to the game.";
+	}
+	
+	@Override
+	public void updateCheck()
+	{
+		final String url = "https://raw.githubusercontent.com/Clashsoft/More-Food-Mod/master/version.txt";
+		CSUpdate.updateCheck(new ModUpdater(NAME, ACRONYM, VERSION, url, SimpleUpdateReader.instance));
 	}
 	
 	@Override
