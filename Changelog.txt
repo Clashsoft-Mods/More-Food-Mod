@@ -1,39 +1,46 @@
+1.7.10-1.0.1
+
+> Update to Minecraft 1.7.10.
+> Update to Forge 1.7.10-10.13.0.1207.
+> Update to Clashsoft Lib 1.7.10-2.5.0.
+* Fixed UpdateChecker not working.
+
 1.7.2-1.0.0
 
-! Update to 1.7.2
-+ Added pineapples
-* Fixed many bugs
+> Update to Minecraft 1.7.2.
++ Added pineapples.
+* Fixed many bugs.
 
 1.6.4-3
 
+> Update to Clashsoft Lib 1.6.4-8.
 * Fixed trees
-* Fixed soups returning ghost items
-* Update to Clashsoft Lib 1.6.4-8
+* Fixed soups returning ghost items.
 
 1.6.4-2
 
-+ Added automatic updates
++ Added automatic updates.
 
 1.6.4-1
 
-! Update to 1.6.4
-+ Added plum and banana
-+ Added Pizza block
-* Improved Recipe Book
+> Update to Minecraft 1.6.4.
++ Added plum and banana.
++ Added Pizza block.
+* Improved Recipe Book.
 
 1.6.2-2
 
-+ Added Pears, Oranges and Cherries
-+ Added Strawberries, Raspberries, Blackberries, Blueberries and Red Vurrants.
-+ Added White and Cow Chocolate
-+ Added French Fries
-+ Added ice cream items
-* Changed some textures
-* Fixed recipe display not working correctly
++ Added Pears, Oranges and Cherries.
++ Added Strawberries, Raspberries, Blackberries, Blueberries and Red Currants.
++ Added White and Cow Chocolate.
++ Added French Fries.
++ Added ice cream items.
+* Changed some textures.
+* Fixed recipe display not working correctly.
 
 1.6.2-1
 
-+ Added Food items
-+ Added Soup Bowls
-+ Added Milk Bowls
-+ Added Salt, Pepper, Cinnamon and Vanilla
++ Added Food items.
++ Added Soup Bowls.
++ Added Milk Bowls.
++ Added Salt, Pepper, Cinnamon and Vanilla.
