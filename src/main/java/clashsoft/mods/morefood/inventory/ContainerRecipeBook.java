@@ -1,4 +1,4 @@
-package clashsoft.mods.morefood.container;
+package clashsoft.mods.morefood.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

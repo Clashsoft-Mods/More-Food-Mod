@@ -3,11 +3,11 @@ package clashsoft.mods.morefood.client;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-import clashsoft.mods.morefood.block.render.BushRenderer;
 import clashsoft.mods.morefood.client.gui.GuiRecipeBook;
+import clashsoft.mods.morefood.client.renderer.block.BushRenderer;
 import clashsoft.mods.morefood.common.MFMProxy;
-import clashsoft.mods.morefood.container.ContainerRecipeBook;
-import clashsoft.mods.morefood.container.InventoryRecipeBook;
+import clashsoft.mods.morefood.inventory.ContainerRecipeBook;
+import clashsoft.mods.morefood.inventory.InventoryRecipeBook;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 

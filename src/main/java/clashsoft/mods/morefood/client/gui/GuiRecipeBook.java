@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL12;
 
 import clashsoft.cslib.minecraft.lang.I18n;
 import clashsoft.cslib.util.CSString;
-import clashsoft.mods.morefood.container.ContainerRecipeBook;
 import clashsoft.mods.morefood.food.Food;
 import clashsoft.mods.morefood.food.FoodCategory;
 import clashsoft.mods.morefood.food.FoodRecipe;
+import clashsoft.mods.morefood.inventory.ContainerRecipeBook;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;

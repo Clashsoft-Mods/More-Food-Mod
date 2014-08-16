@@ -1,4 +1,4 @@
-package clashsoft.mods.morefood.block.render;
+package clashsoft.mods.morefood.client.renderer.block;
 
 import clashsoft.mods.morefood.block.BlockBush;
 import clashsoft.mods.morefood.client.MFMClientProxy;

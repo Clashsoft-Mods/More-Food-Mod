@@ -1,8 +1,8 @@
 package clashsoft.mods.morefood.common;
 
 import clashsoft.cslib.minecraft.common.BaseProxy;
-import clashsoft.mods.morefood.container.ContainerRecipeBook;
-import clashsoft.mods.morefood.container.InventoryRecipeBook;
+import clashsoft.mods.morefood.inventory.ContainerRecipeBook;
+import clashsoft.mods.morefood.inventory.InventoryRecipeBook;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
