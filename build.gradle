@@ -23,7 +23,7 @@ buildscript
 apply plugin: 'forge'
 version = "1.7.10-1.0.1"
 group= "clashsoft.mods.morefood"
-archivesBaseName = "More Food Mod"
+archivesBaseName = "MoreFoodMod"
 
 minecraft
 {
