@@ -115,7 +115,7 @@ public class GuiRecipeBook extends GuiContainer
 		if (food != null)
 		{
 			String temp;
-			String[] atemp;
+			int i;
 			
 			ItemStack stack = food.asStack();
 			String name = stack.getDisplayName();
@@ -135,11 +135,11 @@ public class GuiRecipeBook extends GuiContainer
 				desc = I18n.getString("recipebook.desc.none");
 			}
 			
-			temp = CSString.cutString(desc, 26);
-			atemp = CSString.lineArray(temp);
-			for (int i = 0; i < atemp.length; i++)
+			i = 60;
+			for (String s : CSString.cutString(desc, 26))
 			{
-				this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 70, this.guiTop + 60 + i * 10, 4210752);
+				this.mc.fontRenderer.drawString(s, this.guiLeft + 70, this.guiTop + i, 4210752);
+				i += 10;
 			}
 			
 			temp = recipe == null ? I18n.getString("recipe.none") : recipe.getLocalizedType();
@@ -148,11 +148,11 @@ public class GuiRecipeBook extends GuiContainer
 			if (recipe != null)
 			{
 				temp = food.getRecipe().getAmount() + "x " + name;
-				atemp = CSString.lineArray(CSString.cutString(temp, 15));
-				
-				for (int i = 0; i < atemp.length; i++)
+				i = 175;
+				for (String s : CSString.cutString(temp, 15))
 				{
-					this.mc.fontRenderer.drawString(atemp[i], this.guiLeft + 22, this.guiTop + 175 + i * 10, 4210752, false);
+					this.mc.fontRenderer.drawString(s, this.guiLeft + 22, this.guiTop + i, 4210752, false);
+					i += 10;
 				}
 			}
 			
@@ -173,11 +173,12 @@ public class GuiRecipeBook extends GuiContainer
 				temp = I18n.getString(effects.length > 0 ? "recipebook.effects" : "recipebook.no_effects");
 				this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 145, 4210752, false);
 				
-				for (int i = 0; i < effects.length && i < 3; i++)
+				i = 155;
+				for (PotionEffect effect : effects)
 				{
-					PotionEffect effect = effects[i];
 					temp = " " + StatCollector.translateToLocal(effect.getEffectName());
-					this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + 155 + i * 10, 4210752, false);
+					this.mc.fontRenderer.drawString(temp, statsX, this.guiTop + i, 4210752, false);
+					i += 10;
 				}
 			}
 			

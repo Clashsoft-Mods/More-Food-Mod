@@ -44,7 +44,7 @@ public class BlockPizza extends Block
 	{
 		int l = world.getBlockMetadata(x, y, z);
 		double f1 = l / 8F;
-		return AxisAlignedBB.getAABBPool().getAABB(x + f1, y, z, x + 1D, y + 0.0625D, z + 1D);
+		return AxisAlignedBB.getBoundingBox(x + f1, y, z, x + 1D, y + 0.0625D, z + 1D);
 	}
 	
 	@Override

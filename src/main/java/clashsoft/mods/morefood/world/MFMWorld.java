@@ -58,7 +58,7 @@ public class MFMWorld implements IWorldGenerator
 					y--;
 				}
 				
-				new WorldGenGardener().generate(world, random, x, y, z);
+				new WorldGenGardener(false).generate(world, random, x, y, z);
 			}
 			
 			x = chunkX * 16 + random.nextInt(16);

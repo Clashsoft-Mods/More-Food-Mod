@@ -1,11 +1,11 @@
 package clashsoft.mods.morefood;
 
+import clashsoft.cslib.minecraft.CSLib;
 import clashsoft.cslib.minecraft.block.BlockCustomLeaves;
 import clashsoft.cslib.minecraft.block.BlockCustomLog;
 import clashsoft.cslib.minecraft.block.BlockCustomSapling;
 import clashsoft.cslib.minecraft.block.CSBlocks;
 import clashsoft.cslib.minecraft.crafting.CSCrafting;
-import clashsoft.cslib.minecraft.init.CSLib;
 import clashsoft.cslib.minecraft.init.ClashsoftMod;
 import clashsoft.cslib.minecraft.item.CSItems;
 import clashsoft.cslib.minecraft.item.CustomItem;
@@ -43,7 +43,7 @@ public class MoreFoodMod extends ClashsoftMod
 	
 	public static MFMProxy				proxy			= createProxy("clashsoft.mods.morefood.client.MFMClientProxy", "clashsoft.mods.morefood.common.MFMProxy");
 	
-	public static CustomItem			spices			= (CustomItem) new CustomItem(new String[] { "salt", "pepper", "cinnamon", "vanilla" }, "morefood").setCreativeTab(CreativeTabs.tabFood);
+	public static CustomItem			spices			= (CustomItem) new CustomItem(new String[] { "salt", "pepper", "cinnamon", "vanilla" }, new String[] { "morefood:salt", "morefood:pepper", "morefood:cinnamon", "morefood:vanilla" }, null).setCreativeTab(CreativeTabs.tabFood);
 	public static ItemJuice				juice			= (ItemJuice) new ItemJuice().setUnlocalizedName("juice_bottles");
 	public static ItemMilkBowls			milkBowls		= (ItemMilkBowls) new ItemMilkBowls(4).setUnlocalizedName("milk_bowls");
 	public static ItemSoupBowls			soupBowls		= (ItemSoupBowls) new ItemSoupBowls(6).setUnlocalizedName("soup_bowls");
