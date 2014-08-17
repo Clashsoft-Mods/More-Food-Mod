@@ -1,10 +1,7 @@
 package clashsoft.mods.morefood;
 
 import clashsoft.cslib.minecraft.CSLib;
-import clashsoft.cslib.minecraft.block.BlockCustomLeaves;
-import clashsoft.cslib.minecraft.block.BlockCustomLog;
-import clashsoft.cslib.minecraft.block.BlockCustomSapling;
-import clashsoft.cslib.minecraft.block.CSBlocks;
+import clashsoft.cslib.minecraft.block.*;
 import clashsoft.cslib.minecraft.crafting.CSCrafting;
 import clashsoft.cslib.minecraft.init.ClashsoftMod;
 import clashsoft.cslib.minecraft.item.CSItems;
@@ -52,25 +49,25 @@ public class MoreFoodMod extends ClashsoftMod
 	public static ItemFoods				foods			= (ItemFoods) new ItemFoods(3, 1.0F).setUnlocalizedName("food_items");
 	public static ItemRecipeBook		recipeBook		= (ItemRecipeBook) new ItemRecipeBook().setUnlocalizedName("recipe_book").setTextureName("morefood:recipe_book");
 	
-	public static BlockPlantMoreFood	lettucePlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("lettuce_plant").setBlockTextureName("morefood:lettuce");
-	public static BlockPlantMoreFood	cucumberPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("cucumber_plant").setBlockTextureName("morefood:cucumber");
-	public static BlockPlantMoreFood	ricePlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("rice_plant").setBlockTextureName("morefood:rice");
-	public static BlockPlantMoreFood	chiliPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("chili_plant").setBlockTextureName("morefood:chili");
-	public static BlockPlantMoreFood	tomatoPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("tomato_plant").setBlockTextureName("morefood:tomato");
-	public static BlockPlantMoreFood	paprikaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("paprika_plant").setBlockTextureName("morefood:paprika");
-	public static BlockPlantMoreFood	onionPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("onion_plant").setBlockTextureName("morefood:onion");
-	public static BlockPlantMoreFood	pepperPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(3).setBlockName("pepper_plant").setBlockTextureName("morefood:pepper");
-	public static BlockPlantMoreFood	vanillaPlant	= (BlockPlantMoreFood) new BlockPlantMoreFood(4).setBlockName("vanilla_plant").setBlockTextureName("morefood:vanilla");
-	public static BlockPlantMoreFood	cornPlant		= (BlockPlantMoreFood) new BlockPlantMoreFood(6).setBlockName("corn_plant").setBlockTextureName("morefood:corn");
+	public static BlockCustomCrops		lettucePlant	= (BlockCustomCrops) new BlockCustomCrops(3).setBlockName("lettuce_plant").setBlockTextureName("morefood:lettuce");
+	public static BlockCustomCrops		cucumberPlant	= (BlockCustomCrops) new BlockCustomCrops(3).setBlockName("cucumber_plant").setBlockTextureName("morefood:cucumber");
+	public static BlockCustomCrops		ricePlant		= (BlockCustomCrops) new BlockCustomCrops(6).setBlockName("rice_plant").setBlockTextureName("morefood:rice");
+	public static BlockCustomCrops		chiliPlant		= (BlockCustomCrops) new BlockCustomCrops(6).setBlockName("chili_plant").setBlockTextureName("morefood:chili");
+	public static BlockCustomCrops		tomatoPlant		= (BlockCustomCrops) new BlockCustomCrops(3).setBlockName("tomato_plant").setBlockTextureName("morefood:tomato");
+	public static BlockCustomCrops		paprikaPlant	= (BlockCustomCrops) new BlockCustomCrops(6).setBlockName("paprika_plant").setBlockTextureName("morefood:paprika");
+	public static BlockCustomCrops		onionPlant		= (BlockCustomCrops) new BlockCustomCrops(4).setBlockName("onion_plant").setBlockTextureName("morefood:onion");
+	public static BlockCustomCrops		pepperPlant		= (BlockCustomCrops) new BlockCustomCrops(3).setBlockName("pepper_plant").setBlockTextureName("morefood:pepper");
+	public static BlockCustomCrops		vanillaPlant	= (BlockCustomCrops) new BlockCustomCrops(4).setBlockName("vanilla_plant").setBlockTextureName("morefood:vanilla");
+	public static BlockCustomCrops		cornPlant		= (BlockCustomCrops) new BlockCustomCrops(6).setBlockName("corn_plant").setBlockTextureName("morefood:corn");
 	
 	public static BlockSaltOre			saltOre			= (BlockSaltOre) new BlockSaltOre().setBlockName("salt_ore").setBlockTextureName("morefood:salt_ore");
 	public static BlockPizza			pizza			= (BlockPizza) new BlockPizza().setBlockName("pizza").setBlockTextureName("morefood:pizza");
 	
-	public static BlockBush				strawberryBush	= (BlockBush) new BlockBush("morefood:strawberry_bush", "morefood:strawberry_bush_stem").setBlockName("strawberry_bush");
-	public static BlockBush				raspberryBush	= (BlockBush) new BlockBush("morefood:raspberry_bush", "morefood:raspberry_bush_stem").setBlockName("raspberry_bush");
-	public static BlockBush				blueberryBush	= (BlockBush) new BlockBush("morefood:blueberry_bush", "morefood:blueberry_bush_stem").setBlockName("blueberry_bush");
-	public static BlockBush				blackberryBush	= (BlockBush) new BlockBush("morefood:blackberry_bush", "morefood:blackberry_bush_stem").setBlockName("blackberry_bush");
-	public static BlockBush				redcurrantBush	= (BlockBush) new BlockBush("morefood:redcurrant_bush", "morefood:redcurrant_bush_stem").setBlockName("redcurrant_bush");
+	public static BlockCustomBush		strawberryBush	= (BlockCustomBush) new BlockCustomBush("morefood:strawberry_bush", "morefood:strawberry_bush_stem").setBlockName("strawberry_bush");
+	public static BlockCustomBush		raspberryBush	= (BlockCustomBush) new BlockCustomBush("morefood:raspberry_bush", "morefood:raspberry_bush_stem").setBlockName("raspberry_bush");
+	public static BlockCustomBush		blueberryBush	= (BlockCustomBush) new BlockCustomBush("morefood:blueberry_bush", "morefood:blueberry_bush_stem").setBlockName("blueberry_bush");
+	public static BlockCustomBush		blackberryBush	= (BlockCustomBush) new BlockCustomBush("morefood:blackberry_bush", "morefood:blackberry_bush_stem").setBlockName("blackberry_bush");
+	public static BlockCustomBush		redcurrantBush	= (BlockCustomBush) new BlockCustomBush("morefood:redcurrant_bush", "morefood:redcurrant_bush_stem").setBlockName("redcurrant_bush");
 	
 	public static String[]				fruitTypes1		= new String[] { "orange", "pear", "cherry", "plum" };
 	public static String[]				fruitTypes2		= new String[] { "banana", "pineapple" };
@@ -113,8 +110,7 @@ public class MoreFoodMod extends ClashsoftMod
 		CSItems.addItem(juice, "juice_bottles");
 		CSItems.addItem(milkBowls, "milk_bowls");
 		CSItems.addItem(soupBowls, "soup_bowls");
-		
-		CSItems.addItemWithRecipe(recipeBook, "recipe_book", 1, " s ", "bBp", " t ", 's', Food.lettuce.asStack(), 'b', Items.beef, 'B', Items.book, 'p', Items.cooked_porkchop, 't', Food.tomato.asStack());
+		CSItems.addItem(recipeBook, "recipe_book");
 		
 		fruitSaplings.setBlockName("fruit").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
 		fruitSaplings2.setBlockName("fruit").setHardness(0F).setCreativeTab(CreativeTabs.tabDecorations);
@@ -224,6 +220,8 @@ public class MoreFoodMod extends ClashsoftMod
 	
 	private void addCraftingRecipes()
 	{
+		CSCrafting.addRecipe(new ItemStack(recipeBook), " s ", "bBp", " t ", 's', Food.lettuce.asStack(), 'b', Items.beef, 'B', Items.book, 'p', Items.cooked_porkchop, 't', Food.tomato.asStack());
+		
 		CSCrafting.addShapelessRecipe(new ItemStack(spices, 4, 1), Food.pepperSeeds.asStack());
 		CSCrafting.addShapelessRecipe(new ItemStack(spices, 3, 2), CSStacks.cocoa, CSStacks.sugar, CSStacks.sugar);
 		CSCrafting.addShapelessRecipe(new ItemStack(spices, 4, 3), Food.vanillaSeeds.asStack());

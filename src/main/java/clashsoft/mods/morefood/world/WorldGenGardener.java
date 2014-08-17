@@ -6,7 +6,6 @@ import clashsoft.cslib.minecraft.world.gen.CustomWorldGen;
 import clashsoft.cslib.random.CSRandom;
 import clashsoft.mods.morefood.food.Food;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -22,11 +21,6 @@ public class WorldGenGardener extends CustomWorldGen
 	public WorldGenGardener(boolean update)
 	{
 		super(update);
-	}
-	
-	private void setBlock(World world, int x, int y, int z, Block block, int metadata)
-	{
-		world.setBlock(x, y, z, block, metadata, this.flags);
 	}
 
 	@Override

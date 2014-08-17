@@ -1,27 +1,15 @@
 package clashsoft.mods.morefood.client;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-
 import clashsoft.mods.morefood.client.gui.GuiRecipeBook;
-import clashsoft.mods.morefood.client.renderer.block.BushRenderer;
 import clashsoft.mods.morefood.common.MFMProxy;
 import clashsoft.mods.morefood.inventory.ContainerRecipeBook;
 import clashsoft.mods.morefood.inventory.InventoryRecipeBook;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
 public class MFMClientProxy extends MFMProxy
 {
-	public static int	BUSH_RENDER_ID;
-	
-	@Override
-	public void init(FMLInitializationEvent event)
-	{
-		BUSH_RENDER_ID = RenderingRegistry.getNextAvailableRenderId();
-		RenderingRegistry.registerBlockHandler(BUSH_RENDER_ID, new BushRenderer());
-	}
-	
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
