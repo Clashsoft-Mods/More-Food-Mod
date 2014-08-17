@@ -1,7 +1,5 @@
-version=1.7.10-1.0.1
-url=https://github.com/Clashsoft/More-Food-Mod/releases/download/1.7.10-1.0.1/MoreFoodMod-1.7.10-1.0.1.jar
+version=1.7.10-1.0.2
+url=https://github.com/Clashsoft/More-Food-Mod/releases/download/1.7.10-1.0.2/MoreFoodMod-1.7.10-1.0.2.jar
 
-> Update to Minecraft 1.7.10.
-> Update to Forge 1.7.10-10.13.0.1207.
-> Update to Clashsoft Lib 1.7.10-2.5.0.
-* Fixed UpdateChecker not working.
+> Update to Clashsoft Lib 1.7.10-2.6.0.
+* Minor bugfixes.
